@@ -1,0 +1,128 @@
+services:
+  # 🐘 PostgreSQL Database
+  postgres:
+    image: postgres:16-alpine
+    container_name: dark-tech-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: dark_tech_portfolio
+      POSTGRES_USER: portfolio_user
+      POSTGRES_PASSWORD: dark_tech_2024
+      POSTGRES_INITDB_ARGS: "--encoding=UTF8 --locale=C"
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./database/init:/docker-entrypoint-initdb.d
+    networks:
+      - dark-tech-network
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U portfolio_user -d dark_tech_portfolio" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  # 🗄️ Adminer - Database Management UI
+  adminer:
+    image: adminer:4.8.1
+    container_name: dark-tech-adminer
+    restart: unless-stopped
+    environment:
+      ADMINER_DEFAULT_SERVER: postgres
+      ADMINER_DESIGN: pepa-linha-dark
+    ports:
+      - "8080:8080"
+    networks:
+      - dark-tech-network
+    depends_on:
+      postgres:
+        condition: service_healthy
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.adminer.rule=Host(`adminer.localhost`)"
+
+  # 🚀 Redis - Caching & Sessions (Optional)
+  redis:
+    image: redis:7-alpine
+    container_name: dark-tech-redis
+    restart: unless-stopped
+    command: redis-server --requirepass dark_tech_redis_2024
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - dark-tech-network
+    healthcheck:
+      test: [ "CMD", "redis-cli", "--raw", "incr", "ping" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  # 🌐 Backend API (Production-like)
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: dark-tech-backend
+    restart: unless-stopped
+    environment:
+      NODE_ENV: development
+      DATABASE_HOST: postgres
+      DATABASE_PORT: 5432
+      DATABASE_USERNAME: portfolio_user
+      DATABASE_PASSWORD: dark_tech_2024
+      DATABASE_NAME: dark_tech_portfolio
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      REDIS_PASSWORD: dark_tech_redis_2024
+      JWT_SECRET: dark-tech-super-secret-jwt-key-matrix-mode
+      PORT: 3001
+    ports:
+      - "3001:3001"
+    volumes:
+      - ./backend:/usr/src/app
+      - /usr/src/app/node_modules
+    networks:
+      - dark-tech-network
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    # For development hot reload
+    command: npm run start:dev
+  # 🎨 Frontend (Development) - Disabled for now
+  # frontend:
+  #   build:
+  #     context: ./frontend
+  #     dockerfile: Dockerfile.dev
+  #   container_name: dark-tech-frontend
+  #   restart: unless-stopped
+  #   environment:
+  #     VITE_API_URL: http://localhost:3002/api/v1
+  #     VITE_APP_NAME: Dark Tech Portfolio
+  #   ports:
+  #     - "3000:3000"
+  #   volumes:
+  #     - ./frontend:/usr/src/app
+  #     - /usr/src/app/node_modules
+  #   networks:
+  #     - dark-tech-network
+  #   depends_on:
+  #     - backend
+  #   # Hot reload for Vite
+  #   command: npm run dev
+
+volumes:
+  postgres_data:
+    driver: local
+    name: dark-tech-postgres-data
+  redis_data:
+    driver: local
+    name: dark-tech-redis-data
+
+networks:
+  dark-tech-network:
+    driver: bridge
+    name: dark-tech-network
