@@ -1,7 +1,7 @@
 {
     "name": "dark-tech-portfolio",
     "version": "1.0.0",
-    "description": "Modern dark-themed portfolio website with terminal aesthetics",
+    "description": "Oğuz Berkay BAL - Personal Portfolio Website (PRIVATE)",
     "private": true,
     "workspaces": [
         "frontend",
@@ -29,6 +29,6 @@
         "node": ">=18.0.0",
         "pnpm": ">=8.0.0"
     },
-    "author": "Berkay",
-    "license": "MIT"
+    "author": "Oğuz Berkay BAL <oguzberkaybal@icloud.com>",
+    "license": "PROPRIETARY"
 }

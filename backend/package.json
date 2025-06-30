@@ -1,10 +1,10 @@
 {
     "name": "backend",
     "version": "0.0.1",
-    "description": "🚀 Dark Tech Portfolio - Backend API with cyberpunk aesthetics",
-    "author": "Berkay",
+    "description": "🚀 Oğuz Berkay BAL Portfolio - Backend API (PRIVATE)",
+    "author": "Oğuz Berkay BAL <oguzberkaybal@icloud.com>",
     "private": true,
-    "license": "MIT",
+    "license": "PROPRIETARY",
     "scripts": {
         "build": "tsc -p tsconfig.build.json",
         "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
@@ -12,6 +12,7 @@
         "start:dev": "ts-node src/main.ts",
         "start:debug": "ts-node --inspect src/main.ts",
         "start:prod": "node dist/main",
+        "render-build": "chmod +x render-build.sh && ./render-build.sh",
         "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
         "lint:fix": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
         "test": "jest",

@@ -1,6 +1,9 @@
 {
-  "name": "portfolio-frontend",
-  "version": "0.1.0",
+  "name": "berkay-portfolio-frontend",
+  "version": "1.0.0",
+  "description": "Oğuz Berkay BAL Portfolio - Frontend (PRIVATE)",
+  "author": "Oğuz Berkay BAL <oguzberkaybal@icloud.com>",
+  "license": "PROPRIETARY",
   "private": true,
   "dependencies": {
     "@emailjs/browser": "^4.4.1",
@@ -29,7 +32,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "render-build": "chmod +x render-build.sh && ./render-build.sh"
   },
   "eslintConfig": {
     "extends": [
