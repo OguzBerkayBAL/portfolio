@@ -18,11 +18,21 @@ shared/dist/
 .env.development.local
 .env.test.local
 .env.production.local
+.env.example
 
 # Database
 *.db
 *.sqlite
 data/
+
+# Database initialization scripts with passwords
+database/init/05-admin-password-update.sql
+database/init/06-new-admin-user.sql
+
+# Docker compose with sensitive data
+docker-compose.yml
+docker-compose.override.yml
+docker-compose.prod.yml
 
 # Logs
 logs/
