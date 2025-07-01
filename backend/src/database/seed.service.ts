@@ -2,9 +2,9 @@ import { Injectable, OnModuleInit } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { ConfigService } from '@nestjs/config';
-import { User } from '../entities/user.entity';
-import { Project } from '../entities/project.entity';
-import { Skill } from '../entities/skill.entity';
+import { User, UserRole, UserStatus } from '../entities/user.entity';
+import { Project, ProjectStatus } from '../entities/project.entity';
+import { Skill, SkillCategory, SkillLevel } from '../entities/skill.entity';
 import * as bcrypt from 'bcrypt';
 
 @Injectable()
@@ -44,13 +44,14 @@ export class SeedService implements OnModuleInit {
             const adminUser = this.userRepository.create({
                 username: 'oguzberkaybal',
                 email: 'oguzberkaybal@icloud.com',
-                password: hashedPassword,
                 firstName: 'Oğuz Berkay',
                 lastName: 'BAL',
-                role: 'admin',
-                status: 'active',
+                role: UserRole.ADMIN,
+                status: UserStatus.ACTIVE,
                 emailVerified: true,
             });
+            // Set password directly to avoid double hashing
+            adminUser.password = hashedPassword;
             await this.userRepository.save(adminUser);
 
             // Create sample projects
@@ -64,8 +65,7 @@ export class SeedService implements OnModuleInit {
                     liveUrl: 'https://oguzberkaybal-portfolio.onrender.com',
                     imageUrl: '/images/portfolio-preview.jpg',
                     featured: true,
-                    status: 'completed',
-                    completedAt: new Date(),
+                    status: ProjectStatus.COMPLETED,
                 },
                 {
                     title: 'E-Commerce Platform',
@@ -74,7 +74,7 @@ export class SeedService implements OnModuleInit {
                     technologies: ['React', 'Node.js', 'MongoDB', 'Stripe'],
                     githubUrl: 'https://github.com/OguzBerkayBAL/ecommerce',
                     featured: true,
-                    status: 'completed',
+                    status: ProjectStatus.COMPLETED,
                 },
                 {
                     title: 'Task Management App',
@@ -82,7 +82,7 @@ export class SeedService implements OnModuleInit {
                     longDescription: 'Professional task management with team collaboration features.',
                     technologies: ['Vue.js', 'Express', 'PostgreSQL', 'Socket.io'],
                     featured: false,
-                    status: 'in-progress',
+                    status: ProjectStatus.IN_PROGRESS,
                 }
             ];
 
@@ -93,16 +93,16 @@ export class SeedService implements OnModuleInit {
 
             // Create sample skills
             const skills = [
-                { name: 'JavaScript', category: 'programming', level: 90, order: 1 },
-                { name: 'TypeScript', category: 'programming', level: 85, order: 2 },
-                { name: 'React', category: 'frontend', level: 90, order: 1 },
-                { name: 'Next.js', category: 'frontend', level: 80, order: 2 },
-                { name: 'Node.js', category: 'backend', level: 85, order: 1 },
-                { name: 'NestJS', category: 'backend', level: 80, order: 2 },
-                { name: 'PostgreSQL', category: 'database', level: 75, order: 1 },
-                { name: 'MongoDB', category: 'database', level: 70, order: 2 },
-                { name: 'Docker', category: 'devops', level: 70, order: 1 },
-                { name: 'Git', category: 'tools', level: 85, order: 1 },
+                { name: 'JavaScript', category: SkillCategory.FRONTEND, level: SkillLevel.EXPERT, order: 1 },
+                { name: 'TypeScript', category: SkillCategory.FRONTEND, level: SkillLevel.ADVANCED, order: 2 },
+                { name: 'React', category: SkillCategory.FRONTEND, level: SkillLevel.EXPERT, order: 3 },
+                { name: 'Next.js', category: SkillCategory.FRONTEND, level: SkillLevel.ADVANCED, order: 4 },
+                { name: 'Node.js', category: SkillCategory.BACKEND, level: SkillLevel.ADVANCED, order: 1 },
+                { name: 'NestJS', category: SkillCategory.BACKEND, level: SkillLevel.ADVANCED, order: 2 },
+                { name: 'PostgreSQL', category: SkillCategory.DATABASE, level: SkillLevel.ADVANCED, order: 1 },
+                { name: 'MongoDB', category: SkillCategory.DATABASE, level: SkillLevel.INTERMEDIATE, order: 2 },
+                { name: 'Docker', category: SkillCategory.DEVOPS, level: SkillLevel.INTERMEDIATE, order: 1 },
+                { name: 'Git', category: SkillCategory.TOOLS, level: SkillLevel.ADVANCED, order: 1 },
             ];
 
             for (const skillData of skills) {
