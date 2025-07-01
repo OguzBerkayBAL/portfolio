@@ -9,7 +9,7 @@ export const getDatabaseConfig = (configService: ConfigService): TypeOrmModuleOp
     // Production ortamında her zaman SQLite kullan (free hosting için)
     if (isProduction || dbType === 'sqlite' || useSQLite) {
         return {
-            type: 'sqlite',
+            type: 'better-sqlite3',
             database: configService.get('DATABASE_PATH', './data/portfolio.sqlite'),
             synchronize: true, // Auto-create tables for SQLite
             logging: !isProduction,
