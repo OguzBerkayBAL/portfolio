@@ -1,11 +1,13 @@
-import { Injectable, UnauthorizedException, ConflictException, BadRequestException, NotFoundException } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Injectable, UnauthorizedException, ConflictException, NotFoundException, BadRequestException } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
 import { JwtService } from '@nestjs/jwt';
-import { User, UserStatus } from '../../entities/user.entity';
+import { ConfigService } from '@nestjs/config';
+import { User, UserRole, UserStatus } from '../../entities/user.entity';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
 import { ChangePasswordDto } from './dto/change-password.dto';
+import * as bcrypt from 'bcrypt';
 import * as crypto from 'crypto';
 
 export interface JwtPayload {
@@ -33,9 +35,10 @@ export interface AuthResponse {
 @Injectable()
 export class AuthService {
     constructor(
-        @InjectRepository(User)
-        private userRepository: Repository<User>,
+        @InjectModel(User.name)
+        private userModel: Model<User>,
         private jwtService: JwtService,
+        private configService: ConfigService,
     ) { }
 
     async register(registerDto: RegisterDto): Promise<AuthResponse> {
@@ -47,8 +50,8 @@ export class AuthService {
         }
 
         // Check if user already exists
-        const existingUser = await this.userRepository.findOne({
-            where: [
+        const existingUser = await this.userModel.findOne({
+            $or: [
                 { username },
                 { email }
             ]
@@ -64,7 +67,7 @@ export class AuthService {
         }
 
         // Create new user
-        const user = this.userRepository.create({
+        const user = new this.userModel({
             username,
             email,
             password, // Will be hashed by the entity
@@ -74,7 +77,7 @@ export class AuthService {
             status: UserStatus.PENDING // Require email verification
         });
 
-        const savedUser = await this.userRepository.save(user);
+        const savedUser = await user.save();
 
         // Generate tokens
         const tokens = await this.generateTokens(savedUser, false);
@@ -94,8 +97,8 @@ export class AuthService {
         const { usernameOrEmail, password, rememberMe = false } = loginDto;
 
         // Find user by username or email
-        const user = await this.userRepository.findOne({
-            where: [
+        const user = await this.userModel.findOne({
+            $or: [
                 { username: usernameOrEmail },
                 { email: usernameOrEmail }
             ]
@@ -142,9 +145,7 @@ export class AuthService {
     }
 
     async validateUser(payload: JwtPayload): Promise<User> {
-        const user = await this.userRepository.findOne({
-            where: { id: payload.sub }
-        });
+        const user = await this.userModel.findById(payload.sub);
 
         if (!user || !user.isActive) {
             throw new UnauthorizedException('Invalid token');
@@ -181,9 +182,7 @@ export class AuthService {
             throw new BadRequestException('New passwords do not match');
         }
 
-        const user = await this.userRepository.findOne({
-            where: { id: userId }
-        });
+        const user = await this.userModel.findById(userId);
 
         if (!user) {
             throw new NotFoundException('User not found');
@@ -197,21 +196,19 @@ export class AuthService {
 
         // Update password
         user.password = newPassword; // Will be hashed by the entity
-        await this.userRepository.save(user);
+        await user.save();
     }
 
     async logout(userId: number): Promise<void> {
         // In a real application, you might want to blacklist the token
         // For now, we'll just update the user's last activity
-        await this.userRepository.update(userId, {
+        await this.userModel.updateOne({ _id: userId }, {
             lastLoginAt: new Date()
         });
     }
 
     async getProfile(userId: number): Promise<User> {
-        const user = await this.userRepository.findOne({
-            where: { id: userId }
-        });
+        const user = await this.userModel.findById(userId);
 
         if (!user) {
             throw new NotFoundException('User not found');
@@ -254,12 +251,12 @@ export class AuthService {
             updates.lockedUntil = new Date(Date.now() + 15 * 60 * 1000); // 15 minutes
         }
 
-        await this.userRepository.update(user.id, updates);
+        await this.userModel.updateOne({ _id: user.id }, updates);
     }
 
     private async resetLoginAttempts(user: User): Promise<void> {
         if (user.loginAttempts > 0 || user.lockedUntil) {
-            await this.userRepository.update(user.id, {
+            await this.userModel.updateOne({ _id: user.id }, {
                 loginAttempts: 0,
                 lockedUntil: undefined
             });
@@ -267,7 +264,7 @@ export class AuthService {
     }
 
     private async updateLastLogin(user: User): Promise<void> {
-        await this.userRepository.update(user.id, {
+        await this.userModel.updateOne({ _id: user.id }, {
             lastLoginAt: new Date()
         });
     }
@@ -283,19 +280,18 @@ export class AuthService {
         suspended: number;
         recentRegistrations: number;
     }> {
-        const total = await this.userRepository.count();
-        const active = await this.userRepository.count({ where: { status: UserStatus.ACTIVE } });
-        const pending = await this.userRepository.count({ where: { status: UserStatus.PENDING } });
-        const suspended = await this.userRepository.count({ where: { status: UserStatus.SUSPENDED } });
+        const total = await this.userModel.countDocuments();
+        const active = await this.userModel.countDocuments({ status: UserStatus.ACTIVE });
+        const pending = await this.userModel.countDocuments({ status: UserStatus.PENDING });
+        const suspended = await this.userModel.countDocuments({ status: UserStatus.SUSPENDED });
 
         // Recent registrations (last 7 days)
         const sevenDaysAgo = new Date();
         sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
 
-        const recentRegistrations = await this.userRepository
-            .createQueryBuilder('user')
-            .where('user.createdAt >= :date', { date: sevenDaysAgo })
-            .getCount();
+        const recentRegistrations = await this.userModel.countDocuments({
+            createdAt: { $gte: sevenDaysAgo }
+        });
 
         return {
             total,
