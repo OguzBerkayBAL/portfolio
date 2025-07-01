@@ -1,11 +1,6 @@
-# 🚀 Oğuz Berkay BAL - Portfolio
+# 🚀 Dark Tech Portfolio
 
-> Kişisel portfolio sitesi - Modern, cyberpunk temalı web uygulaması
-
-## ⚠️ Önemli Not
-
-Bu proje **Oğuz Berkay BAL**'ın kişisel portfolio sitesidir. 
-**Kopyalama, klonlama veya başka projeler için kullanım izni bulunmamaktadır.**
+> Modern, terminal-inspired portfolio website with dark theme aesthetic
 
 ## 🎯 Project Overview
 
@@ -72,11 +67,20 @@ portfolio/
 - PostgreSQL 14+
 - pnpm (recommended)
 
-### Development (Private)
+### Installation
 ```bash
-# Not for public use
-# Private development setup
-# Contact: oguzberkaybal@icloud.com
+# Clone repository
+git clone <repo-url>
+cd portfolio
+
+# Install dependencies
+pnpm install
+
+# Setup environment
+cp .env.example .env
+
+# Start development
+pnpm dev
 ```
 
 ## 📊 Development Timeline

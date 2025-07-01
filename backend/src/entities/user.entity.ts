@@ -1,5 +1,4 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, BeforeInsert, BeforeUpdate } from 'typeorm';
 import { Exclude } from 'class-transformer';
 import * as bcrypt from 'bcrypt';
 
@@ -16,73 +15,85 @@ export enum UserStatus {
     PENDING = 'pending'
 }
 
-@Schema({
-    timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' },
-    collection: 'users'
-})
-export class User extends Document {
-    @Prop({ required: true, unique: true, maxlength: 100 })
+@Entity('users')
+export class User {
+    @PrimaryGeneratedColumn()
+    id: number;
+
+    @Column({ type: 'varchar', length: 100, unique: true })
     username: string;
 
-    @Prop({ required: true, unique: true, maxlength: 255 })
+    @Column({ type: 'varchar', length: 255, unique: true })
     email: string;
 
-    @Prop({ required: true, maxlength: 255 })
+    @Column({ type: 'varchar', length: 255 })
     @Exclude({ toPlainOnly: true })
     password: string;
 
-    @Prop({ maxlength: 100 })
+    @Column({ type: 'varchar', length: 100, nullable: true, name: 'first_name' })
     firstName?: string;
 
-    @Prop({ maxlength: 100 })
+    @Column({ type: 'varchar', length: 100, nullable: true, name: 'last_name' })
     lastName?: string;
 
-    @Prop({ maxlength: 255 })
+    @Column({ type: 'varchar', length: 255, nullable: true })
     avatar?: string;
 
-    @Prop({
-        type: String,
+    @Column({
+        type: 'enum',
         enum: UserRole,
         default: UserRole.USER
     })
     role: UserRole;
 
-    @Prop({
-        type: String,
+    @Column({
+        type: 'enum',
         enum: UserStatus,
         default: UserStatus.ACTIVE
     })
     status: UserStatus;
 
-    @Prop({ maxlength: 255 })
+    @Column({ type: 'varchar', length: 255, nullable: true, name: 'reset_password_token' })
     resetPasswordToken?: string;
 
-    @Prop()
+    @Column({ type: 'timestamp', nullable: true, name: 'reset_password_expires' })
     resetPasswordExpires?: Date;
 
-    @Prop({ maxlength: 255 })
+    @Column({ type: 'varchar', length: 255, nullable: true, name: 'email_verification_token' })
     emailVerificationToken?: string;
 
-    @Prop({ default: false })
+    @Column({ type: 'boolean', default: false, name: 'email_verified' })
     emailVerified: boolean;
 
-    @Prop()
+    @Column({ type: 'timestamp', nullable: true, name: 'last_login_at' })
     lastLoginAt?: Date;
 
-    @Prop({ maxlength: 45 })
+    @Column({ type: 'varchar', length: 45, nullable: true, name: 'last_login_ip' })
     lastLoginIp?: string;
 
-    @Prop({ default: 0 })
+    @Column({ type: 'int', default: 0, name: 'login_attempts' })
     loginAttempts: number;
 
-    @Prop()
+    @Column({ type: 'timestamp', nullable: true, name: 'locked_until' })
     lockedUntil?: Date;
 
-    @Prop({ type: Object })
+    @Column({ type: 'jsonb', nullable: true })
     preferences?: Record<string, any>;
 
-    created_at: Date;
-    updated_at: Date;
+    @CreateDateColumn({ name: 'created_at' })
+    createdAt: Date;
+
+    @UpdateDateColumn({ name: 'updated_at' })
+    updatedAt: Date;
+
+    @BeforeInsert()
+    @BeforeUpdate()
+    async hashPassword() {
+        if (this.password) {
+            const saltRounds = 12;
+            this.password = await bcrypt.hash(this.password, saltRounds);
+        }
+    }
 
     async validatePassword(password: string): Promise<boolean> {
         return bcrypt.compare(password, this.password);
@@ -104,18 +115,7 @@ export class User extends Document {
     }
 
     toSafeObject() {
-        const { password, resetPasswordToken, emailVerificationToken, ...safe } = this.toObject();
+        const { password, resetPasswordToken, emailVerificationToken, ...safe } = this;
         return safe;
     }
-}
-
-export const UserSchema = SchemaFactory.createForClass(User);
-
-// Pre-save middleware for password hashing
-UserSchema.pre<User>('save', async function (next) {
-    if (!this.isModified('password')) return next();
-
-    const saltRounds = 12;
-    this.password = await bcrypt.hash(this.password, saltRounds);
-    next();
-}); 
+} 

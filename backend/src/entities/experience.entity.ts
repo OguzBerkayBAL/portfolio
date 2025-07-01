@@ -1,50 +1,51 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import {
+    Entity,
+    PrimaryGeneratedColumn,
+    Column,
+    Index,
+} from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 
-@Schema({ collection: 'experiences' })
-export class Experience extends Document {
+@Entity('experiences')
+@Index(['current', 'startDate'])
+export class Experience {
     @ApiProperty({ description: 'Unique identifier' })
-    declare _id: string;
+    @PrimaryGeneratedColumn('uuid')
+    id: string;
 
     @ApiProperty({ description: 'Job title', maxLength: 100 })
-    @Prop({ required: true, maxlength: 100 })
+    @Column({ length: 100 })
     title: string;
 
     @ApiProperty({ description: 'Company name', maxLength: 100 })
-    @Prop({ required: true, maxlength: 100 })
+    @Column({ length: 100 })
     company: string;
 
     @ApiProperty({ description: 'Work location', required: false })
-    @Prop()
+    @Column({ nullable: true })
     location?: string;
 
     @ApiProperty({ description: 'Employment start date' })
-    @Prop({ required: true, type: Date })
+    @Column('date', { name: 'start_date' })
     startDate: Date;
 
     @ApiProperty({ description: 'Employment end date', required: false })
-    @Prop({ type: Date })
+    @Column('date', { nullable: true, name: 'end_date' })
     endDate?: Date;
 
     @ApiProperty({ description: 'Whether this is current employment' })
-    @Prop({ default: false })
+    @Column({ default: false })
     current: boolean;
 
     @ApiProperty({ description: 'Job description' })
-    @Prop({ required: true })
+    @Column('text')
     description: string;
 
     @ApiProperty({ description: 'Technologies used', type: [String] })
-    @Prop({ type: [String], default: [] })
+    @Column('text', { array: true, default: [] })
     technologies: string[];
 
     @ApiProperty({ description: 'Key achievements', type: [String] })
-    @Prop({ type: [String], default: [] })
+    @Column('text', { array: true, default: [] })
     achievements: string[];
-}
-
-export const ExperienceSchema = SchemaFactory.createForClass(Experience);
-
-// Index for current and startDate
-ExperienceSchema.index({ current: -1, startDate: -1 }); 
+} 

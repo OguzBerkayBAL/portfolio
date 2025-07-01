@@ -1,5 +1,4 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 
 export interface PersonalInfo {
     name: string;
@@ -58,46 +57,47 @@ export interface Certification {
     url?: string;
 }
 
-@Schema({
-    timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' },
-    collection: 'resumes'
-})
-export class Resume extends Document {
-    @Prop({ required: true, unique: true, maxlength: 100 })
+@Entity('resumes')
+export class Resume {
+    @PrimaryGeneratedColumn()
+    id: number;
+
+    @Column({ type: 'varchar', length: 100, unique: true })
     version: string;
 
-    @Prop({ type: Object, required: true })
+    @Column({ type: 'jsonb', name: 'personal_info' })
     personalInfo: PersonalInfo;
 
-    @Prop({ type: Array, default: [] })
+    @Column({ type: 'jsonb', default: [] })
     education: Education[];
 
-    @Prop({ type: Array, default: [] })
+    @Column({ type: 'jsonb', default: [] })
     experience: WorkExperience[];
 
-    @Prop({ type: Array, default: [] })
+    @Column({ type: 'jsonb', default: [] })
     skills: ResumeSkill[];
 
-    @Prop({ type: Array, default: [] })
+    @Column({ type: 'jsonb', default: [] })
     projects: ResumeProject[];
 
-    @Prop({ type: Array, default: [] })
+    @Column({ type: 'jsonb', default: [] })
     languages: Language[];
 
-    @Prop({ type: Array, default: [] })
+    @Column({ type: 'jsonb', default: [] })
     certifications: Certification[];
 
-    @Prop({ default: true })
+    @Column({ type: 'boolean', default: true, name: 'is_active' })
     isActive: boolean;
 
-    @Prop() // JSON string for additional sections
-    customSections?: string;
+    @Column({ type: 'text', nullable: true, name: 'custom_sections' })
+    customSections?: string; // JSON string for additional sections
 
-    @Prop({ maxlength: 20, default: 'modern' }) // Template style: modern, classic, cyberpunk
-    template: string;
+    @Column({ type: 'varchar', length: 20, default: 'modern' })
+    template: string; // Template style: modern, classic, cyberpunk
 
-    created_at: Date;
-    updated_at: Date;
-}
+    @CreateDateColumn({ name: 'created_at' })
+    createdAt: Date;
 
-export const ResumeSchema = SchemaFactory.createForClass(Resume); 
+    @UpdateDateColumn({ name: 'updated_at' })
+    updatedAt: Date;
+} 

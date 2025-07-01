@@ -1,18 +1,28 @@
-// MongoDB Mongoose Schema Exports
-export { User, UserSchema, UserRole, UserStatus } from './user.entity';
-export { Project, ProjectSchema, ProjectStatus } from './project.entity';
-export { Skill, SkillSchema, SkillCategory, SkillLevel } from './skill.entity';
-export { ContactMessage, ContactMessageSchema, MessageStatus } from './contact-message.entity';
-export { Experience, ExperienceSchema } from './experience.entity';
-export { BlogPost, BlogPostSchema } from './blog-post.entity';
-export {
+// Import entities
+import { Project, ProjectStatus } from './project.entity';
+import { Skill, SkillCategory, SkillLevel } from './skill.entity';
+import { Experience } from './experience.entity';
+import { BlogPost } from './blog-post.entity';
+import { ContactMessage, MessageStatus } from './contact-message.entity';
+import { Resume } from './resume.entity';
+import { User, UserRole, UserStatus } from './user.entity';
+
+// Export all entities for easy imports
+export { Project, ProjectStatus } from './project.entity';
+export { Skill, SkillCategory, SkillLevel } from './skill.entity';
+export { Experience } from './experience.entity';
+export { BlogPost } from './blog-post.entity';
+export { ContactMessage, MessageStatus } from './contact-message.entity';
+export { Resume } from './resume.entity';
+export { User, UserRole, UserStatus } from './user.entity';
+
+// Array of all entities for TypeORM configuration
+export const entities = [
+    Project,
+    Skill,
+    Experience,
+    BlogPost,
+    ContactMessage,
     Resume,
-    ResumeSchema,
-    PersonalInfo,
-    Education,
-    WorkExperience,
-    ResumeSkill,
-    ResumeProject,
-    Language,
-    Certification
-} from './resume.entity'; 
+    User,
+]; 

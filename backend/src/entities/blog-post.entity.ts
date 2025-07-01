@@ -1,56 +1,58 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import {
+    Entity,
+    PrimaryGeneratedColumn,
+    Column,
+    CreateDateColumn,
+    UpdateDateColumn,
+    Index,
+} from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 
-@Schema({
-    timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' },
-    collection: 'blog_posts'
-})
-export class BlogPost extends Document {
+@Entity('blog_posts')
+@Index(['published', 'createdAt'])
+@Index(['slug'], { unique: true })
+export class BlogPost {
     @ApiProperty({ description: 'Unique identifier' })
-    declare _id: string;
+    @PrimaryGeneratedColumn('uuid')
+    id: string;
 
     @ApiProperty({ description: 'Blog post title', maxLength: 200 })
-    @Prop({ required: true, maxlength: 200 })
+    @Column({ length: 200 })
     title: string;
 
     @ApiProperty({ description: 'URL-friendly slug' })
-    @Prop({ required: true, unique: true })
+    @Column({ unique: true })
     slug: string;
 
     @ApiProperty({ description: 'Short excerpt of the post' })
-    @Prop({ required: true })
+    @Column('text')
     excerpt: string;
 
     @ApiProperty({ description: 'Full blog post content in markdown' })
-    @Prop({ required: true })
+    @Column('text')
     content: string;
 
     @ApiProperty({ description: 'Post tags', type: [String] })
-    @Prop({ type: [String], default: [] })
+    @Column('text', { array: true, default: [] })
     tags: string[];
 
     @ApiProperty({ description: 'Whether the post is published' })
-    @Prop({ default: false })
+    @Column({ default: false })
     published: boolean;
 
     @ApiProperty({ description: 'Featured image URL', required: false })
-    @Prop()
+    @Column({ nullable: true, name: 'featured_image' })
     featuredImage?: string;
 
     @ApiProperty({ description: 'Estimated reading time in minutes' })
-    @Prop({ default: 5 })
+    @Column({ default: 5, name: 'read_time' })
     readTime: number;
 
     @ApiProperty({ description: 'Creation timestamp' })
-    created_at: Date;
+    @CreateDateColumn({ name: 'created_at' })
+    createdAt: Date;
 
     @ApiProperty({ description: 'Last update timestamp' })
-    updated_at: Date;
-}
-
-export const BlogPostSchema = SchemaFactory.createForClass(BlogPost);
-
-// Indexes
-BlogPostSchema.index({ published: 1, created_at: -1 });
-BlogPostSchema.index({ slug: 1 }, { unique: true }); 
+    @UpdateDateColumn({ name: 'updated_at' })
+    updatedAt: Date;
+} 

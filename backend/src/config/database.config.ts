@@ -1,31 +1,18 @@
+import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { ConfigService } from '@nestjs/config';
-import { MongooseModuleOptions } from '@nestjs/mongoose';
 
-export const databaseConfig = async (
-    configService: ConfigService,
-): Promise<MongooseModuleOptions> => {
+export const getDatabaseConfig = (configService: ConfigService): TypeOrmModuleOptions => {
     const isProduction = configService.get('NODE_ENV') === 'production';
 
-    if (isProduction) {
-        // Production: MongoDB Atlas
-        const mongoUri = configService.get<string>('MONGODB_URI');
-        if (!mongoUri) {
-            throw new Error('MONGODB_URI is required in production');
-        }
-
-        return {
-            uri: mongoUri,
-            retryWrites: true,
-            w: 'majority',
-        };
-    } else {
-        // Development: Local MongoDB
-        const host = configService.get<string>('DB_HOST', 'localhost');
-        const port = configService.get<number>('DB_PORT', 27017);
-        const database = configService.get<string>('DB_NAME', 'portfolio_dev');
-
-        return {
-            uri: `mongodb://${host}:${port}/${database}`,
-        };
-    }
+    return {
+        type: 'postgres',
+        host: configService.get('DATABASE_HOST', 'localhost'),
+        port: configService.get('DATABASE_PORT', 5432), // Use 5432 for both prod and dev in docker
+        username: configService.get('DATABASE_USERNAME', 'portfolio_user'),
+        password: configService.get('DATABASE_PASSWORD'),
+        database: configService.get('DATABASE_NAME', 'dark_tech_portfolio'), // Use dark_tech_portfolio database
+        synchronize: false, // Use manual migrations and existing schema
+        logging: !isProduction,
+        autoLoadEntities: true,
+    };
 }; 
