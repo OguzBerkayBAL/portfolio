@@ -1,11 +1,5 @@
-import {
-    Entity,
-    PrimaryGeneratedColumn,
-    Column,
-    CreateDateColumn,
-    UpdateDateColumn,
-    Index,
-} from 'typeorm';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Document } from 'mongoose';
 import { ApiProperty } from '@nestjs/swagger';
 
 export enum ProjectStatus {
@@ -15,58 +9,59 @@ export enum ProjectStatus {
     ARCHIVED = 'archived',
 }
 
-@Entity('projects')
-@Index(['featured', 'status'])
-export class Project {
+@Schema({
+    timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' },
+    collection: 'projects'
+})
+export class Project extends Document {
     @ApiProperty({ description: 'Unique identifier' })
-    @PrimaryGeneratedColumn('uuid')
-    id: string;
+    declare _id: string;
 
     @ApiProperty({ description: 'Project title', maxLength: 100 })
-    @Column({ length: 100 })
+    @Prop({ required: true, maxlength: 100 })
     title: string;
 
     @ApiProperty({ description: 'Short project description' })
-    @Column('text')
+    @Prop({ required: true })
     description: string;
 
     @ApiProperty({ description: 'Detailed project description', required: false })
-    @Column('text', { nullable: true, name: 'long_description' })
+    @Prop()
     longDescription?: string;
 
     @ApiProperty({ description: 'Technologies used in the project', type: [String] })
-    @Column('text', { array: true })
+    @Prop({ type: [String], default: [] })
     technologies: string[];
 
     @ApiProperty({ description: 'GitHub repository URL', required: false })
-    @Column({ nullable: true, name: 'github_url' })
+    @Prop()
     githubUrl?: string;
 
     @ApiProperty({ description: 'Live demo URL', required: false })
-    @Column({ nullable: true, name: 'live_url' })
+    @Prop()
     liveUrl?: string;
 
     @ApiProperty({ description: 'Project image URL', required: false })
-    @Column({ nullable: true, name: 'image_url' })
+    @Prop()
     imageUrl?: string;
 
     @ApiProperty({ description: 'Whether the project is featured' })
-    @Column({ default: false })
+    @Prop({ default: false })
     featured: boolean;
 
     @ApiProperty({ description: 'Project status', enum: ProjectStatus })
-    @Column({
-        type: 'enum',
+    @Prop({
+        type: String,
         enum: ProjectStatus,
-        default: ProjectStatus.PLANNING,
+        default: ProjectStatus.PLANNING
     })
     status: ProjectStatus;
 
     @ApiProperty({ description: 'Creation timestamp' })
-    @CreateDateColumn({ name: 'created_at' })
-    createdAt: Date;
+    created_at: Date;
 
     @ApiProperty({ description: 'Last update timestamp' })
-    @UpdateDateColumn({ name: 'updated_at' })
-    updatedAt: Date;
-} 
+    updated_at: Date;
+}
+
+export const ProjectSchema = SchemaFactory.createForClass(Project); 

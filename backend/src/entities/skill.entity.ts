@@ -1,9 +1,5 @@
-import {
-    Entity,
-    PrimaryGeneratedColumn,
-    Column,
-    Index,
-} from 'typeorm';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Document } from 'mongoose';
 import { ApiProperty } from '@nestjs/swagger';
 
 export enum SkillCategory {
@@ -22,37 +18,41 @@ export enum SkillLevel {
     EXPERT = 4,
 }
 
-@Entity('skills')
-@Index(['category', 'order'])
-export class Skill {
+@Schema({ collection: 'skills' })
+export class Skill extends Document {
     @ApiProperty({ description: 'Unique identifier' })
-    @PrimaryGeneratedColumn('uuid')
-    id: string;
+    declare _id: string;
 
     @ApiProperty({ description: 'Skill name', maxLength: 50 })
-    @Column({ length: 50 })
+    @Prop({ required: true, maxlength: 50 })
     name: string;
 
     @ApiProperty({ description: 'Skill category', enum: SkillCategory })
-    @Column({
-        type: 'enum',
+    @Prop({
+        type: String,
         enum: SkillCategory,
+        required: true
     })
     category: SkillCategory;
 
     @ApiProperty({ description: 'Skill level from 1 to 4', minimum: 1, maximum: 4 })
-    @Column('int')
+    @Prop({ type: Number, min: 1, max: 4, required: true })
     level: SkillLevel;
 
     @ApiProperty({ description: 'Icon name or URL', required: false })
-    @Column({ nullable: true })
+    @Prop()
     icon?: string;
 
     @ApiProperty({ description: 'Color for UI representation', required: false })
-    @Column({ length: 7, nullable: true })
+    @Prop({ maxlength: 7 })
     color?: string;
 
     @ApiProperty({ description: 'Display order within category' })
-    @Column({ default: 0 })
+    @Prop({ default: 0 })
     order: number;
-} 
+}
+
+export const SkillSchema = SchemaFactory.createForClass(Skill);
+
+// Index for category and order
+SkillSchema.index({ category: 1, order: 1 }); 

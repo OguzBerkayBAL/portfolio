@@ -1,6 +1,6 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
 import { ConfigService } from '@nestjs/config';
 import { User, UserRole, UserStatus } from '../entities/user.entity';
 import { Project, ProjectStatus } from '../entities/project.entity';
@@ -10,20 +10,18 @@ import * as bcrypt from 'bcrypt';
 @Injectable()
 export class SeedService implements OnModuleInit {
     constructor(
-        @InjectRepository(User)
-        private userRepository: Repository<User>,
-        @InjectRepository(Project)
-        private projectRepository: Repository<Project>,
-        @InjectRepository(Skill)
-        private skillRepository: Repository<Skill>,
+        @InjectModel(User.name)
+        private userModel: Model<User>,
+        @InjectModel(Project.name)
+        private projectModel: Model<Project>,
+        @InjectModel(Skill.name)
+        private skillModel: Model<Skill>,
         private configService: ConfigService,
     ) { }
 
     async onModuleInit() {
-        const useSqlite = this.configService.get('USE_SQLITE') === 'true';
         const isProduction = this.configService.get('NODE_ENV') === 'production';
-
-        if (useSqlite && isProduction) {
+        if (isProduction) {
             await this.seedData();
         }
     }
@@ -31,17 +29,17 @@ export class SeedService implements OnModuleInit {
     private async seedData() {
         try {
             // Check if data already exists
-            const userCount = await this.userRepository.count();
+            const userCount = await this.userModel.countDocuments();
             if (userCount > 0) {
                 console.log('📊 Database already has data, skipping seed...');
                 return;
             }
 
-            console.log('🌱 Seeding database with initial data...');
+            console.log('🌱 Seeding MongoDB database with initial data...');
 
-            // Create admin user
+            // Create admin user with pre-hashed password
             const hashedPassword = await bcrypt.hash('admin123', 12);
-            const adminUser = this.userRepository.create({
+            const adminUser = new this.userModel({
                 username: 'oguzberkaybal',
                 email: 'oguzberkaybal@icloud.com',
                 firstName: 'Oğuz Berkay',
@@ -49,10 +47,9 @@ export class SeedService implements OnModuleInit {
                 role: UserRole.ADMIN,
                 status: UserStatus.ACTIVE,
                 emailVerified: true,
+                password: hashedPassword, // Pre-hashed to avoid double hashing
             });
-            // Set password directly to avoid double hashing
-            adminUser.password = hashedPassword;
-            await this.userRepository.save(adminUser);
+            await adminUser.save({ validateBeforeSave: false }); // Skip validation to avoid re-hashing
 
             // Create sample projects
             const projects = [
@@ -60,7 +57,7 @@ export class SeedService implements OnModuleInit {
                     title: 'Portfolio Website',
                     description: 'Modern cyberpunk-themed portfolio website built with React and NestJS',
                     longDescription: 'A full-stack portfolio application featuring dark theme design, terminal aesthetics, and modern web technologies.',
-                    technologies: ['React', 'TypeScript', 'NestJS', 'SQLite', 'Framer Motion'],
+                    technologies: ['React', 'TypeScript', 'NestJS', 'MongoDB', 'Framer Motion'],
                     githubUrl: 'https://github.com/OguzBerkayBAL/portfolio',
                     liveUrl: 'https://oguzberkaybal-portfolio.onrender.com',
                     imageUrl: '/images/portfolio-preview.jpg',
@@ -86,10 +83,7 @@ export class SeedService implements OnModuleInit {
                 }
             ];
 
-            for (const projectData of projects) {
-                const project = this.projectRepository.create(projectData);
-                await this.projectRepository.save(project);
-            }
+            await this.projectModel.insertMany(projects);
 
             // Create sample skills
             const skills = [
@@ -105,14 +99,12 @@ export class SeedService implements OnModuleInit {
                 { name: 'Git', category: SkillCategory.TOOLS, level: SkillLevel.ADVANCED, order: 1 },
             ];
 
-            for (const skillData of skills) {
-                const skill = this.skillRepository.create(skillData);
-                await this.skillRepository.save(skill);
-            }
+            await this.skillModel.insertMany(skills);
 
-            console.log('✅ Database seeded successfully!');
+            console.log('✅ MongoDB database seeded successfully!');
+            console.log('👤 Admin User: oguzberkaybal@icloud.com / admin123');
         } catch (error) {
-            console.error('❌ Error seeding database:', error);
+            console.error('❌ Error seeding MongoDB database:', error);
         }
     }
 } 

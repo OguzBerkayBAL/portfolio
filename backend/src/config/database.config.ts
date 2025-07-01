@@ -1,32 +1,31 @@
-import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { ConfigService } from '@nestjs/config';
+import { MongooseModuleOptions } from '@nestjs/mongoose';
 
-export const getDatabaseConfig = (configService: ConfigService): TypeOrmModuleOptions => {
+export const databaseConfig = async (
+    configService: ConfigService,
+): Promise<MongooseModuleOptions> => {
     const isProduction = configService.get('NODE_ENV') === 'production';
-    const dbType = configService.get('DATABASE_TYPE', 'postgres');
-    const useSQLite = configService.get('USE_SQLITE') === 'true' || process.env.USE_SQLITE === 'true';
 
-    // Production ortamında her zaman SQLite kullan (free hosting için)
-    if (isProduction || dbType === 'sqlite' || useSQLite) {
+    if (isProduction) {
+        // Production: MongoDB Atlas
+        const mongoUri = configService.get<string>('MONGODB_URI');
+        if (!mongoUri) {
+            throw new Error('MONGODB_URI is required in production');
+        }
+
         return {
-            type: 'better-sqlite3',
-            database: configService.get('DATABASE_PATH', './data/portfolio.sqlite'),
-            synchronize: true, // Auto-create tables for SQLite
-            logging: !isProduction,
-            autoLoadEntities: true,
+            uri: mongoUri,
+            retryWrites: true,
+            w: 'majority',
+        };
+    } else {
+        // Development: Local MongoDB
+        const host = configService.get<string>('DB_HOST', 'localhost');
+        const port = configService.get<number>('DB_PORT', 27017);
+        const database = configService.get<string>('DB_NAME', 'portfolio_dev');
+
+        return {
+            uri: `mongodb://${host}:${port}/${database}`,
         };
     }
-
-    // PostgreSQL configuration (sadece development için)
-    return {
-        type: 'postgres',
-        host: configService.get('DATABASE_HOST', 'localhost'),
-        port: configService.get('DATABASE_PORT', 5432),
-        username: configService.get('DATABASE_USERNAME', 'portfolio_user'),
-        password: configService.get('DATABASE_PASSWORD'),
-        database: configService.get('DATABASE_NAME', 'dark_tech_portfolio'),
-        synchronize: false,
-        logging: !isProduction,
-        autoLoadEntities: true,
-    };
 }; 

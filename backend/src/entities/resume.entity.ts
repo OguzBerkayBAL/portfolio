@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Document } from 'mongoose';
 
 export interface PersonalInfo {
     name: string;
@@ -57,47 +58,46 @@ export interface Certification {
     url?: string;
 }
 
-@Entity('resumes')
-export class Resume {
-    @PrimaryGeneratedColumn()
-    id: number;
-
-    @Column({ type: 'varchar', length: 100, unique: true })
+@Schema({
+    timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' },
+    collection: 'resumes'
+})
+export class Resume extends Document {
+    @Prop({ required: true, unique: true, maxlength: 100 })
     version: string;
 
-    @Column({ type: 'jsonb', name: 'personal_info' })
+    @Prop({ type: Object, required: true })
     personalInfo: PersonalInfo;
 
-    @Column({ type: 'jsonb', default: [] })
+    @Prop({ type: Array, default: [] })
     education: Education[];
 
-    @Column({ type: 'jsonb', default: [] })
+    @Prop({ type: Array, default: [] })
     experience: WorkExperience[];
 
-    @Column({ type: 'jsonb', default: [] })
+    @Prop({ type: Array, default: [] })
     skills: ResumeSkill[];
 
-    @Column({ type: 'jsonb', default: [] })
+    @Prop({ type: Array, default: [] })
     projects: ResumeProject[];
 
-    @Column({ type: 'jsonb', default: [] })
+    @Prop({ type: Array, default: [] })
     languages: Language[];
 
-    @Column({ type: 'jsonb', default: [] })
+    @Prop({ type: Array, default: [] })
     certifications: Certification[];
 
-    @Column({ type: 'boolean', default: true, name: 'is_active' })
+    @Prop({ default: true })
     isActive: boolean;
 
-    @Column({ type: 'text', nullable: true, name: 'custom_sections' })
-    customSections?: string; // JSON string for additional sections
+    @Prop() // JSON string for additional sections
+    customSections?: string;
 
-    @Column({ type: 'varchar', length: 20, default: 'modern' })
-    template: string; // Template style: modern, classic, cyberpunk
+    @Prop({ maxlength: 20, default: 'modern' }) // Template style: modern, classic, cyberpunk
+    template: string;
 
-    @CreateDateColumn({ name: 'created_at' })
-    createdAt: Date;
+    created_at: Date;
+    updated_at: Date;
+}
 
-    @UpdateDateColumn({ name: 'updated_at' })
-    updatedAt: Date;
-} 
+export const ResumeSchema = SchemaFactory.createForClass(Resume); 

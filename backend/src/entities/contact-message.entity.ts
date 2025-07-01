@@ -1,10 +1,5 @@
-import {
-    Entity,
-    PrimaryGeneratedColumn,
-    Column,
-    CreateDateColumn,
-    Index,
-} from 'typeorm';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Document } from 'mongoose';
 import { ApiProperty } from '@nestjs/swagger';
 
 export enum MessageStatus {
@@ -14,28 +9,28 @@ export enum MessageStatus {
     ARCHIVED = 'archived'
 }
 
-@Entity('contact_messages')
-@Index(['status', 'createdAt'])
-@Index(['email'])
-export class ContactMessage {
+@Schema({
+    timestamps: { createdAt: 'created_at' },
+    collection: 'contact_messages'
+})
+export class ContactMessage extends Document {
     @ApiProperty({ description: 'Unique identifier' })
-    @PrimaryGeneratedColumn('uuid')
-    id: string;
+    declare _id: string;
 
     @ApiProperty({ description: 'Sender name', maxLength: 100 })
-    @Column({ length: 100 })
+    @Prop({ required: true, maxlength: 100 })
     name: string;
 
     @ApiProperty({ description: 'Sender email address' })
-    @Column()
+    @Prop({ required: true })
     email: string;
 
     @ApiProperty({ description: 'Message subject', maxLength: 200 })
-    @Column({ length: 200 })
+    @Prop({ required: true, maxlength: 200 })
     subject: string;
 
     @ApiProperty({ description: 'Message content' })
-    @Column('text')
+    @Prop({ required: true })
     message: string;
 
     @ApiProperty({
@@ -43,18 +38,23 @@ export class ContactMessage {
         enum: MessageStatus,
         default: MessageStatus.UNREAD
     })
-    @Column({
-        type: 'enum',
+    @Prop({
+        type: String,
         enum: MessageStatus,
         default: MessageStatus.UNREAD,
     })
     status: MessageStatus;
 
     @ApiProperty({ description: 'Message creation timestamp' })
-    @CreateDateColumn({ name: 'created_at' })
-    createdAt: Date;
+    created_at: Date;
 
     @ApiProperty({ description: 'Message read timestamp', required: false })
-    @Column({ nullable: true, name: 'read_at' })
+    @Prop()
     readAt?: Date;
-} 
+}
+
+export const ContactMessageSchema = SchemaFactory.createForClass(ContactMessage);
+
+// Indexes
+ContactMessageSchema.index({ status: 1, created_at: -1 });
+ContactMessageSchema.index({ email: 1 }); 
