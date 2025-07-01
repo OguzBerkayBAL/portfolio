@@ -15,6 +15,7 @@ import { BlogModule } from './modules/blog/blog.module';
 import { ContactModule } from './modules/contact/contact.module';
 import { ResumeModule } from './modules/resume/resume.module';
 import { AuthModule } from './modules/auth/auth.module';
+import { SeedService } from './database/seed.service';
 
 @Module({
   imports: [
@@ -48,8 +49,11 @@ import { AuthModule } from './modules/auth/auth.module';
     BlogModule,
     ContactModule,
     ResumeModule,
+
+    // Import TypeOrmModule for entities (needed for SeedService)
+    TypeOrmModule.forFeature(entities),
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, SeedService],
 })
 export class AppModule { }

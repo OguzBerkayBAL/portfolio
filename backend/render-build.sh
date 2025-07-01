@@ -11,8 +11,15 @@ npm ci
 echo "🔨 Building application..."
 npm run build
 
-# Create uploads directory
-echo "📁 Creating uploads directory..."
+# Create necessary directories
+echo "📁 Creating directories..."
 mkdir -p uploads
+mkdir -p data
+
+# Initialize SQLite database if needed
+echo "🗄️ Setting up SQLite database..."
+if [ "$USE_SQLITE" = "true" ]; then
+    echo "SQLite will be initialized on first run"
+fi
 
 echo "✅ Backend build completed!" 
