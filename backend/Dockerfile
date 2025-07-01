@@ -19,6 +19,9 @@ RUN npm run build
 # Production stage
 FROM node:18-alpine AS production
 
+# Install native dependencies for SQLite3
+RUN apk add --no-cache python3 make g++ sqlite
+
 # Add non-root user for security
 RUN addgroup -g 1001 -S nodejs
 RUN adduser -S nestjs -u 1001
@@ -29,14 +32,14 @@ WORKDIR /usr/src/app
 # Copy package files
 COPY package*.json ./
 
-# Install only production dependencies
+# Install production dependencies (including sqlite3)
 RUN npm install --production && npm cache clean --force
 
 # Copy built application from development stage
 COPY --from=development /usr/src/app/dist ./dist
 
-# Create uploads directory
-RUN mkdir -p uploads && chown -R nestjs:nodejs uploads
+# Create uploads and data directories
+RUN mkdir -p uploads data && chown -R nestjs:nodejs uploads data
 
 # Switch to non-root user
 USER nestjs
