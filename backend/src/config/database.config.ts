@@ -17,5 +17,10 @@ export const getDatabaseConfig = (configService: ConfigService): TypeOrmModuleOp
         migrations: ['dist/migrations/**/*{.ts,.js}'],
         migrationsTableName: 'migrations_history',
         migrationsRun: false, // Don't auto run migrations
+        ...(isProduction && {
+            ssl: {
+                rejectUnauthorized: false,
+            },
+        }),
     };
 }; 
