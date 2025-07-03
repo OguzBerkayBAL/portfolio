@@ -11,7 +11,7 @@ export const getDatabaseConfig = (configService: ConfigService): TypeOrmModuleOp
         username: configService.get('DATABASE_USERNAME', 'portfolio_user'),
         password: configService.get('DATABASE_PASSWORD'),
         database: configService.get('DATABASE_NAME', 'dark_tech_portfolio'), // Use dark_tech_portfolio database
-        synchronize: false, // Use manual migrations and existing schema
+        synchronize: true, // Tabloların otomatik oluşturulması için etkinleştirildi
         logging: !isProduction,
         autoLoadEntities: true,
         migrations: ['dist/migrations/**/*{.ts,.js}'],
