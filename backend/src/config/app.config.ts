@@ -19,7 +19,7 @@ export interface AppConfig {
 }
 
 export default (): AppConfig => ({
-    port: parseInt(process.env.PORT || '3001', 10),
+    port: parseInt(process.env.PORT || '3002', 10),
     apiPrefix: process.env.API_PREFIX || 'api/v1',
     nodeEnv: process.env.NODE_ENV || 'development',
     corsOrigin: process.env.CORS_ORIGIN || 'http://localhost:3000',

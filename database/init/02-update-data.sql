@@ -116,8 +116,8 @@ INSERT INTO experiences (title, company, location, start_date, end_date, current
 -- ========================================
 
 -- Update any existing contact info or create user profile
-INSERT INTO users (username, email, first_name, last_name, role, status, email_verified) VALUES
-('oguzberkaybal', 'oguzberkaybal@icloud.com', 'Oğuz Berkay', 'BAL', 'admin', 'active', true)
+INSERT INTO users (username, email, password, first_name, last_name, role, status, email_verified) VALUES
+('oguzberkaybal', 'oguzberkaybal@icloud.com', '$2b$10$EpRnTzVlqHNP0.fUbXUwSOyuiXe/QLSUG6xNekdHgTGmrpHEfIoxm', 'Oğuz Berkay', 'BAL', 'admin', 'active', true)
 ON CONFLICT (email) DO UPDATE SET
     username = EXCLUDED.username,
     first_name = EXCLUDED.first_name,

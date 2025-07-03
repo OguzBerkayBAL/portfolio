@@ -40,8 +40,10 @@ async function bootstrap() {
     origin: [
       'http://localhost:3000',
       'http://localhost:3001',
+      'http://localhost:3002',
       'http://127.0.0.1:3000',
-      'http://127.0.0.1:3001'
+      'http://127.0.0.1:3001',
+      'http://127.0.0.1:3002'
     ],
     credentials: true,
   });
@@ -106,7 +108,7 @@ async function bootstrap() {
   });
 
   // Start server
-  const port = configService.get('port', 3001);
+  const port = configService.get('port', 3002);
   await app.listen(port);
 
   console.log(`

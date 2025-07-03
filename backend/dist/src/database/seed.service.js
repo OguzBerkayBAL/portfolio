@@ -33,9 +33,9 @@ let SeedService = class SeedService {
         this.configService = configService;
     }
     async onModuleInit() {
-        const useSqlite = this.configService.get('USE_SQLITE') === 'true';
         const isProduction = this.configService.get('NODE_ENV') === 'production';
-        if (useSqlite && isProduction) {
+
+        if (isProduction) {
             await this.seedData();
         }
     }
@@ -64,7 +64,7 @@ let SeedService = class SeedService {
                     title: 'Portfolio Website',
                     description: 'Modern cyberpunk-themed portfolio website built with React and NestJS',
                     longDescription: 'A full-stack portfolio application featuring dark theme design, terminal aesthetics, and modern web technologies.',
-                    technologies: ['React', 'TypeScript', 'NestJS', 'SQLite', 'Framer Motion'],
+                    technologies: ['React', 'TypeScript', 'NestJS', 'Framer Motion'],
                     githubUrl: 'https://github.com/OguzBerkayBAL/portfolio',
                     liveUrl: 'https://oguzberkaybal-portfolio.onrender.com',
                     imageUrl: '/images/portfolio-preview.jpg',
@@ -75,7 +75,7 @@ let SeedService = class SeedService {
                     title: 'E-Commerce Platform',
                     description: 'Modern e-commerce solution with dark theme',
                     longDescription: 'Full-featured e-commerce platform with cart, payments, and admin dashboard.',
-                    technologies: ['React', 'Node.js', 'MongoDB', 'Stripe'],
+                    technologies: ['React', 'Node.js', 'Stripe'],
                     githubUrl: 'https://github.com/OguzBerkayBAL/ecommerce',
                     featured: true,
                     status: project_entity_1.ProjectStatus.COMPLETED,
@@ -101,7 +101,6 @@ let SeedService = class SeedService {
                 { name: 'Node.js', category: skill_entity_1.SkillCategory.BACKEND, level: skill_entity_1.SkillLevel.ADVANCED, order: 1 },
                 { name: 'NestJS', category: skill_entity_1.SkillCategory.BACKEND, level: skill_entity_1.SkillLevel.ADVANCED, order: 2 },
                 { name: 'PostgreSQL', category: skill_entity_1.SkillCategory.DATABASE, level: skill_entity_1.SkillLevel.ADVANCED, order: 1 },
-                { name: 'MongoDB', category: skill_entity_1.SkillCategory.DATABASE, level: skill_entity_1.SkillLevel.INTERMEDIATE, order: 2 },
                 { name: 'Docker', category: skill_entity_1.SkillCategory.DEVOPS, level: skill_entity_1.SkillLevel.INTERMEDIATE, order: 1 },
                 { name: 'Git', category: skill_entity_1.SkillCategory.TOOLS, level: skill_entity_1.SkillLevel.ADVANCED, order: 1 },
             ];

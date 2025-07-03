@@ -329,6 +329,14 @@ a:visited {
     border-color: var(--neon-blue);
 }
 
+.border-neon-green {
+    border-color: var(--neon-green);
+}
+
+.border-neon-pink {
+    border-color: var(--neon-pink);
+}
+
 /* Dark Theme Colors */
 .bg-dark-bg {
     background-color: var(--dark-bg);

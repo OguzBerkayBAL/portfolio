@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Terminal, Code, User, Palette, Mail, MessageSquare, Award, LogOut, Settings } from 'lucide-react';
+import { Terminal, Code, User, Palette, Mail, MessageSquare, Award, LogOut, Settings, Download } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 
 const Header: React.FC = () => {
@@ -87,6 +87,8 @@ const Header: React.FC = () => {
                                     </motion.div>
                                 </Link>
                             ))}
+
+
                         </nav>
 
                         {/* Auth Section */}

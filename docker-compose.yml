@@ -5,9 +5,9 @@ services:
     container_name: dark-tech-postgres
     restart: unless-stopped
     environment:
-      POSTGRES_DB: ${DATABASE_NAME:-dark_tech_portfolio}
+      POSTGRES_DB: ${DATABASE_NAME:-dark_tech_portfolio_dev}
       POSTGRES_USER: ${DATABASE_USERNAME:-portfolio_user}
-      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD:-dark_tech_2024}
       POSTGRES_INITDB_ARGS: "--encoding=UTF8 --locale=C"
     ports:
       - "${DATABASE_PORT:-5433}:5432"
@@ -17,7 +17,7 @@ services:
     networks:
       - dark-tech-network
     healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U ${DATABASE_USERNAME:-portfolio_user} -d ${DATABASE_NAME:-dark_tech_portfolio}" ]
+      test: [ "CMD-SHELL", "pg_isready -U ${DATABASE_USERNAME:-portfolio_user} -d ${DATABASE_NAME:-dark_tech_portfolio_dev}" ]
       interval: 30s
       timeout: 10s
       retries: 5
@@ -43,7 +43,7 @@ services:
     image: redis:7-alpine
     container_name: dark-tech-redis
     restart: unless-stopped
-    command: redis-server --requirepass ${REDIS_PASSWORD}
+    command: redis-server --requirepass ${REDIS_PASSWORD:-portfolio_redis_password}
     ports:
       - "${REDIS_PORT:-6379}:6379"
     volumes:
@@ -67,16 +67,16 @@ services:
       NODE_ENV: ${NODE_ENV:-development}
       DATABASE_HOST: postgres
       DATABASE_PORT: 5432
-      DATABASE_USERNAME: ${DATABASE_USERNAME}
-      DATABASE_PASSWORD: ${DATABASE_PASSWORD}
-      DATABASE_NAME: ${DATABASE_NAME}
+      DATABASE_USERNAME: ${DATABASE_USERNAME:-portfolio_user}
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD:-dark_tech_2024}
+      DATABASE_NAME: ${DATABASE_NAME:-dark_tech_portfolio_dev}
       REDIS_HOST: redis
       REDIS_PORT: 6379
-      REDIS_PASSWORD: ${REDIS_PASSWORD}
-      JWT_SECRET: ${JWT_SECRET}
-      PORT: ${API_PORT:-3001}
+      REDIS_PASSWORD: ${REDIS_PASSWORD:-portfolio_redis_password}
+      JWT_SECRET: ${JWT_SECRET:-dark_tech_portfolio_jwt_secret}
+      PORT: ${API_PORT:-3002}
     ports:
-      - "${API_PORT:-3001}:3001"
+      - "${API_PORT:-3002}:3002"
     volumes:
       - ./backend:/usr/src/app
       - /usr/src/app/node_modules

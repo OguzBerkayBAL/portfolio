@@ -14,5 +14,8 @@ export const getDatabaseConfig = (configService: ConfigService): TypeOrmModuleOp
         synchronize: false, // Use manual migrations and existing schema
         logging: !isProduction,
         autoLoadEntities: true,
+        migrations: ['dist/migrations/**/*{.ts,.js}'],
+        migrationsTableName: 'migrations_history',
+        migrationsRun: false, // Don't auto run migrations
     };
 }; 

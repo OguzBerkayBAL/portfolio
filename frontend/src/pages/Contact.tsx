@@ -14,7 +14,8 @@ import {
     Zap,
     FileText,
     CheckCircle,
-    AlertCircle
+    AlertCircle,
+    Download
 } from 'lucide-react';
 
 const Contact: React.FC = () => {
@@ -94,11 +95,20 @@ const Contact: React.FC = () => {
         setSubmitStatus('idle');
 
         try {
-            // Email.js ile mail gönderme
+            // 1. Backend API'ye mesajı kaydet (database'e kayıt için)
+            const { default: apiService } = await import('../services/api');
+            await apiService.createContactMessage({
+                name: formData.name,
+                email: formData.email,
+                subject: formData.subject,
+                message: formData.message
+            });
+
+            // 2. Email.js ile mail gönderme
             const templateParams = {
                 user_name: formData.name,      // Template'deki {{user_name}} ile eşleştir
                 user_email: formData.email,    // Template'deki {{user_email}} ile eşleştir
-                subject: formData.subject,
+                subject: formData.subject,     // SUBJECT'I TEMPLATE'E GÖNDER
                 message: formData.message,
                 to_email: 'oguzberkaybal@icloud.com', // Kendi email'iniz
             };
@@ -233,9 +243,21 @@ const Contact: React.FC = () => {
                                 MERN Stack | Python | AI/ML | RAG Architecture<br />
                                 NestJS | PostgreSQL | TypeScript | Docker
                             </div>
-                            <div className="flex items-center text-neon-green">
-                                <div className="w-2 h-2 bg-neon-green rounded-full animate-pulse mr-2"></div>
-                                STATUS: Available for collaboration
+                            <div className="flex items-center justify-between">
+                                <div className="flex items-center text-neon-green">
+                                    <div className="w-2 h-2 bg-neon-green rounded-full animate-pulse mr-2"></div>
+                                    STATUS: Available for collaboration
+                                </div>
+                                <motion.a
+                                    href="/OguzBerkayBalCV(Türkçe).pdf"
+                                    download="OguzBerkayBalCV.pdf"
+                                    className="inline-flex items-center px-4 py-2 border border-neon-blue text-neon-blue hover:bg-neon-blue hover:text-black transition-all duration-300 text-xs font-mono uppercase tracking-wider rounded"
+                                    whileHover={{ scale: 1.05 }}
+                                    whileTap={{ scale: 0.95 }}
+                                >
+                                    <Download className="w-3 h-3 mr-1" />
+                                    CV
+                                </motion.a>
                             </div>
                         </div>
                     </motion.div>

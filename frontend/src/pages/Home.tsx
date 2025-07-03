@@ -6,7 +6,8 @@ import {
     Zap,
     Terminal,
     ChevronDown,
-    ExternalLink
+    ExternalLink,
+    Download
 } from 'lucide-react';
 
 const Home: React.FC = () => {
@@ -134,16 +135,31 @@ const Home: React.FC = () => {
 
                             {/* CTA Buttons - Left Aligned */}
                             <div className="flex flex-col sm:flex-row gap-4">
-                                <Link to="/projects" onClick={handleNavClick}>
-                                    <motion.button
-                                        className="cyber-button px-8 py-4 text-lg"
+                                <div className="flex flex-row gap-4">
+                                    <Link to="/projects" onClick={handleNavClick}>
+                                        <motion.button
+                                            className="cyber-button px-8 py-4 text-lg"
+                                            whileHover={{ scale: 1.05 }}
+                                            whileTap={{ scale: 0.95 }}
+                                        >
+                                            <Rocket className="w-5 h-5 mr-2" />
+                                            EXPLORE PROJECTS
+                                        </motion.button>
+                                    </Link>
+
+                                    <motion.a
+                                        href="/OguzBerkayBalCV(Türkçe).pdf"
+                                        download="OguzBerkayBalCV.pdf"
+                                        className="inline-block"
                                         whileHover={{ scale: 1.05 }}
                                         whileTap={{ scale: 0.95 }}
                                     >
-                                        <Rocket className="w-5 h-5 mr-2" />
-                                        EXPLORE PROJECTS
-                                    </motion.button>
-                                </Link>
+                                        <button className="px-8 py-4 bg-black border-2 border-neon-green text-neon-green hover:text-neon-blue hover:border-neon-blue transition-all duration-300 font-mono uppercase tracking-wider flex items-center">
+                                            <Download className="w-5 h-5 mr-2" />
+                                            DOWNLOAD CV
+                                        </button>
+                                    </motion.a>
+                                </div>
 
                                 <Link to="/contact" onClick={handleNavClick}>
                                     <motion.button
