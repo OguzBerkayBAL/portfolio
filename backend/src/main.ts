@@ -40,6 +40,7 @@ async function bootstrap() {
     origin: [
       'http://localhost:3000',
       'https://portfolio-frontend-imdw.onrender.com',
+      'https://berkay-cv.onrender.com',
     ],
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     credentials: true,
