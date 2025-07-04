@@ -1,13 +1,40 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Terminal, Code, User, Palette, Mail, MessageSquare, Award, LogOut, Settings, Download } from 'lucide-react';
+import { Terminal, Code, User, Palette, Mail, MessageSquare, Award, LogOut, Settings, Download, Menu, X } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
+
+const mobileMenuVariants = {
+    open: {
+        transition: { staggerChildren: 0.07, delayChildren: 0.2 }
+    },
+    closed: {
+        transition: { staggerChildren: 0.05, staggerDirection: -1 }
+    }
+};
+
+const mobileLinkVariants = {
+    open: {
+        y: 0,
+        opacity: 1,
+        transition: {
+            y: { stiffness: 1000, velocity: -100 }
+        }
+    },
+    closed: {
+        y: 50,
+        opacity: 0,
+        transition: {
+            y: { stiffness: 1000 }
+        }
+    }
+};
 
 const Header: React.FC = () => {
     const location = useLocation();
     const { isAuthenticated, user, logout } = useAuth();
     const [showUserMenu, setShowUserMenu] = useState(false);
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
     const navigation = [
         { name: 'HOME', href: '/', icon: Code },
@@ -31,6 +58,11 @@ const Header: React.FC = () => {
 
     const handleNavClick = (href: string) => {
         scrollToTop();
+    };
+
+    const handleCloseMenu = (href: string) => {
+        handleNavClick(href);
+        setIsMobileMenuOpen(false);
     };
 
     const handleLogout = async () => {
@@ -69,10 +101,10 @@ const Header: React.FC = () => {
                         </motion.div>
                     </Link>
 
-                    {/* Navigation + Auth Section */}
-                    <div className="flex items-center space-x-8">
-                        {/* Navigation */}
-                        <nav className="flex items-center space-x-8">
+                    {/* Desktop Navigation + Auth Section */}
+                    <div className="hidden md:flex items-center space-x-8">
+                        {/* Desktop Navigation */}
+                        <nav className="flex items-center space-x-1">
                             {navigation.map((item) => (
                                 <Link key={item.href} to={item.href} onClick={() => handleNavClick(item.href)}>
                                     <motion.div
@@ -87,8 +119,6 @@ const Header: React.FC = () => {
                                     </motion.div>
                                 </Link>
                             ))}
-
-
                         </nav>
 
                         {/* Auth Section */}
@@ -192,8 +222,89 @@ const Header: React.FC = () => {
                             )}
                         </div>
                     </div>
+
+                    {/* Mobile Menu Button */}
+                    <div className="md:hidden flex items-center">
+                        <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className="text-gray-300 hover:text-neon-blue">
+                            {isMobileMenuOpen ? <X className="w-8 h-8" /> : <Menu className="w-8 h-8" />}
+                        </button>
+                    </div>
                 </div>
             </div>
+
+            {/* Mobile Menu */}
+            <AnimatePresence>
+                {isMobileMenuOpen && (
+                    <motion.div
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: 'auto' }}
+                        exit={{ opacity: 0, height: 0 }}
+                        className="md:hidden bg-dark-bg/95 absolute top-full left-0 right-0"
+                    >
+                        <motion.ul
+                            variants={mobileMenuVariants}
+                            initial="closed"
+                            animate="open"
+                            exit="closed"
+                            className="flex flex-col items-center space-y-4 py-4"
+                        >
+                            {navigation.map((item) => (
+                                <motion.li key={item.href} variants={mobileLinkVariants} className="w-full text-center">
+                                    <Link to={item.href} onClick={() => handleCloseMenu(item.href)} className="block w-full">
+                                        <div
+                                            className={`px-4 py-2 font-mono text-lg uppercase tracking-wider transition-all duration-300 ${isActivePath(item.href)
+                                                ? 'text-neon-blue'
+                                                : 'text-gray-300 hover:text-neon-blue'
+                                                }`}
+                                        >
+                                            {item.name}
+                                        </div>
+                                    </Link>
+                                </motion.li>
+                            ))}
+                            {/* Mobile Auth Section */}
+                            <motion.li variants={mobileLinkVariants} className="pt-4 border-t border-gray-700 w-full flex justify-center">
+                                {isAuthenticated && user ? (
+                                    <div className="text-center">
+                                        <div className="flex justify-center mb-4">
+                                            <div className="w-12 h-12 bg-gradient-to-r from-neon-blue to-neon-pink rounded-full flex items-center justify-center">
+                                                <span className="text-lg font-bold text-black">
+                                                    {user.firstName?.charAt(0) || user.username?.charAt(0) || 'U'}
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <p className="text-white font-mono text-base mb-2">
+                                            {user.firstName ? `${user.firstName} ${user.lastName}` : user.username}
+                                        </p>
+                                        <button
+                                            onClick={handleLogout}
+                                            className="w-full px-4 py-2 text-left text-gray-300 hover:bg-gray-800 hover:text-red-400 transition-colors flex items-center justify-center"
+                                        >
+                                            <LogOut className="w-4 h-4 mr-3" />
+                                            Çıkış Yap
+                                        </button>
+                                    </div>
+                                ) : (
+                                    <Link to="/auth" onClick={() => handleCloseMenu('/auth')} className="block w-full text-center">
+                                        <button
+                                            className="px-6 py-2 border-2 font-mono text-sm uppercase tracking-wider transition-all duration-300"
+                                            style={{
+                                                borderColor: '#ff00ff',
+                                                color: '#ff00ff',
+                                                backgroundColor: 'transparent',
+                                                textShadow: '0 0 10px #ff00ff'
+                                            }}
+                                        >
+                                            <Terminal className="w-4 h-4 mr-2 inline" />
+                                            ACCESS MATRIX
+                                        </button>
+                                    </Link>
+                                )}
+                            </motion.li>
+                        </motion.ul>
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </motion.header>
     );
 };

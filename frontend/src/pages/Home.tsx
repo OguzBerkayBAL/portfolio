@@ -81,16 +81,15 @@ const Home: React.FC = () => {
                     initial="hidden"
                     animate="visible"
                 >
-                    {/* Main Hero Section - Horizontal Layout */}
-                    <div className="flex flex-row items-start justify-between gap-16 max-w-7xl mx-auto min-h-[70vh] pt-8">
+                    {/* Main Hero Section - Responsive Layout */}
+                    <div className="flex flex-col md:flex-row items-center md:items-start justify-center md:justify-between gap-12 md:gap-16 max-w-7xl mx-auto min-h-[70vh] pt-8 text-center md:text-left">
 
-                        {/* Left Side - Content (Aligned with header) */}
+                        {/* Left Side - Content */}
                         <motion.div
                             variants={itemVariants}
-                            className="flex-1 text-left"
-                            style={{ maxWidth: '60%' }}
+                            className="w-full md:w-3/5"
                         >
-                            {/* Welcome Title - Left Aligned */}
+                            {/* Welcome Title */}
                             <motion.h1
                                 variants={itemVariants}
                                 className="text-4xl md:text-5xl lg:text-6xl font-cyber font-bold mb-8"
@@ -98,6 +97,27 @@ const Home: React.FC = () => {
                                 <span className="text-neon-blue">WELCOME TO THE</span>
                                 <span className="text-neon-pink"> MATRIX</span>
                             </motion.h1>
+
+                            {/* Mobile-only Profile Photo */}
+                            <motion.div
+                                variants={itemVariants}
+                                className="flex md:hidden justify-center items-center my-8"
+                            >
+                                <div
+                                    className="w-[240px] h-[240px] rounded-full border-4 border-neon-blue bg-gradient-to-br from-dark-card to-dark-bg flex items-center justify-center relative overflow-hidden group shadow-2xl shadow-neon-blue/40"
+                                >
+                                    {!imageError ? (
+                                        <img
+                                            src="/profile.jpg"
+                                            alt="Oğuz Berkay Bal"
+                                            className="w-full h-full object-cover rounded-full"
+                                            onError={() => setImageError(true)}
+                                        />
+                                    ) : (
+                                        <span className="text-neon-blue font-cyber text-5xl">👤</span>
+                                    )}
+                                </div>
+                            </motion.div>
 
                             {/* Introduction Text */}
                             <div className="cyber-card p-6 text-left mb-8">
@@ -133,12 +153,12 @@ const Home: React.FC = () => {
                                 </div>
                             </div>
 
-                            {/* CTA Buttons - Left Aligned */}
-                            <div className="flex flex-col sm:flex-row gap-4">
-                                <div className="flex flex-row gap-4">
+                            {/* CTA Buttons */}
+                            <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+                                <div className="flex flex-row gap-4 justify-center sm:justify-start">
                                     <Link to="/projects" onClick={handleNavClick}>
                                         <motion.button
-                                            className="cyber-button px-8 py-4 text-lg"
+                                            className="cyber-button px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg"
                                             whileHover={{ scale: 1.05 }}
                                             whileTap={{ scale: 0.95 }}
                                         >
@@ -154,7 +174,7 @@ const Home: React.FC = () => {
                                         whileHover={{ scale: 1.05 }}
                                         whileTap={{ scale: 0.95 }}
                                     >
-                                        <button className="px-8 py-4 bg-black border-2 border-neon-green text-neon-green hover:text-neon-blue hover:border-neon-blue transition-all duration-300 font-mono uppercase tracking-wider flex items-center">
+                                        <button className="px-6 sm:px-8 py-3 sm:py-4 bg-black border-2 border-neon-green text-neon-green hover:text-neon-blue hover:border-neon-blue transition-all duration-300 font-mono uppercase tracking-wider flex items-center">
                                             <Download className="w-5 h-5 mr-2" />
                                             DOWNLOAD CV
                                         </button>
@@ -174,23 +194,13 @@ const Home: React.FC = () => {
                             </div>
                         </motion.div>
 
-                        {/* Right Side - Profile Photo (Aligned with content) */}
+                        {/* Right Side - Profile Photo (Desktop-only) */}
                         <motion.div
                             variants={itemVariants}
-                            className="flex-shrink-0 flex justify-center items-start"
-                            style={{ width: '350px', paddingTop: '80px' }}
+                            className="hidden md:flex flex-shrink-0 justify-center items-start pt-10 md:pt-20"
                         >
                             <div
-                                className="rounded-full border-4 border-neon-blue bg-gradient-to-br from-dark-card to-dark-bg flex items-center justify-center relative overflow-hidden group shadow-2xl shadow-neon-blue/40"
-                                style={{
-                                    width: '300px',
-                                    height: '300px',
-                                    minWidth: '300px',
-                                    minHeight: '300px',
-                                    maxWidth: '300px',
-                                    maxHeight: '300px',
-                                    borderRadius: '50%'
-                                }}
+                                className="w-[240px] h-[240px] md:w-[300px] md:h-[300px] rounded-full border-4 border-neon-blue bg-gradient-to-br from-dark-card to-dark-bg flex items-center justify-center relative overflow-hidden group shadow-2xl shadow-neon-blue/40"
                             >
                                 {!imageError ? (
                                     <>
@@ -198,31 +208,25 @@ const Home: React.FC = () => {
                                         <img
                                             src="/profile.jpg"
                                             alt="Oğuz Berkay Bal"
-                                            className="relative z-10 group-hover:scale-110 transition-transform duration-300"
-                                            style={{
-                                                width: '300px',
-                                                height: '300px',
-                                                borderRadius: '50%',
-                                                objectFit: 'cover'
-                                            }}
+                                            className="w-full h-full object-cover rounded-full relative z-10 group-hover:scale-110 transition-transform duration-300"
                                             onError={() => setImageError(true)}
                                         />
                                         {/* Glow effect overlay */}
-                                        <div className="absolute inset-0 bg-gradient-to-br from-neon-blue/10 to-neon-pink/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{ borderRadius: '50%' }} />
+                                        <div className="absolute inset-0 bg-gradient-to-br from-neon-blue/10 to-neon-pink/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-full" />
                                     </>
                                 ) : (
                                     <>
                                         {/* Fallback placeholder */}
-                                        <div className="absolute inset-0 bg-gradient-to-br from-neon-blue/20 to-neon-pink/20 opacity-50 group-hover:opacity-70 transition-opacity duration-300" style={{ borderRadius: '50%' }} />
+                                        <div className="absolute inset-0 bg-gradient-to-br from-neon-blue/20 to-neon-pink/20 opacity-50 group-hover:opacity-70 transition-opacity duration-300 rounded-full" />
                                         <span className="text-neon-blue font-cyber text-5xl relative z-10">👤</span>
                                     </>
                                 )}
                                 {/* Cyberpunk scanning ring */}
-                                <div className="absolute inset-0 border-2 border-neon-green/60 opacity-0 group-hover:opacity-100 animate-ping" style={{ borderRadius: '50%' }} />
+                                <div className="absolute inset-0 border-2 border-neon-green/60 opacity-0 group-hover:opacity-100 animate-ping rounded-full" />
                                 {/* Secondary glow ring */}
-                                <div className="absolute -inset-2 border border-neon-blue/30 opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{ borderRadius: '50%' }} />
+                                <div className="absolute -inset-2 border border-neon-blue/30 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-full" />
                                 {/* Pulse ring */}
-                                <div className="absolute -inset-4 border border-neon-pink/20 opacity-0 group-hover:opacity-100 animate-pulse transition-opacity duration-700" style={{ borderRadius: '50%' }} />
+                                <div className="absolute -inset-4 border border-neon-pink/20 opacity-0 group-hover:opacity-100 animate-pulse transition-opacity duration-700 rounded-full" />
                             </div>
                         </motion.div>
                     </div>

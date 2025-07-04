@@ -342,15 +342,15 @@ const Skills: React.FC = () => {
                         transition={{ delay: 0.3, duration: 0.6 }}
                         className="flex flex-wrap justify-center gap-6 mt-8"
                     >
-                        <div className="cyber-card p-4 min-w-40">
+                        <div className="cyber-card p-4 w-full sm:min-w-40">
                             <div className="text-neon-green text-2xl font-bold">{stats.total || skills.length}</div>
                             <div className="text-gray-400 text-sm">TOTAL SKILLS</div>
                         </div>
-                        <div className="cyber-card p-4 min-w-40">
+                        <div className="cyber-card p-4 w-full sm:min-w-40">
                             <div className="text-neon-blue text-2xl font-bold">{stats.expertSkills || skills.filter(s => s.level >= 4).length}</div>
                             <div className="text-gray-400 text-sm">EXPERT LEVEL</div>
                         </div>
-                        <div className="cyber-card p-4 min-w-40">
+                        <div className="cyber-card p-4 w-full sm:min-w-40">
                             <div className="text-neon-pink text-2xl font-bold">{stats.averageLevel || (skills.length > 0 ? Math.round(skills.reduce((acc, s) => acc + s.level, 0) / skills.length) : 0)}</div>
                             <div className="text-gray-400 text-sm">AVG LEVEL</div>
                         </div>
