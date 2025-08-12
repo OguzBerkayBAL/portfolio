@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import {
@@ -12,6 +12,19 @@ import {
 
 const Home: React.FC = () => {
     const [imageError, setImageError] = useState(false);
+    const [showScrollIndicator, setShowScrollIndicator] = useState(true);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            const scrollY = window.scrollY;
+            const windowHeight = window.innerHeight;
+            // Hero section'ın %30'undan fazlası geçildiğinde indicator'ı gizle
+            setShowScrollIndicator(scrollY < windowHeight * 0.3);
+        };
+
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
 
     const handleNavClick = () => {
         // Navigation tıklandığında scroll pozisyonunu sıfırla
@@ -50,6 +63,22 @@ const Home: React.FC = () => {
         <div className="min-h-screen relative overflow-hidden">
             {/* Hero Section */}
             <section className="min-h-screen flex items-center justify-center relative">
+                {/* Scroll Indicator - Fixed at bottom of viewport when hero is visible */}
+                <motion.div
+                    className="fixed bottom-8 left-1/2 transform -translate-x-1/2 z-50 hidden sm:block"
+                    animate={{
+                        y: [0, 10, 0],
+                        opacity: showScrollIndicator ? 1 : 0
+                    }}
+                    transition={{
+                        y: { duration: 2, repeat: Infinity },
+                        opacity: { duration: 0.3 }
+                    }}
+                    style={{ pointerEvents: showScrollIndicator ? 'auto' : 'none' }}
+                >
+                    <ChevronDown className="w-8 h-8 text-neon-blue drop-shadow-lg" />
+                </motion.div>
+
                 {/* Animated Background */}
                 <div className="absolute inset-0 pointer-events-none">
                     {/* Matrix Rain Effect */}
@@ -150,10 +179,10 @@ const Home: React.FC = () => {
 
                             {/* CTA Buttons */}
                             <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
-                                <div className="flex flex-row gap-4 justify-center sm:justify-start">
-                                    <Link to="/projects" onClick={handleNavClick}>
+                                <div className="flex flex-row gap-4 justify-center sm:justify-start items-stretch">
+                                    <Link to="/projects" onClick={handleNavClick} className="flex">
                                         <motion.button
-                                            className="cyber-button px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg"
+                                            className="cyber-button px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg h-full"
                                             whileHover={{ scale: 1.05 }}
                                             whileTap={{ scale: 0.95 }}
                                         >
@@ -165,11 +194,11 @@ const Home: React.FC = () => {
                                     <motion.a
                                         href="/OguzBerkayBalCV(Türkçe).pdf"
                                         download="OguzBerkayBalCV.pdf"
-                                        className="inline-block"
+                                        className="flex"
                                         whileHover={{ scale: 1.05 }}
                                         whileTap={{ scale: 0.95 }}
                                     >
-                                        <button className="px-6 sm:px-8 py-3 sm:py-4 bg-black border-2 border-neon-green text-neon-green hover:text-neon-blue hover:border-neon-blue transition-all duration-300 font-mono uppercase tracking-wider flex items-center">
+                                        <button className="px-6 sm:px-8 py-3 sm:py-4 bg-black border-2 border-neon-green text-neon-green hover:text-neon-blue hover:border-neon-blue transition-all duration-300 font-mono uppercase tracking-wider flex items-center h-full">
                                             <Download className="w-5 h-5 mr-2" />
                                             DOWNLOAD CV
                                         </button>
@@ -226,14 +255,7 @@ const Home: React.FC = () => {
                         </motion.div>
                     </div>
 
-                    {/* Scroll Indicator */}
-                    <motion.div
-                        className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
-                        animate={{ y: [0, 10, 0] }}
-                        transition={{ duration: 2, repeat: Infinity }}
-                    >
-                        <ChevronDown className="w-8 h-8 text-neon-blue" />
-                    </motion.div>
+
                 </motion.div>
             </section>
 

@@ -1,11 +1,11 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ChevronRight, Eye, Code, Database, Globe, Zap, Activity, Terminal } from 'lucide-react';
+import { ChevronRight, Eye, Code, Database, Globe, Zap, Activity, Terminal, BarChart3 } from 'lucide-react';
 import { Skill, SkillCategory } from '../../types';
 
 interface SkillCardProps {
     skill: Skill;
-    onClick: (skill: Skill) => void;
+    onClick?: (skill: Skill) => void;
     index?: number;
 }
 
@@ -14,6 +14,7 @@ const skillCategoryIcons: Record<SkillCategory, any> = {
     backend: Database,
     database: Database,
     devops: Activity,
+    'ai-ml': BarChart3,
     design: Zap,
     tools: Terminal,
 };
@@ -23,13 +24,25 @@ const skillCategoryColors: Record<SkillCategory, string> = {
     backend: 'neon-pink',
     database: 'neon-cyan',
     devops: 'neon-purple',
+    'ai-ml': 'neon-pink',
     design: 'neon-orange',
     tools: 'neon-green',
+};
+
+const skillCategoryGradients: Record<SkillCategory, string> = {
+    frontend: 'bg-gradient-to-r from-blue-500 to-green-400',
+    backend: 'bg-gradient-to-r from-pink-500 to-green-400',
+    database: 'bg-gradient-to-r from-cyan-500 to-green-400',
+    devops: 'bg-gradient-to-r from-purple-500 to-green-400',
+    'ai-ml': 'bg-gradient-to-r from-pink-500 to-purple-400',
+    design: 'bg-gradient-to-r from-orange-500 to-green-400',
+    tools: 'bg-gradient-to-r from-green-500 to-green-300',
 };
 
 const SkillCard: React.FC<SkillCardProps> = ({ skill, onClick, index = 0 }) => {
     const CategoryIcon = skillCategoryIcons[skill.category] || Code;
     const categoryColor = skillCategoryColors[skill.category] || 'neon-green';
+    const categoryGradient = skillCategoryGradients[skill.category] || 'bg-gradient-to-r from-green-500 to-green-300';
 
     const getSkillLevelLabel = (level: number) => {
         if (level >= 4) return 'EXPERT';
@@ -51,7 +64,7 @@ const SkillCard: React.FC<SkillCardProps> = ({ skill, onClick, index = 0 }) => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 * index, duration: 0.3 }}
             whileHover={{ scale: 1.02, rotateY: 5 }}
-            onClick={() => onClick(skill)}
+            onClick={() => onClick && onClick(skill)}
             className="cyber-card p-6 cursor-pointer hover:border-neon-green transition-all duration-300 group"
         >
             <div className="flex items-start justify-between mb-4">
@@ -79,12 +92,13 @@ const SkillCard: React.FC<SkillCardProps> = ({ skill, onClick, index = 0 }) => {
                         {getSkillLevelLabel(skill.level)} ({skill.level}/4)
                     </span>
                 </div>
-                <div className="w-full bg-gray-700 rounded-full h-2">
+                <div className="w-full bg-gray-700 rounded-full h-2 overflow-hidden">
                     <motion.div
-                        initial={{ width: 0 }}
-                        animate={{ width: `${skill.level * 25}%` }}
+                        initial={{ scaleX: 0 }}
+                        animate={{ scaleX: 1 }}
                         transition={{ delay: 0.2, duration: 0.8 }}
-                        className={`h-2 rounded-full bg-gradient-to-r from-${categoryColor} to-neon-green`}
+                        style={{ width: `${skill.level * 25}%` }}
+                        className={`h-2 origin-left rounded-full bg-neon-green`}
                     />
                 </div>
             </div>

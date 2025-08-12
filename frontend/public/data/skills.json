@@ -11,14 +11,91 @@
         "yearsOfExperience": 3
     },
     {
+        "id": "skill-javascript",
+        "name": "JavaScript",
+        "category": "frontend",
+        "level": 4,
+        "icon": "javascript",
+        "color": "neon-yellow",
+        "order": 2,
+        "description": "ES6+, async/await, DOM manipulation, modern JavaScript",
+        "yearsOfExperience": 4
+    },
+    {
         "id": "skill-ts",
         "name": "TypeScript",
         "category": "frontend",
         "level": 4,
         "icon": "typescript",
         "color": "neon-cyan",
-        "order": 2,
+        "order": 3,
         "description": "Güçlü tip sistemi, utility types, generics",
+        "yearsOfExperience": 3
+    },
+    {
+        "id": "skill-nestjs",
+        "name": "NestJS",
+        "category": "backend",
+        "level": 4,
+        "icon": "nestjs",
+        "color": "neon-red",
+        "order": 4,
+        "description": "Modular architecture, dependency injection, decorators",
+        "yearsOfExperience": 2
+    },
+    {
+        "id": "skill-git",
+        "name": "Git",
+        "category": "devops",
+        "level": 4,
+        "icon": "git",
+        "color": "neon-orange",
+        "order": 5,
+        "description": "Version control, branching, merge strategies, collaboration",
+        "yearsOfExperience": 4
+    },
+    {
+        "id": "skill-docker",
+        "name": "Docker",
+        "category": "devops",
+        "level": 4,
+        "icon": "docker",
+        "color": "neon-blue",
+        "order": 6,
+        "description": "Containerization, multi-stage builds, docker-compose",
+        "yearsOfExperience": 2
+    },
+    {
+        "id": "skill-python",
+        "name": "Python",
+        "category": "backend",
+        "level": 3,
+        "icon": "python",
+        "color": "neon-green",
+        "order": 7,
+        "description": "Web development, scripting, data processing",
+        "yearsOfExperience": 2
+    },
+    {
+        "id": "skill-mongodb",
+        "name": "MongoDB",
+        "category": "database",
+        "level": 3,
+        "icon": "mongodb",
+        "color": "neon-green",
+        "order": 8,
+        "description": "NoSQL, aggregation pipeline, indexing strategies",
+        "yearsOfExperience": 2
+    },
+    {
+        "id": "skill-express",
+        "name": "Express.js",
+        "category": "backend",
+        "level": 3,
+        "icon": "express",
+        "color": "neon-gray",
+        "order": 9,
+        "description": "RESTful APIs, middleware, routing, authentication",
         "yearsOfExperience": 3
     },
     {
@@ -28,9 +105,20 @@
         "level": 3,
         "icon": "nodejs",
         "color": "neon-green",
-        "order": 3,
+        "order": 10,
         "description": "REST API, async patterns, performans ayarlamaları",
         "yearsOfExperience": 2
+    },
+    {
+        "id": "skill-sql",
+        "name": "SQL",
+        "category": "database",
+        "level": 3,
+        "icon": "database",
+        "color": "neon-purple",
+        "order": 11,
+        "description": "Complex queries, joins, stored procedures, optimization",
+        "yearsOfExperience": 3
     },
     {
         "id": "skill-postgres",
@@ -39,8 +127,52 @@
         "level": 3,
         "icon": "postgresql",
         "color": "neon-purple",
-        "order": 4,
+        "order": 12,
         "description": "SQL, index, query optimizasyonu",
         "yearsOfExperience": 2
+    },
+    {
+        "id": "skill-llmops",
+        "name": "LLMOps",
+        "category": "ai-ml",
+        "level": 2,
+        "icon": "brain",
+        "color": "neon-pink",
+        "order": 13,
+        "description": "Large Language Model deployment, monitoring, versioning",
+        "yearsOfExperience": 1
+    },
+    {
+        "id": "skill-langchain",
+        "name": "LangChain",
+        "category": "ai-ml",
+        "level": 2,
+        "icon": "link",
+        "color": "neon-pink",
+        "order": 14,
+        "description": "LLM application framework, chains, agents, embeddings",
+        "yearsOfExperience": 1
+    },
+    {
+        "id": "skill-nlp",
+        "name": "NLP",
+        "category": "ai-ml",
+        "level": 2,
+        "icon": "message-square",
+        "color": "neon-pink",
+        "order": 15,
+        "description": "Natural Language Processing, text analysis, tokenization",
+        "yearsOfExperience": 1
+    },
+    {
+        "id": "skill-redis",
+        "name": "Redis",
+        "category": "devops",
+        "level": 2,
+        "icon": "database",
+        "color": "neon-red",
+        "order": 16,
+        "description": "Caching, session storage, pub/sub messaging",
+        "yearsOfExperience": 1
     }
 ]

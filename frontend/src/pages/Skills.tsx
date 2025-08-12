@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, Filter, Code, Database, Globe, Zap, ChevronRight, Terminal, Activity, X, Eye, BarChart3 } from 'lucide-react';
 import { Skill, SkillCategory } from '../types';
+import SkillCard from '../components/Skills/SkillCard';
 
 const Skills: React.FC = () => {
     const [skills, setSkills] = useState<Skill[]>([]);
@@ -25,6 +26,7 @@ const Skills: React.FC = () => {
         { value: 'backend', label: 'BACKEND', icon: Database, color: 'neon-pink' },
         { value: 'database', label: 'DATABASE', icon: Database, color: 'neon-cyan' },
         { value: 'devops', label: 'DEVOPS', icon: Activity, color: 'neon-purple' },
+        { value: 'ai-ml', label: 'AI & ML', icon: BarChart3, color: 'neon-pink' },
         { value: 'design', label: 'DESIGN', icon: Zap, color: 'neon-orange' },
         { value: 'tools', label: 'TOOLS', icon: Terminal, color: 'neon-green' }
     ];
@@ -101,79 +103,7 @@ const Skills: React.FC = () => {
         return 'text-neon-pink';
     };
 
-    const SkillCard: React.FC<{ skill: Skill }> = ({ skill }) => {
-        const CategoryIcon = getCategoryIcon(skill.category);
-        const categoryColor = getCategoryColor(skill.category);
-
-        return (
-            <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                whileHover={{ scale: 1.02, rotateY: 5 }}
-                onClick={() => setSelectedSkill(skill)}
-                className="cyber-card p-6 cursor-pointer hover:border-neon-green transition-all duration-300 group"
-            >
-                <div className="flex items-start justify-between mb-4">
-                    <div className="flex items-center space-x-3">
-                        <div className={`p-2 rounded bg-gray-800 text-${categoryColor} group-hover:animate-pulse`}>
-                            <CategoryIcon size={20} />
-                        </div>
-                        <div>
-                            <h3 className="text-lg font-bold text-white group-hover:text-neon-green transition-colors">
-                                {skill.name}
-                            </h3>
-                            <p className="text-gray-400 text-sm uppercase tracking-wider">
-                                {skill.category}
-                            </p>
-                        </div>
-                    </div>
-                    <ChevronRight size={16} className="text-gray-500 group-hover:text-neon-green transition-colors" />
-                </div>
-
-                {/* Skill Level Bar */}
-                <div className="mb-4">
-                    <div className="flex justify-between items-center mb-2">
-                        <span className="text-gray-400 text-sm">PROFICIENCY</span>
-                        <span className={`text-sm font-bold ${getSkillLevelColor(skill.level)}`}>
-                            {getSkillLevelLabel(skill.level)} ({skill.level}/4)
-                        </span>
-                    </div>
-                    <div className="w-full bg-gray-700 rounded-full h-2">
-                        <motion.div
-                            initial={{ width: 0 }}
-                            animate={{ width: `${skill.level * 25}%` }}
-                            transition={{ delay: 0.2, duration: 0.8 }}
-                            className={`h-2 rounded-full bg-gradient-to-r from-${categoryColor} to-neon-green`}
-                        />
-                    </div>
-                </div>
-
-                {/* Description */}
-                {skill.description && (
-                    <p className="text-gray-300 text-sm line-clamp-2 mb-4">
-                        {skill.description}
-                    </p>
-                )}
-
-                {/* Tags */}
-                <div className="flex items-center justify-between">
-                    <div className="flex flex-wrap gap-1">
-                        {skill.yearsOfExperience && (
-                            <span className="px-2 py-1 text-xs bg-gray-800 text-neon-cyan rounded border">
-                                {skill.yearsOfExperience}y exp
-                            </span>
-                        )}
-                        {skill.category && (
-                            <span className={`px-2 py-1 text-xs bg-gray-800 text-${categoryColor} rounded border`}>
-                                {skill.category.toUpperCase()}
-                            </span>
-                        )}
-                    </div>
-                    <Eye size={14} className="text-gray-500 group-hover:text-neon-green transition-colors" />
-                </div>
-            </motion.div>
-        );
-    };
+    // previously had an inline SkillCard component here; replaced by imported component
 
     const SkillDetailModal: React.FC<{ skill: Skill; onClose: () => void }> = ({ skill, onClose }) => {
         const CategoryIcon = getCategoryIcon(skill.category);
@@ -224,9 +154,9 @@ const Skills: React.FC = () => {
                                             {skill.level}/4 - {getSkillLevelLabel(skill.level)}
                                         </span>
                                     </div>
-                                    <div className="w-full bg-gray-700 rounded-full h-3">
+                                    <div className="w-full bg-gray-700 rounded-full h-3 overflow-hidden">
                                         <div
-                                            className={`h-3 rounded-full bg-gradient-to-r from-${categoryColor} to-neon-green`}
+                                            className="h-3 rounded-full bg-neon-green"
                                             style={{ width: `${skill.level * 25}%` }}
                                         />
                                     </div>
@@ -458,7 +388,7 @@ const Skills: React.FC = () => {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.1 * index, duration: 0.3 }}
                     >
-                        <SkillCard skill={skill} />
+                        <SkillCard skill={skill} onClick={setSelectedSkill} index={index} />
                     </motion.div>
                 ))}
             </motion.div>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { Github, Linkedin, Twitter, Mail, Heart, Zap } from 'lucide-react';
+import { Github, Linkedin, Mail, Heart, Zap } from 'lucide-react';
 
 const Footer: React.FC = () => {
     const currentYear = new Date().getFullYear();
@@ -113,7 +113,6 @@ const Footer: React.FC = () => {
                         <div className="bg-black/50 p-3 rounded border border-dark-border font-mono text-xs">
                             <div className="text-neon-green mb-1">$ system_info</div>
                             <div className="text-gray-400">
-                                <div>Backend: NestJS + PostgreSQL</div>
                                 <div>Frontend: React + TypeScript</div>
                                 <div>Theme: Cyberpunk Dark Mode</div>
                             </div>
