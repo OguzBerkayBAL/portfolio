@@ -19,25 +19,6 @@
         "updatedAt": "2024-07-10T00:00:00.000Z"
     },
     {
-        "id": "proj-portfolio",
-        "title": "Cyber Portfolio",
-        "description": "Cyber/terminal temalı modern bir portföy deneyimi sunar.",
-        "longDescription": "Akıcı animasyonlar ve interaktif öğelerle dikkat çeker. Hızlı, şık ve teknoloji odaklı bir sunum sağlar.",
-        "technologies": [
-            "React",
-            "TypeScript",
-            "Framer Motion",
-            "Tailwind"
-        ],
-        "githubUrl": "https://github.com/OguzBerkayBAL",
-        "liveUrl": "https://berkay-cv.onrender.com",
-        "imageUrl": "/profile.jpg",
-        "featured": false,
-        "status": "completed",
-        "createdAt": "2024-06-01T00:00:00.000Z",
-        "updatedAt": "2024-07-01T00:00:00.000Z"
-    },
-    {
         "id": "proj-dugun-albumu",
         "title": "Düğün Albümü",
         "description": "Misafirlerin düğün fotoğraflarını yükleyip paylaşabileceği bir platform.",
