@@ -1,0 +1,39 @@
+[
+    {
+        "id": "proj-portfolio",
+        "title": "Cyber Portfolio",
+        "description": "Kişisel portföy, cyber/terminal teması, animasyonlar",
+        "longDescription": "React + TypeScript ile tasarlanmış, matrix/cyber estetikli portföy sitesi.",
+        "technologies": [
+            "React",
+            "TypeScript",
+            "Framer Motion",
+            "Tailwind"
+        ],
+        "githubUrl": "https://github.com/OguzBerkayBAL",
+        "liveUrl": "https://berkay-cv.onrender.com",
+        "imageUrl": "/profile.jpg",
+        "featured": true,
+        "status": "completed",
+        "createdAt": "2024-06-01T00:00:00.000Z",
+        "updatedAt": "2024-07-01T00:00:00.000Z"
+    },
+    {
+        "id": "proj-rag",
+        "title": "RAG Demo",
+        "description": "Retrieval-Augmented Generation konsept demo",
+        "longDescription": "LLM tabanlı metin üretimi için RAG pipeline prototipi",
+        "technologies": [
+            "Python",
+            "LangChain",
+            "FAISS"
+        ],
+        "githubUrl": "https://github.com/OguzBerkayBAL",
+        "liveUrl": "",
+        "imageUrl": "",
+        "featured": false,
+        "status": "in_progress",
+        "createdAt": "2024-05-10T00:00:00.000Z",
+        "updatedAt": "2024-06-15T00:00:00.000Z"
+    }
+]

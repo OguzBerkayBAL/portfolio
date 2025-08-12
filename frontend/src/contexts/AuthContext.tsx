@@ -1,6 +1,5 @@
 import React, { createContext, useContext, useEffect, useState, ReactNode } from 'react';
-import { User, AuthResponse, LoginDto } from '../types';
-import apiService from '../services/api';
+import { User, LoginDto } from '../types';
 
 interface AuthContextType {
     user: User | null;
@@ -30,54 +29,36 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        checkAuthStatus();
+        // Backend kaldırıldı: demo amaçlı localStorage'tan basit oturum okuması
+        const storedUser = localStorage.getItem('demo_user');
+        if (storedUser) setUser(JSON.parse(storedUser));
+        setIsLoading(false);
     }, []);
 
-    const checkAuthStatus = async () => {
-        try {
-            const token = localStorage.getItem('access_token');
-            if (token) {
-                const userData = await apiService.getProfile();
-                setUser(userData);
-            }
-        } catch (error) {
-            console.error('Auth check failed:', error);
-            localStorage.removeItem('access_token');
-            localStorage.removeItem('refresh_token');
-        } finally {
-            setIsLoading(false);
-        }
-    };
-
     const login = async (credentials: LoginDto) => {
-        try {
-            setIsLoading(true);
-            const authResponse: AuthResponse = await apiService.login(credentials);
-
-            // Store tokens
-            localStorage.setItem('access_token', authResponse.tokens.access_token);
-            if (authResponse.tokens.refresh_token) {
-                localStorage.setItem('refresh_token', authResponse.tokens.refresh_token);
-            }
-
-            setUser(authResponse.user);
-        } catch (error) {
-            throw error;
-        } finally {
-            setIsLoading(false);
-        }
+        // Backend yok: demo login. İstersen tamamen kaldırabiliriz.
+        setIsLoading(true);
+        const demoUser: User = {
+            id: 'demo-user',
+            username: credentials.usernameOrEmail,
+            email: credentials.usernameOrEmail,
+            firstName: 'Guest',
+            lastName: 'User',
+            role: 'admin' as any,
+            status: 'active' as any,
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString(),
+        };
+        localStorage.setItem('demo_user', JSON.stringify(demoUser));
+        setUser(demoUser);
+        setIsLoading(false);
     };
 
     const logout = async () => {
-        try {
-            await apiService.logout();
-        } catch (error) {
-            console.error('Logout error:', error);
-        } finally {
-            setUser(null);
-            localStorage.removeItem('access_token');
-            localStorage.removeItem('refresh_token');
-        }
+        setUser(null);
+        localStorage.removeItem('demo_user');
+        localStorage.removeItem('access_token');
+        localStorage.removeItem('refresh_token');
     };
 
     const updateUser = (updatedUser: User) => {

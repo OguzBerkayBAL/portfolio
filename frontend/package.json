@@ -7,7 +7,6 @@
     "@types/node": "^16.18.0",
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
-    "axios": "^1.7.9",
     "framer-motion": "^10.16.0",
     "lucide-react": "^0.400.0",
     "react": "^18.2.0",
@@ -48,6 +47,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "proxy": "http://localhost:3001"
+  }
 }

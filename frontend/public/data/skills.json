@@ -1,0 +1,46 @@
+[
+    {
+        "id": "skill-react",
+        "name": "React",
+        "category": "frontend",
+        "level": 4,
+        "icon": "react",
+        "color": "neon-blue",
+        "order": 1,
+        "description": "Modern SPA geliştirme, hooks, context, performans optimizasyonu",
+        "yearsOfExperience": 3
+    },
+    {
+        "id": "skill-ts",
+        "name": "TypeScript",
+        "category": "frontend",
+        "level": 4,
+        "icon": "typescript",
+        "color": "neon-cyan",
+        "order": 2,
+        "description": "Güçlü tip sistemi, utility types, generics",
+        "yearsOfExperience": 3
+    },
+    {
+        "id": "skill-node",
+        "name": "Node.js",
+        "category": "backend",
+        "level": 3,
+        "icon": "nodejs",
+        "color": "neon-green",
+        "order": 3,
+        "description": "REST API, async patterns, performans ayarlamaları",
+        "yearsOfExperience": 2
+    },
+    {
+        "id": "skill-postgres",
+        "name": "PostgreSQL",
+        "category": "database",
+        "level": 3,
+        "icon": "postgresql",
+        "color": "neon-purple",
+        "order": 4,
+        "description": "SQL, index, query optimizasyonu",
+        "yearsOfExperience": 2
+    }
+]

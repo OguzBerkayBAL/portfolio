@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, Filter, Code, Database, Globe, Zap, ChevronRight, Terminal, Activity, X, Eye, BarChart3 } from 'lucide-react';
-import apiService from '../services/api';
 import { Skill, SkillCategory } from '../types';
 
 const Skills: React.FC = () => {
@@ -42,7 +41,6 @@ const Skills: React.FC = () => {
 
     useEffect(() => {
         fetchSkills();
-        fetchStats();
     }, []);
 
     const applyFilters = React.useCallback(() => {
@@ -74,21 +72,18 @@ const Skills: React.FC = () => {
     const fetchSkills = async () => {
         try {
             setLoading(true);
-            const response = await apiService.getSkills({ limit: 100 });
-            setSkills(response.data);
+            const res = await fetch('/data/skills.json');
+            if (!res.ok) throw new Error(`HTTP ${res.status}`);
+            const data = (await res.json()) as Skill[];
+            setSkills(data);
+            const total = data.length;
+            const expertSkills = data.filter((s) => s.level >= 4).length;
+            const averageLevel = total > 0 ? Math.round(data.reduce((acc, s) => acc + s.level, 0) / total) : 0;
+            setStats({ total, expertSkills, averageLevel });
         } catch (err: any) {
             setError('Neural matrix connection failed: ' + (err.message || 'Unknown error'));
         } finally {
             setLoading(false);
-        }
-    };
-
-    const fetchStats = async () => {
-        try {
-            const statsData = await apiService.getSkillStats();
-            setStats(statsData);
-        } catch (err) {
-            console.error('Failed to fetch stats:', err);
         }
     };
 

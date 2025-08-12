@@ -14,8 +14,7 @@ import {
     X,
     Loader
 } from 'lucide-react';
-import { Project, ProjectStatus, ProjectQueryDto } from '../types';
-import apiService from '../services/api';
+import { Project, ProjectStatus } from '../types';
 
 const Projects: React.FC = () => {
     const [projects, setProjects] = useState<Project[]>([]);
@@ -33,22 +32,24 @@ const Projects: React.FC = () => {
 
     useEffect(() => {
         loadProjects();
-        loadFeaturedProjects();
     }, []);
 
-    useEffect(() => {
-        filterProjects();
-    }, [searchTerm, selectedStatus, selectedTech, showFeaturedOnly]);
+    // filteredProjects türetilen değer; ekstra effect'e gerek yok
 
     const loadProjects = async () => {
         try {
             setLoading(true);
-            const response = await apiService.getProjects({ sortOrder: 'ASC' });
-            setProjects(response.data);
+            const res = await fetch('/data/projects.json');
+            if (!res.ok) throw new Error(`HTTP ${res.status}`);
+            const data = (await res.json()) as Project[];
+            setProjects(data);
+
+            // Featured
+            setFeaturedProjects(data.filter((p) => p.featured));
 
             // Extract all unique technologies
             const techSet = new Set<string>();
-            response.data.forEach(project => {
+            data.forEach(project => {
                 if (Array.isArray(project.technologies)) {
                     project.technologies.forEach(tech => techSet.add(tech));
                 } else {
@@ -61,15 +62,6 @@ const Projects: React.FC = () => {
             console.error('Error loading projects:', err);
         } finally {
             setLoading(false);
-        }
-    };
-
-    const loadFeaturedProjects = async () => {
-        try {
-            const featured = await apiService.getFeaturedProjects();
-            setFeaturedProjects(featured);
-        } catch (err) {
-            console.error('Error loading featured projects:', err);
         }
     };
 

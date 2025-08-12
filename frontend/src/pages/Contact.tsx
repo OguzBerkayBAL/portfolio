@@ -95,16 +95,7 @@ const Contact: React.FC = () => {
         setSubmitStatus('idle');
 
         try {
-            // 1. Backend API'ye mesajı kaydet (database'e kayıt için)
-            const { default: apiService } = await import('../services/api');
-            await apiService.createContactMessage({
-                name: formData.name,
-                email: formData.email,
-                subject: formData.subject,
-                message: formData.message
-            });
-
-            // 2. Email.js ile mail gönderme
+            // Backend kaldırıldığı için emailjs üzerinden direkt mail gönderiyoruz
             const templateParams = {
                 user_name: formData.name,      // Template'deki {{user_name}} ile eşleştir
                 user_email: formData.email,    // Template'deki {{user_email}} ile eşleştir
