@@ -1,9 +1,28 @@
 [
     {
+        "id": "proj-insight-hub",
+        "title": "Insight Hub",
+        "description": "Yapay zeka ve LLM konularında bilgiye hızlı erişim sağlar.",
+        "longDescription": "Gelişmiş arama motoru ile yapay zeka ve LLM içeriklerine hızlı erişim. Güncel makaleler, araştırmalar ve kaynaklar tek noktada toplanır.",
+        "technologies": [
+            "React",
+            "TypeScript",
+            "Search",
+            "LLM"
+        ],
+        "githubUrl": "https://github.com/OguzBerkayBAL",
+        "liveUrl": "",
+        "imageUrl": "",
+        "featured": true,
+        "status": "in_progress",
+        "createdAt": "2024-06-20T00:00:00.000Z",
+        "updatedAt": "2024-07-10T00:00:00.000Z"
+    },
+    {
         "id": "proj-portfolio",
         "title": "Cyber Portfolio",
-        "description": "Kişisel portföy, cyber/terminal teması, animasyonlar",
-        "longDescription": "React + TypeScript ile tasarlanmış, matrix/cyber estetikli portföy sitesi.",
+        "description": "Cyber/terminal temalı modern bir portföy deneyimi sunar.",
+        "longDescription": "Akıcı animasyonlar ve interaktif öğelerle dikkat çeker. Hızlı, şık ve teknoloji odaklı bir sunum sağlar.",
         "technologies": [
             "React",
             "TypeScript",
@@ -13,27 +32,81 @@
         "githubUrl": "https://github.com/OguzBerkayBAL",
         "liveUrl": "https://berkay-cv.onrender.com",
         "imageUrl": "/profile.jpg",
-        "featured": true,
+        "featured": false,
         "status": "completed",
         "createdAt": "2024-06-01T00:00:00.000Z",
         "updatedAt": "2024-07-01T00:00:00.000Z"
     },
     {
-        "id": "proj-rag",
-        "title": "RAG Demo",
-        "description": "Retrieval-Augmented Generation konsept demo",
-        "longDescription": "LLM tabanlı metin üretimi için RAG pipeline prototipi",
+        "id": "proj-dugun-albumu",
+        "title": "Düğün Albümü",
+        "description": "Misafirlerin düğün fotoğraflarını yükleyip paylaşabileceği bir platform.",
+        "longDescription": "Albüm oluşturma ve fotoğraf filtreleme özellikleri sunar. Mobil ve masaüstü cihazlarda sorunsuz çalışır.",
         "technologies": [
-            "Python",
-            "LangChain",
-            "FAISS"
+            "React",
+            "TypeScript",
+            "Cloud Storage"
         ],
         "githubUrl": "https://github.com/OguzBerkayBAL",
         "liveUrl": "",
         "imageUrl": "",
         "featured": false,
         "status": "in_progress",
-        "createdAt": "2024-05-10T00:00:00.000Z",
-        "updatedAt": "2024-06-15T00:00:00.000Z"
+        "createdAt": "2024-04-01T00:00:00.000Z",
+        "updatedAt": "2024-06-01T00:00:00.000Z"
+    },
+    {
+        "id": "proj-kpss",
+        "title": "KPSS Hazırlık",
+        "description": "Ders bazlı konu takibi ve soru bankası ile sınava hazırlık.",
+        "longDescription": "İlerleme istatistikleri ile performans takibi yapılır. Push bildirimler ve modern arayüzle verimli bir çalışma ortamı sunar.",
+        "technologies": [
+            "React",
+            "TypeScript",
+            "PWA"
+        ],
+        "githubUrl": "https://github.com/OguzBerkayBAL",
+        "liveUrl": "",
+        "imageUrl": "",
+        "featured": false,
+        "status": "in_progress",
+        "createdAt": "2024-03-01T00:00:00.000Z",
+        "updatedAt": "2024-05-01T00:00:00.000Z"
+    },
+    {
+        "id": "proj-mekanbul",
+        "title": "Mekanbul",
+        "description": "Konum bazlı mekan keşfi ve kullanıcı yorumları.",
+        "longDescription": "Mekan puanlama ve detaylı bilgi erişimi sağlar. Admin paneli ile içerik yönetimi kolaydır.",
+        "technologies": [
+            "React",
+            "TypeScript",
+            "Maps"
+        ],
+        "githubUrl": "https://github.com/OguzBerkayBAL",
+        "liveUrl": "",
+        "imageUrl": "",
+        "featured": false,
+        "status": "planning",
+        "createdAt": "2024-02-01T00:00:00.000Z",
+        "updatedAt": "2024-04-01T00:00:00.000Z"
+    },
+    {
+        "id": "proj-bambi-hermanos",
+        "title": "Bambi Hermanos",
+        "description": "Modern tasarımlı bir e-ticaret alışveriş deneyimi.",
+        "longDescription": "Ürün listeleme, detaylı filtreleme ve sepet yönetimi. Kullanıcı dostu arayüzle hızlı ve kolay alışveriş imkanı sağlar.",
+        "technologies": [
+            "React",
+            "TypeScript",
+            "E-commerce"
+        ],
+        "githubUrl": "https://github.com/OguzBerkayBAL",
+        "liveUrl": "",
+        "imageUrl": "",
+        "featured": false,
+        "status": "in_progress",
+        "createdAt": "2024-01-01T00:00:00.000Z",
+        "updatedAt": "2024-03-01T00:00:00.000Z"
     }
 ]
