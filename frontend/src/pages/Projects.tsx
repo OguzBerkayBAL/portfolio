@@ -39,7 +39,8 @@ const Projects: React.FC = () => {
     const loadProjects = async () => {
         try {
             setLoading(true);
-            const res = await fetch('/data/projects.json');
+            const cacheBuster = Date.now();
+            const res = await fetch(`/data/projects.json?v=${cacheBuster}`);
             if (!res.ok) throw new Error(`HTTP ${res.status}`);
             const data = (await res.json()) as Project[];
             setProjects(data);
