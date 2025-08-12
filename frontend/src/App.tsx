@@ -13,7 +13,7 @@ import Skills from './pages/Skills';
 import Experience from './pages/Experience';
 import Blog from './pages/Blog';
 import Contact from './pages/Contact';
-import Auth from './pages/Auth';
+// Auth sayfası kaldırıldı
 
 // Context Providers
 import { AuthProvider } from './contexts/AuthContext';
@@ -75,7 +75,7 @@ const App: React.FC = () => {
                                     <Route path="/experience" element={<Experience />} />
                                     <Route path="/blog" element={<Blog />} />
                                     <Route path="/contact" element={<Contact />} />
-                                    <Route path="/auth" element={<Auth />} />
+                                    {/* /auth kaldırıldı */}
                                 </Routes>
                             </Layout>
                         </div>

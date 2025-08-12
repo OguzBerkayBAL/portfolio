@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Terminal, Code, User, Palette, Mail, MessageSquare, Award, LogOut, Settings, Download, Menu, X } from 'lucide-react';
-import { useAuth } from '../../contexts/AuthContext';
+import { Terminal, Code, Palette, Mail, MessageSquare, Award, Menu, X } from 'lucide-react';
 
 const mobileMenuVariants = {
     open: {
@@ -32,8 +31,6 @@ const mobileLinkVariants = {
 
 const Header: React.FC = () => {
     const location = useLocation();
-    const { isAuthenticated, user, logout } = useAuth();
-    const [showUserMenu, setShowUserMenu] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
     const navigation = [
@@ -65,17 +62,6 @@ const Header: React.FC = () => {
         setIsMobileMenuOpen(false);
     };
 
-    const handleLogout = async () => {
-        try {
-            await logout();
-            setShowUserMenu(false);
-            // Ana sayfaya yönlendir
-            window.location.href = '/';
-        } catch (error) {
-            console.error('Logout error:', error);
-        }
-    };
-
     return (
         <motion.header
             initial={{ opacity: 0, y: -50 }}
@@ -101,9 +87,8 @@ const Header: React.FC = () => {
                         </motion.div>
                     </Link>
 
-                    {/* Desktop Navigation + Auth Section */}
+                    {/* Desktop Navigation */}
                     <div className="hidden md:flex items-center space-x-8">
-                        {/* Desktop Navigation */}
                         <nav className="flex items-center space-x-1">
                             {navigation.map((item) => (
                                 <Link key={item.href} to={item.href} onClick={() => handleNavClick(item.href)}>
@@ -121,106 +106,7 @@ const Header: React.FC = () => {
                             ))}
                         </nav>
 
-                        {/* Auth Section */}
-                        <div className="flex items-center space-x-4">
-                            {isAuthenticated && user ? (
-                                <div className="relative">
-                                    <button
-                                        onClick={() => setShowUserMenu(!showUserMenu)}
-                                        className="flex items-center space-x-2 px-4 py-2 bg-gray-800 rounded-lg border border-gray-600 hover:border-neon-blue transition-colors"
-                                    >
-                                        <div className="w-8 h-8 bg-gradient-to-r from-neon-blue to-neon-pink rounded-full flex items-center justify-center">
-                                            <span className="text-xs font-bold text-black">
-                                                {user.firstName?.charAt(0) || user.username?.charAt(0) || 'U'}
-                                            </span>
-                                        </div>
-                                        <span className="text-gray-300 font-mono text-sm">
-                                            {user.firstName ? `${user.firstName} ${user.lastName}` : user.username}
-                                        </span>
-                                    </button>
-
-                                    {/* User Dropdown Menu */}
-                                    {showUserMenu && (
-                                        <motion.div
-                                            initial={{ opacity: 0, y: -10 }}
-                                            animate={{ opacity: 1, y: 0 }}
-                                            exit={{ opacity: 0, y: -10 }}
-                                            className="absolute right-0 mt-2 w-64 bg-gray-900 border border-gray-700 rounded-lg shadow-xl z-50"
-                                        >
-                                            <div className="p-4 border-b border-gray-700">
-                                                <div className="flex items-center space-x-3">
-                                                    <div className="w-10 h-10 bg-gradient-to-r from-neon-blue to-neon-pink rounded-full flex items-center justify-center">
-                                                        <span className="text-sm font-bold text-black">
-                                                            {user.firstName?.charAt(0) || user.username?.charAt(0) || 'U'}
-                                                        </span>
-                                                    </div>
-                                                    <div>
-                                                        <p className="text-white font-mono text-sm">
-                                                            {user.firstName ? `${user.firstName} ${user.lastName}` : user.username}
-                                                        </p>
-                                                        <p className="text-gray-400 text-xs">{user.email}</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div className="py-2">
-                                                <button className="w-full px-4 py-2 text-left text-gray-300 hover:bg-gray-800 hover:text-neon-blue transition-colors flex items-center">
-                                                    <Settings className="w-4 h-4 mr-3" />
-                                                    Profil Ayarları
-                                                </button>
-                                                <button
-                                                    onClick={handleLogout}
-                                                    className="w-full px-4 py-2 text-left text-gray-300 hover:bg-gray-800 hover:text-red-400 transition-colors flex items-center"
-                                                >
-                                                    <LogOut className="w-4 h-4 mr-3" />
-                                                    Çıkış Yap
-                                                </button>
-                                            </div>
-                                        </motion.div>
-                                    )}
-                                </div>
-                            ) : (
-                                <Link to="/auth" onClick={scrollToTop}>
-                                    <motion.button
-                                        className="px-6 py-2 border-2 font-mono text-sm uppercase tracking-wider transition-all duration-300"
-                                        style={{
-                                            borderColor: '#ff00ff',
-                                            color: '#ff00ff',
-                                            backgroundColor: 'transparent',
-                                            textShadow: '0 0 10px #ff00ff'
-                                        }}
-                                        whileHover={{
-                                            scale: 1.05,
-                                            style: {
-                                                borderColor: '#ff00ff',
-                                                backgroundColor: '#ff00ff',
-                                                color: '#000000',
-                                                textShadow: 'none',
-                                                boxShadow: '0 0 20px #ff00ff'
-                                            }
-                                        }}
-                                        whileTap={{ scale: 0.95 }}
-                                        onMouseEnter={(e) => {
-                                            e.currentTarget.style.borderColor = '#ff00ff';
-                                            e.currentTarget.style.backgroundColor = '#ff00ff';
-                                            e.currentTarget.style.color = '#000000';
-                                            e.currentTarget.style.textShadow = 'none';
-                                            e.currentTarget.style.boxShadow = '0 0 20px #ff00ff';
-                                        }}
-                                        onMouseLeave={(e) => {
-                                            e.currentTarget.style.borderColor = '#ff00ff';
-                                            e.currentTarget.style.backgroundColor = 'transparent';
-                                            e.currentTarget.style.color = '#ff00ff';
-                                            e.currentTarget.style.textShadow = '0 0 10px #ff00ff';
-                                            e.currentTarget.style.boxShadow = 'none';
-                                        }}
-                                    >
-                                        <Terminal className="w-4 h-4 mr-2 inline" />
-                                        ACCESS MATRIX
-                                    </motion.button>
-                                </Link>
-                            )}
-                        </div>
+                        {/* Auth kaldırıldı */}
                     </div>
 
                     {/* Mobile Menu Button */}
@@ -262,45 +148,7 @@ const Header: React.FC = () => {
                                     </Link>
                                 </motion.li>
                             ))}
-                            {/* Mobile Auth Section */}
-                            <motion.li variants={mobileLinkVariants} className="pt-4 border-t border-gray-700 w-full flex justify-center">
-                                {isAuthenticated && user ? (
-                                    <div className="text-center">
-                                        <div className="flex justify-center mb-4">
-                                            <div className="w-12 h-12 bg-gradient-to-r from-neon-blue to-neon-pink rounded-full flex items-center justify-center">
-                                                <span className="text-lg font-bold text-black">
-                                                    {user.firstName?.charAt(0) || user.username?.charAt(0) || 'U'}
-                                                </span>
-                                            </div>
-                                        </div>
-                                        <p className="text-white font-mono text-base mb-2">
-                                            {user.firstName ? `${user.firstName} ${user.lastName}` : user.username}
-                                        </p>
-                                        <button
-                                            onClick={handleLogout}
-                                            className="w-full px-4 py-2 text-left text-gray-300 hover:bg-gray-800 hover:text-red-400 transition-colors flex items-center justify-center"
-                                        >
-                                            <LogOut className="w-4 h-4 mr-3" />
-                                            Çıkış Yap
-                                        </button>
-                                    </div>
-                                ) : (
-                                    <Link to="/auth" onClick={() => handleCloseMenu('/auth')} className="block w-full text-center">
-                                        <button
-                                            className="px-6 py-2 border-2 font-mono text-sm uppercase tracking-wider transition-all duration-300"
-                                            style={{
-                                                borderColor: '#ff00ff',
-                                                color: '#ff00ff',
-                                                backgroundColor: 'transparent',
-                                                textShadow: '0 0 10px #ff00ff'
-                                            }}
-                                        >
-                                            <Terminal className="w-4 h-4 mr-2 inline" />
-                                            ACCESS MATRIX
-                                        </button>
-                                    </Link>
-                                )}
-                            </motion.li>
+                            {/* Auth kaldırıldı */}
                         </motion.ul>
                     </motion.div>
                 )}

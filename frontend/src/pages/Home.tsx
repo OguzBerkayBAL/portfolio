@@ -127,24 +127,19 @@ const Home: React.FC = () => {
                                 </div>
 
                                 <p className="text-base text-gray-300 leading-relaxed mb-4">
-                                    <span className="text-neon-blue font-mono">&gt;</span> Merhaba! Ben <span className="text-neon-green font-semibold">Oğuz Berkay BAL</span>,
-                                    tutkulu bir <span className="text-neon-pink">Bilgisayar Mühendisi</span> ve teknoloji tutkunu.
+                                    <span className="text-neon-blue font-mono">&gt;</span> Merhaba! Ben <span className="text-neon-green font-semibold">Oğuz Berkay BAL</span>, teknolojiyi tutkuyla benimseyen bir <span className="text-neon-pink">Bilgisayar Mühendisiyim</span>.
                                 </p>
 
                                 <p className="text-base text-gray-300 leading-relaxed mb-4">
-                                    <span className="text-neon-blue font-mono">&gt;</span> Süleyman Demirel Üniversitesi Bilgisayar Mühendisliği 4. sınıf öğrencisiyim
-                                    ve Temmuz 2025'te mezun olacağım. MERN stack teknolojileri, Python, yapay zeka
-                                    ve RAG mimarisi üzerine çalışmalarım bulunuyor.
+                                    <span className="text-neon-blue font-mono">&gt;</span> Süleyman Demirel Üniversitesi Bilgisayar Mühendisliği bölümünden mezunum.
                                 </p>
 
                                 <p className="text-base text-gray-300 leading-relaxed mb-4">
-                                    <span className="text-neon-blue font-mono">&gt;</span> Modern web teknolojileri, yapay zeka ve veri analizi alanlarında projeler geliştiriyorum.
-                                    Sürekli öğrenmeye odaklanarak yenilikçi çözümler üretmeyi hedefliyorum.
+                                    <span className="text-neon-blue font-mono">&gt;</span> MERN Stack, Python, TypeScript ve yapay zeka teknolojileri üzerine projeler geliştiriyorum. Özellikle Retrieval-Augmented Generation (RAG) mimarisi ve büyük dil modelleriyle akıllı bilgi erişim sistemleri tasarlıyorum.
                                 </p>
 
                                 <p className="text-base text-gray-300 leading-relaxed">
-                                    <span className="text-neon-blue font-mono">&gt;</span> Bu dijital portfolyomda projelerimi, yeteneklerimi ve deneyimlerimi
-                                    keşfedebilir, benimle iletişime geçebilirsiniz.
+                                    <span className="text-neon-blue font-mono">&gt;</span> Modern web teknolojileri, yapay zeka ve veri analizi alanlarında yenilikçi çözümler üreterek sürekli öğrenmeyi hedefliyorum. Bu dijital portfolyomda, geliştirdiğim projeleri keşfedebilir, yeteneklerimi inceleyebilir ve benimle iletişime geçebilirsiniz.
                                 </p>
 
                                 <div className="mt-6 flex items-center space-x-3 text-sm text-neon-green font-mono">
