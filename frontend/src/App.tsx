@@ -18,6 +18,7 @@ import Contact from './pages/Contact';
 // Context Providers
 import { AuthProvider } from './contexts/AuthContext';
 import { ThemeProvider } from './contexts/ThemeContext';
+import FloatingWorm from './components/FloatingWorm';
 
 // Matrix Rain Background Component
 const MatrixRain: React.FC = () => {
@@ -51,6 +52,8 @@ const App: React.FC = () => {
                             />
                         </div>
 
+                        {/* Canvas FX removed */}
+
                         {/* Scanning Line Animation */}
                         <motion.div
                             className="fixed top-0 left-0 w-full h-0.5 bg-gradient-to-r from-transparent via-neon-blue to-transparent z-10"
@@ -64,8 +67,13 @@ const App: React.FC = () => {
                             }}
                         />
 
+                        {/* Lightweight floating worm above content */}
+                        <div className="fixed inset-0 pointer-events-none z-30">
+                            <FloatingWorm />
+                        </div>
+
                         {/* Main App Content */}
-                        <div className="relative z-10">
+                        <div className="relative z-20">
                             <Layout>
                                 <ScrollToTop />
                                 <Routes>
@@ -79,6 +87,7 @@ const App: React.FC = () => {
                                 </Routes>
                             </Layout>
                         </div>
+
                     </div>
                 </Router>
             </AuthProvider>
