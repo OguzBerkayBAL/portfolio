@@ -1,7 +1,0 @@
-[33mcommit 6287deb83163e458cb661314f347e98c5a8ca126[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m
-Author: Oğuz Berkay Bal <oguzberkaybal@icloud.com>
-Date:   Tue Aug 12 19:41:36 2025 +0300
-
-    projeler eklendi.
-
-M	frontend/public/data/projects.json
