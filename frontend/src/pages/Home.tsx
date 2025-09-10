@@ -192,8 +192,8 @@ const Home: React.FC = () => {
                                     </Link>
 
                                     <motion.a
-                                        href="/OguzBerkayBalCV(Türkçe).pdf"
-                                        download="OguzBerkayBalCV.pdf"
+                                        href="/BerkayCV.pdf"
+                                        download="BerkayCV.pdf"
                                         className="flex"
                                         whileHover={{ scale: 1.05 }}
                                         whileTap={{ scale: 0.95 }}

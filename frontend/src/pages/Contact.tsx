@@ -240,8 +240,8 @@ const Contact: React.FC = () => {
                                     STATUS: Available for collaboration
                                 </div>
                                 <motion.a
-                                    href="/OguzBerkayBalCV(Türkçe).pdf"
-                                    download="OguzBerkayBalCV.pdf"
+                                    href="/BerkayCV.pdf"
+                                    download="BerkayCV.pdf"
                                     className="inline-flex items-center px-4 py-2 border border-neon-blue text-neon-blue hover:bg-neon-blue hover:text-black transition-all duration-300 text-xs font-mono uppercase tracking-wider rounded"
                                     whileHover={{ scale: 1.05 }}
                                     whileTap={{ scale: 0.95 }}
