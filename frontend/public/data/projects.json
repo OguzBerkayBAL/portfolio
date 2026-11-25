@@ -1,20 +1,113 @@
 [
     {
+        "githubUrl": "https://github.com/OguzBerkayBAL",
+        "imageUrl": "/images/projects/kapadokya-erp.webp",
+        "featured": true,
+        "status": "completed",
+        "id": "proj-kapadokya-erp",
+        "title": "Kapadokya ERP",
+        "description": "Kapadokya turizm firmaları için çok şirketli, rol tabanlı ERP sistemi.",
+        "longDescription": "Transfer ve tur iş takibi, araç-sürücü ataması, acente yönetimi, dönemsel faturalama ile gelir/gider raporlarını (PDF / Excel) tek platformda toplar. Süper Admin, Admin, Sürücü ve Acente rolleri vardır. Sürücüler için anlık bildirim ve konum takibi içeren Expo mobil uygulaması ve yapay zekâ ile metinden iş kaydı aktarımı bulunur.",
+        "technologies": [
+            "React",
+            "TypeScript",
+            "Supabase",
+            "PostgreSQL",
+            "React Native",
+            "Expo",
+            "Tailwind CSS"
+        ],
+        "liveUrl": "https://kapadokya-erp.vercel.app/",
+        "createdAt": "2026-03-07T00:00:00.000Z",
+        "updatedAt": "2026-11-25T00:00:00.000Z"
+    },
+    {
+        "githubUrl": "https://github.com/OguzBerkayBAL",
+        "imageUrl": "",
+        "featured": true,
+        "status": "completed",
+        "id": "proj-atama",
+        "title": "Atama: İlan Takibi",
+        "description": "Kamu personel alım ilanlarını toplayıp kullanıcıya uygun olanları bildiren mobil uygulama.",
+        "longDescription": "Farklı kaynaklardaki kamu ilanlarını toplar, LLM ile yapılandırır ve kullanıcı profilleriyle eşleştirir. Kaynaklar arası mükerrer ilanları ayıklar; Firebase Auth ile giriş ve uygun ilanlar için push bildirimi sunar. pnpm monorepo, paylaşılan Zod şemaları, migration tabanlı şema yönetimi ve Docker + Caddy ile VPS üzerinde çalışır. App Store'da yayında.",
+        "technologies": [
+            "NestJS",
+            "TypeScript",
+            "TypeORM",
+            "PostgreSQL",
+            "React Native",
+            "Expo",
+            "Firebase",
+            "LLM",
+            "Docker"
+        ],
+        "liveUrl": "https://apps.apple.com/tr/app/id6823207732",
+        "createdAt": "2026-10-13T00:00:00.000Z",
+        "updatedAt": "2026-11-21T00:00:00.000Z"
+    },
+    {
+        "githubUrl": "https://github.com/OguzBerkayBAL",
+        "imageUrl": "/images/projects/corydella-travel.webp",
+        "featured": true,
+        "status": "completed",
+        "id": "proj-corydella-travel",
+        "title": "Corydella Travel",
+        "description": "11 dil destekli, 3D Secure ödemeli turizm rezervasyon platformu.",
+        "longDescription": "Tur paketleri, online rezervasyon ve çok dilli otomatik e-posta onayları sunar. Halkbank / NestPay 3D Secure ödeme entegrasyonu canlıda çalışır; ödeme kayıtları hukuki kanıt olarak saklanır. Gelir istatistikleri, tur yönetimi ve görsel yükleme içeren admin paneli; JWT, Helmet ve rate limiting ile güvenlik sağlanır.",
+        "technologies": [
+            "Next.js",
+            "NestJS",
+            "TypeScript",
+            "Prisma",
+            "PostgreSQL",
+            "Tailwind CSS",
+            "Docker"
+        ],
+        "liveUrl": "https://corydellatravel.com/",
+        "createdAt": "2025-12-09T00:00:00.000Z",
+        "updatedAt": "2026-11-09T00:00:00.000Z"
+    },
+    {
+        "githubUrl": "https://github.com/OguzBerkayBAL",
+        "imageUrl": "/images/projects/izay-butik.webp",
+        "featured": true,
+        "status": "completed",
+        "id": "proj-izay-butik",
+        "title": "İzay Butik",
+        "description": "Varyantlı ürün kataloğu ve sipariş yönetimi olan e-ticaret platformu.",
+        "longDescription": "Ürün varyantları, sepet, misafir/üye ödeme akışı, kupon, banner ve sipariş yönetimi içerir. Sipariş iptalinde satır kilitleme ile eşzamanlı işlemlerde stok tutarlılığı korunur. Playwright ile uçtan uca, erişilebilirlik (axe-core), responsive ve SEO testleri yazıldı.",
+        "technologies": [
+            "React",
+            "Vite",
+            "NestJS",
+            "TypeScript",
+            "TypeORM",
+            "PostgreSQL",
+            "Docker",
+            "Playwright"
+        ],
+        "liveUrl": "https://izaybutik.com/",
+        "createdAt": "2026-09-08T00:00:00.000Z",
+        "updatedAt": "2026-10-22T00:00:00.000Z"
+    },
+    {
         "id": "proj-insight-hub",
         "title": "Insight Hub",
         "description": "Yapay zeka ve LLM konularında bilgiye hızlı erişim sağlar.",
         "longDescription": "Gelişmiş arama motoru ile yapay zeka ve LLM içeriklerine hızlı erişim. Güncel makaleler, araştırmalar ve kaynaklar tek noktada toplanır.",
         "technologies": [
-            "React",
-            "TypeScript",
-            "Search",
-            "LLM"
+            "Python",
+            "LangChain",
+            "RAG",
+            "NestJS",
+            "MongoDB",
+            "React"
         ],
         "githubUrl": "https://github.com/OguzBerkayBAL",
         "liveUrl": "",
         "imageUrl": "",
-        "featured": true,
-        "status": "in_progress",
+        "featured": false,
+        "status": "completed",
         "createdAt": "2024-06-20T00:00:00.000Z",
         "updatedAt": "2024-07-10T00:00:00.000Z"
     },
@@ -38,21 +131,22 @@
     },
     {
         "id": "proj-kpss",
-        "title": "KPSS Hazırlık",
-        "description": "Ders bazlı konu takibi ve soru bankası ile sınava hazırlık.",
-        "longDescription": "İlerleme istatistikleri ile performans takibi yapılır. Push bildirimler ve modern arayüzle verimli bir çalışma ortamı sunar.",
+        "title": "KPSS App",
+        "description": "Google Play'de yayınlanan KPSS hazırlık uygulaması.",
+        "longDescription": "Ders bazlı konu takibi ve soru bankası sunar. Kimlik doğrulama, gerçek zamanlı veri yönetimi ve kullanıcı istatistikleri içerir; uçtan uca mobil ürün geliştirme sürecini kapsar.",
         "technologies": [
-            "React",
-            "TypeScript",
-            "PWA"
+            "React Native",
+            "Expo",
+            "Firebase",
+            "TypeScript"
         ],
         "githubUrl": "https://github.com/OguzBerkayBAL",
         "liveUrl": "",
         "imageUrl": "",
         "featured": false,
-        "status": "in_progress",
-        "createdAt": "2024-03-01T00:00:00.000Z",
-        "updatedAt": "2024-05-01T00:00:00.000Z"
+        "status": "completed",
+        "createdAt": "2025-01-01T00:00:00.000Z",
+        "updatedAt": "2025-06-01T00:00:00.000Z"
     },
     {
         "id": "proj-mekanbul",
@@ -68,7 +162,7 @@
         "liveUrl": "",
         "imageUrl": "",
         "featured": false,
-        "status": "planning",
+        "status": "completed",
         "createdAt": "2024-02-01T00:00:00.000Z",
         "updatedAt": "2024-04-01T00:00:00.000Z"
     },
@@ -86,7 +180,7 @@
         "liveUrl": "",
         "imageUrl": "",
         "featured": false,
-        "status": "in_progress",
+        "status": "completed",
         "createdAt": "2024-01-01T00:00:00.000Z",
         "updatedAt": "2024-03-01T00:00:00.000Z"
     }

@@ -164,11 +164,11 @@ const Home: React.FC = () => {
                                 </p>
 
                                 <p className="text-base text-gray-300 leading-relaxed mb-4">
-                                    <span className="text-neon-blue font-mono">&gt;</span> MERN Stack, Python, TypeScript ve yapay zeka teknolojileri üzerine projeler geliştiriyorum. Özellikle Retrieval-Augmented Generation (RAG) mimarisi ve büyük dil modelleriyle akıllı bilgi erişim sistemleri tasarlıyorum.
+                                    <span className="text-neon-blue font-mono">&gt;</span> TypeScript, NestJS, React/Next.js, React Native (Expo) ve PostgreSQL ile uçtan uca web ve mobil ürünler geliştiriyorum. 3D Secure ödemeli çok dilli bir rezervasyon platformu, çok şirketli bir ERP sistemi, bir e-ticaret altyapısı ve App Store'da yayında olan LLM destekli bir ilan takip uygulamasını tasarımdan canlıya kadar yürüttüm.
                                 </p>
 
                                 <p className="text-base text-gray-300 leading-relaxed">
-                                    <span className="text-neon-blue font-mono">&gt;</span> Modern web teknolojileri, yapay zeka ve veri analizi alanlarında yenilikçi çözümler üreterek sürekli öğrenmeyi hedefliyorum. Bu dijital portfolyomda, geliştirdiğim projeleri keşfedebilir, yeteneklerimi inceleyebilir ve benimle iletişime geçebilirsiniz.
+                                    <span className="text-neon-blue font-mono">&gt;</span> Docker ile dağıtım, migration tabanlı veritabanı yönetimi, otomatik testler ve web uygulamalarına yapay zekâ (LLM, RAG) entegrasyonu üzerine çalışıyorum. Bu dijital portfolyomda, geliştirdiğim projeleri keşfedebilir, yeteneklerimi inceleyebilir ve benimle iletişime geçebilirsiniz.
                                 </p>
 
                                 <div className="mt-6 flex items-center space-x-3 text-sm text-neon-green font-mono">
