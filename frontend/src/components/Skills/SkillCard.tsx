@@ -29,20 +29,9 @@ const skillCategoryColors: Record<SkillCategory, string> = {
     tools: 'neon-green',
 };
 
-const skillCategoryGradients: Record<SkillCategory, string> = {
-    frontend: 'bg-gradient-to-r from-blue-500 to-green-400',
-    backend: 'bg-gradient-to-r from-pink-500 to-green-400',
-    database: 'bg-gradient-to-r from-cyan-500 to-green-400',
-    devops: 'bg-gradient-to-r from-purple-500 to-green-400',
-    'ai-ml': 'bg-gradient-to-r from-pink-500 to-purple-400',
-    design: 'bg-gradient-to-r from-orange-500 to-green-400',
-    tools: 'bg-gradient-to-r from-green-500 to-green-300',
-};
-
 const SkillCard: React.FC<SkillCardProps> = ({ skill, onClick, index = 0 }) => {
     const CategoryIcon = skillCategoryIcons[skill.category] || Code;
     const categoryColor = skillCategoryColors[skill.category] || 'neon-green';
-    const categoryGradient = skillCategoryGradients[skill.category] || 'bg-gradient-to-r from-green-500 to-green-300';
 
     const getSkillLevelLabel = (level: number) => {
         if (level >= 4) return 'EXPERT';

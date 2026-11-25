@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, Filter, Code, Database, Globe, Zap, ChevronRight, Terminal, Activity, X, Eye, BarChart3 } from 'lucide-react';
+import { Search, Filter, Code, Database, Globe, Zap, Terminal, Activity, X, BarChart3 } from 'lucide-react';
 import { Skill, SkillCategory } from '../types';
 import SkillCard from '../components/Skills/SkillCard';
 

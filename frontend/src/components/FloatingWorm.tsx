@@ -19,7 +19,6 @@ const FloatingWorm: React.FC = () => {
     const rafPending = useRef<number | null>(null);
     const centerRef = useRef<{ x: number; y: number }>({ x: 100, y: 100 });
     const [blink, setBlink] = useState(false);
-    const repelTsRef = useRef(0);
 
     useEffect(() => {
         const onResize = () => setViewport({ w: window.innerWidth, h: window.innerHeight });
@@ -86,7 +85,7 @@ const FloatingWorm: React.FC = () => {
             window.removeEventListener('touchmove', onTouch);
             if (rafPending.current) cancelAnimationFrame(rafPending.current);
         };
-    }, []);
+    }, [pickAwayFromMouse]);
 
     // Rastgele aralıklarla göz kırpma
     useEffect(() => {
@@ -174,7 +173,6 @@ export default FloatingWorm;
 // Ayrı küçük bileşen: Pupil (anlık takip için motion values + animation frame)
 const Pupil: React.FC<{ centerRef: React.MutableRefObject<{ x: number; y: number }>; mouseRef: React.MutableRefObject<{ x: number; y: number }> }> = ({ centerRef, mouseRef }) => {
     const cx0 = 60, cy0 = 60; // SVG içi merkez
-    const irisRadius = 20; // iri çemberin yarıçapı (stroke 2 ile hizalı)
     const pupilMaxOffset = 12.5; // bebeğin taşmayacağı maksimum ofset
 
     const cx = useMotionValue(cx0);
