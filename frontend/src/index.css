@@ -456,12 +456,15 @@ a:visited {
     transition: opacity 0.5s ease;
 }
 
-.portrait:hover img {
+.portrait:hover img,
+.group:hover .portrait img {
     filter: none;
 }
 
 .portrait:hover::before,
-.portrait:hover::after {
+.portrait:hover::after,
+.group:hover .portrait::before,
+.group:hover .portrait::after {
     opacity: 0;
 }
 
@@ -513,5 +516,15 @@ a:visited {
         animation-duration: 0.01ms !important;
         animation-iteration-count: 1 !important;
         transition-duration: 0.01ms !important;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
     }
 }

@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import DecodeText from '../components/DecodeText';
+import TypingTerminal from '../components/TypingTerminal';
+import { Project } from '../types';
 import {
     Rocket,
     Zap,
@@ -34,8 +36,26 @@ const Portrait: React.FC<{ imageError: boolean; onError: () => void; size: strin
     </div>
 );
 
+// "https://www.corydellatravel.com/" -> "corydellatravel.com", App Store linkleri -> "App Store"
+const hostLabel = (url = '') => {
+    try {
+        const host = new URL(url).hostname.replace(/^www\./, '');
+        return host === 'apps.apple.com' ? 'App Store' : host;
+    } catch {
+        return url;
+    }
+};
+
 const Home: React.FC = () => {
     const [imageError, setImageError] = useState(false);
+    const [liveProjects, setLiveProjects] = useState<Project[]>([]);
+
+    useEffect(() => {
+        fetch('/data/projects.json')
+            .then((r) => (r.ok ? r.json() : []))
+            .then((data: Project[]) => setLiveProjects(data.filter((p) => p.liveUrl)))
+            .catch(() => setLiveProjects([]));
+    }, []);
     const handleNavClick = () => {
         // Navigation tıklandığında scroll pozisyonunu sıfırla
         setTimeout(() => {
@@ -108,28 +128,48 @@ const Home: React.FC = () => {
                             </motion.div>
 
                             {/* Terminal penceresi */}
-                            <motion.div variants={itemVariants} className="terminal-window text-left mb-8">
-                                <div className="terminal-window__bar font-mono">
-                                    <span>~/about.md</span>
-                                    <span className="flex items-center gap-2 text-matrix-400">
-                                        <span className="w-1.5 h-1.5 rounded-full bg-matrix-400 animate-pulse" />
-                                        online
-                                    </span>
-                                </div>
-                                <div className="p-5 sm:p-6 font-mono text-[0.92rem] leading-relaxed text-[#b9d9c0] space-y-3">
-                                    <p>
-                                        <span className="text-matrix-400">&gt;</span> Süleyman Demirel Üniversitesi Bilgisayar Mühendisliği mezunuyum.
-                                    </p>
-                                    <p>
-                                        <span className="text-matrix-400">&gt;</span> TypeScript, NestJS, React/Next.js, React Native (Expo) ve PostgreSQL ile uçtan uca web ve mobil ürünler geliştiriyorum. 3D Secure ödemeli çok dilli bir rezervasyon platformu, çok şirketli bir ERP sistemi, bir e-ticaret altyapısı ve App Store'da yayında olan LLM destekli bir ilan takip uygulamasını tasarımdan canlıya kadar yürüttüm.
-                                    </p>
-                                    <p>
-                                        <span className="text-matrix-400">&gt;</span> Docker ile dağıtım, migration tabanlı veritabanı yönetimi, otomatik testler ve web uygulamalarına yapay zekâ (LLM, RAG) entegrasyonu üzerine çalışıyorum.
-                                    </p>
-                                    <p className="text-matrix-400 cursor-block">
-                                        $ ready_to_collaborate
-                                    </p>
-                                </div>
+                            <motion.div variants={itemVariants} className="mb-8">
+                                <TypingTerminal
+                                    title="~/oguzberkay — zsh"
+                                    steps={[
+                                        {
+                                            command: 'cat about.md',
+                                            output: (
+                                                <div className="space-y-2">
+                                                    <p>
+                                                        <span className="text-matrix-400">&gt;</span> Süleyman Demirel Üniversitesi Bilgisayar Mühendisliği mezunuyum.
+                                                    </p>
+                                                    <p>
+                                                        <span className="text-matrix-400">&gt;</span> TypeScript, NestJS, React/Next.js, React Native (Expo) ve PostgreSQL ile web ve mobil ürünleri tasarımdan canlıya kadar uçtan uca geliştiriyorum.
+                                                    </p>
+                                                    <p>
+                                                        <span className="text-matrix-400">&gt;</span> Docker ile dağıtım, migration tabanlı veritabanı yönetimi, otomatik testler ve LLM / RAG entegrasyonu üzerine çalışıyorum.
+                                                    </p>
+                                                </div>
+                                            ),
+                                        },
+                                        {
+                                            command: 'ls ~/projects --live',
+                                            output: (
+                                                <ul className="grid grid-cols-1 sm:grid-cols-[auto_1fr] gap-x-6 gap-y-1">
+                                                    {liveProjects.map((p) => (
+                                                        <li key={p.id} className="contents">
+                                                            <span className="text-matrix-100">{p.id.replace(/^proj-/, '')}/</span>
+                                                            <a
+                                                                href={p.liveUrl}
+                                                                target="_blank"
+                                                                rel="noopener noreferrer"
+                                                                className="text-matrix-400 hover:text-matrix-50 underline decoration-matrix-700 underline-offset-4 mb-2 sm:mb-0 truncate"
+                                                            >
+                                                                {hostLabel(p.liveUrl)} ↗
+                                                            </a>
+                                                        </li>
+                                                    ))}
+                                                </ul>
+                                            ),
+                                        },
+                                    ]}
+                                />
                             </motion.div>
 
                             {/* CTA */}
