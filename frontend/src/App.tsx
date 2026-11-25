@@ -1,6 +1,5 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { motion } from 'framer-motion';
 
 // Layout Components
 import Layout from './components/Layout/Layout';
@@ -19,53 +18,20 @@ import Contact from './pages/Contact';
 import { AuthProvider } from './contexts/AuthContext';
 import { ThemeProvider } from './contexts/ThemeContext';
 import FloatingWorm from './components/FloatingWorm';
-
-// Matrix Rain Background Component
-const MatrixRain: React.FC = () => {
-    return (
-        <div className="fixed inset-0 pointer-events-none z-0 opacity-10">
-            <div className="matrix-bg w-full h-full" />
-        </div>
-    );
-};
+import MatrixRain from './components/MatrixRain';
 
 const App: React.FC = () => {
     return (
         <ThemeProvider>
             <AuthProvider>
                 <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
-                    <div className="min-h-screen bg-dark-bg text-white relative overflow-hidden">
+                    <div className="min-h-screen bg-dark-bg text-[#d9f5df] relative overflow-hidden">
                         {/* Matrix Background */}
                         <MatrixRain />
 
-                        {/* Cyber Grid Background */}
-                        <div className="fixed inset-0 pointer-events-none z-0 opacity-5">
-                            <div
-                                className="w-full h-full"
-                                style={{
-                                    backgroundImage: `
-                    linear-gradient(rgba(0,255,255,0.1) 1px, transparent 1px),
-                    linear-gradient(90deg, rgba(0,255,255,0.1) 1px, transparent 1px)
-                  `,
-                                    backgroundSize: '50px 50px'
-                                }}
-                            />
-                        </div>
-
-                        {/* Canvas FX removed */}
-
-                        {/* Scanning Line Animation */}
-                        <motion.div
-                            className="fixed top-0 left-0 w-full h-0.5 bg-gradient-to-r from-transparent via-neon-blue to-transparent z-10"
-                            animate={{
-                                y: ['0vh', '100vh'],
-                            }}
-                            transition={{
-                                duration: 8,
-                                repeat: Infinity,
-                                ease: 'linear',
-                            }}
-                        />
+                        {/* Ekran kenarlarını karartan vinyet ve CRT tarama çizgileri */}
+                        <div className="crt-vignette" />
+                        <div className="crt-overlay" />
 
                         {/* Lightweight floating worm above content */}
                         <div className="fixed inset-0 pointer-events-none z-30">

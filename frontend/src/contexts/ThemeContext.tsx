@@ -26,7 +26,7 @@ interface ThemeProviderProps {
 export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
     const [isDarkMode, setIsDarkMode] = useState(true); // Default to dark mode
     const [cyberMode, setCyberMode] = useState(true); // Default to cyber mode
-    const [accentColor, setAccentColorState] = useState('#00ffff'); // Default cyan
+    const [accentColor, setAccentColorState] = useState('#00ff41'); // Default matrix green
 
     useEffect(() => {
         // Load theme preferences from localStorage

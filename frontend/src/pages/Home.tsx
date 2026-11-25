@@ -1,31 +1,41 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
+import DecodeText from '../components/DecodeText';
 import {
     Rocket,
     Zap,
     Terminal,
-    ChevronDown,
     ExternalLink,
     Download
 } from 'lucide-react';
 
+// Yeşil fosfor tonlu portre; fare üzerine gelince gerçek renklere döner
+const Portrait: React.FC<{ imageError: boolean; onError: () => void; size: string }> = ({ imageError, onError, size }) => (
+    <div className={`corner-brackets ${size}`}>
+        <span className="cb tl" />
+        <span className="cb tr" />
+        <span className="cb bl" />
+        <span className="cb br" />
+        <div className="portrait w-full h-full border border-dark-border bg-dark-card">
+            {!imageError ? (
+                <img
+                    src="/profile.jpg"
+                    alt="Oğuz Berkay BAL"
+                    className="w-full h-full object-cover"
+                    onError={onError}
+                />
+            ) : (
+                <div className="w-full h-full flex items-center justify-center text-matrix-400 font-mono text-4xl">
+                    ?
+                </div>
+            )}
+        </div>
+    </div>
+);
+
 const Home: React.FC = () => {
     const [imageError, setImageError] = useState(false);
-    const [showScrollIndicator, setShowScrollIndicator] = useState(true);
-
-    useEffect(() => {
-        const handleScroll = () => {
-            const scrollY = window.scrollY;
-            const windowHeight = window.innerHeight;
-            // Hero section'ın %30'undan fazlası geçildiğinde indicator'ı gizle
-            setShowScrollIndicator(scrollY < windowHeight * 0.3);
-        };
-
-        window.addEventListener('scroll', handleScroll);
-        return () => window.removeEventListener('scroll', handleScroll);
-    }, []);
-
     const handleNavClick = () => {
         // Navigation tıklandığında scroll pozisyonunu sıfırla
         setTimeout(() => {
@@ -62,200 +72,109 @@ const Home: React.FC = () => {
     return (
         <div className="min-h-screen relative overflow-hidden">
             {/* Hero Section */}
-            <section className="min-h-screen flex items-center justify-center relative">
-                {/* Scroll Indicator - Fixed at bottom of viewport when hero is visible */}
-                <motion.div
-                    className="fixed bottom-8 left-1/2 transform -translate-x-1/2 z-50 hidden sm:block"
-                    animate={{
-                        y: [0, 10, 0],
-                        opacity: showScrollIndicator ? 1 : 0
-                    }}
-                    transition={{
-                        y: { duration: 2, repeat: Infinity },
-                        opacity: { duration: 0.3 }
-                    }}
-                    style={{ pointerEvents: showScrollIndicator ? 'auto' : 'none' }}
-                >
-                    <ChevronDown className="w-8 h-8 text-neon-blue drop-shadow-lg" />
-                </motion.div>
-
-                {/* Animated Background */}
-                <div className="absolute inset-0 pointer-events-none">
-                    {/* Matrix Rain Effect */}
-                    {Array.from({ length: 30 }).map((_, i) => (
-                        <motion.div
-                            key={i}
-                            className="absolute w-px bg-gradient-to-b from-neon-green to-transparent"
-                            style={{
-                                left: `${Math.random() * 100}%`,
-                                height: `${Math.random() * 200 + 100}px`,
-                            }}
-                            animate={{
-                                y: [-100, (typeof window !== 'undefined' ? window.innerHeight : 1080) + 100],
-                                opacity: [0, 1, 0],
-                            }}
-                            transition={{
-                                duration: Math.random() * 3 + 2,
-                                repeat: Infinity,
-                                delay: Math.random() * 5,
-                                ease: 'linear',
-                            }}
-                        />
-                    ))}
-                </div>
-
+            <section className="min-h-screen flex items-center justify-center relative pt-24 pb-16">
                 <motion.div
                     className="container mx-auto px-4 relative z-10"
                     variants={containerVariants}
                     initial="hidden"
                     animate="visible"
                 >
-                    {/* Main Hero Section - Responsive Layout */}
-                    <div className="flex flex-col md:flex-row items-center md:items-start justify-center md:justify-between gap-12 md:gap-16 max-w-7xl mx-auto min-h-[70vh] pt-8 text-center md:text-left">
+                    <div className="flex flex-col md:flex-row items-center md:items-center justify-between gap-12 lg:gap-20 max-w-6xl mx-auto">
 
-                        {/* Left Side - Content */}
-                        <motion.div
-                            variants={itemVariants}
-                            className="w-full md:w-3/5"
-                        >
-                            {/* Welcome Title */}
+                        {/* Sol taraf: kimlik + terminal */}
+                        <motion.div variants={itemVariants} className="w-full md:w-3/5 text-center md:text-left">
+                            <motion.p variants={itemVariants} className="font-mono text-sm text-matrix-600 mb-4">
+                                <span className="text-matrix-400">~/oguzberkay</span> $ whoami
+                            </motion.p>
+
                             <motion.h1
                                 variants={itemVariants}
-                                className="text-4xl md:text-5xl lg:text-6xl font-cyber font-bold mb-8"
+                                className="font-mono font-extrabold tracking-tight leading-[0.95] text-5xl sm:text-6xl lg:text-7xl mb-5"
                             >
-                                <span className="text-neon-blue">WELCOME TO THE</span>
-                                <span className="text-neon-pink"> MATRIX</span>
+                                <DecodeText text="Oğuz Berkay" className="phosphor-text block" delay={300} />
+                                <DecodeText text="BAL" className="text-matrix-100 block" delay={700} />
                             </motion.h1>
 
-                            {/* Mobile-only Profile Photo */}
-                            <motion.div
-                                variants={itemVariants}
-                                className="flex md:hidden justify-center items-center my-8"
-                            >
-                                <div
-                                    className="w-[240px] h-[240px] rounded-full border-4 border-neon-blue bg-gradient-to-br from-dark-card to-dark-bg flex items-center justify-center relative overflow-hidden group shadow-2xl shadow-neon-blue/40"
-                                >
-                                    {!imageError ? (
-                                        <img
-                                            src="/profile.jpg"
-                                            alt="Oğuz Berkay Bal"
-                                            className="w-full h-full object-cover rounded-full"
-                                            onError={() => setImageError(true)}
-                                        />
-                                    ) : (
-                                        <span className="text-neon-blue font-cyber text-5xl">👤</span>
-                                    )}
+                            <motion.p variants={itemVariants} className="font-mono text-lg sm:text-xl text-matrix-100 mb-2">
+                                Full Stack Developer
+                            </motion.p>
+                            <motion.p variants={itemVariants} className="font-mono text-sm text-dark-muted mb-8">
+                                TypeScript · NestJS · React / Next.js · React Native · PostgreSQL
+                            </motion.p>
+
+                            {/* Mobilde portre */}
+                            <motion.div variants={itemVariants} className="flex md:hidden justify-center mb-10">
+                                <Portrait imageError={imageError} onError={() => setImageError(true)} size="w-[220px] h-[264px]" />
+                            </motion.div>
+
+                            {/* Terminal penceresi */}
+                            <motion.div variants={itemVariants} className="terminal-window text-left mb-8">
+                                <div className="terminal-window__bar font-mono">
+                                    <span>~/about.md</span>
+                                    <span className="flex items-center gap-2 text-matrix-400">
+                                        <span className="w-1.5 h-1.5 rounded-full bg-matrix-400 animate-pulse" />
+                                        online
+                                    </span>
+                                </div>
+                                <div className="p-5 sm:p-6 font-mono text-[0.92rem] leading-relaxed text-[#b9d9c0] space-y-3">
+                                    <p>
+                                        <span className="text-matrix-400">&gt;</span> Süleyman Demirel Üniversitesi Bilgisayar Mühendisliği mezunuyum.
+                                    </p>
+                                    <p>
+                                        <span className="text-matrix-400">&gt;</span> TypeScript, NestJS, React/Next.js, React Native (Expo) ve PostgreSQL ile uçtan uca web ve mobil ürünler geliştiriyorum. 3D Secure ödemeli çok dilli bir rezervasyon platformu, çok şirketli bir ERP sistemi, bir e-ticaret altyapısı ve App Store'da yayında olan LLM destekli bir ilan takip uygulamasını tasarımdan canlıya kadar yürüttüm.
+                                    </p>
+                                    <p>
+                                        <span className="text-matrix-400">&gt;</span> Docker ile dağıtım, migration tabanlı veritabanı yönetimi, otomatik testler ve web uygulamalarına yapay zekâ (LLM, RAG) entegrasyonu üzerine çalışıyorum.
+                                    </p>
+                                    <p className="text-matrix-400 cursor-block">
+                                        $ ready_to_collaborate
+                                    </p>
                                 </div>
                             </motion.div>
 
-                            {/* Introduction Text */}
-                            <div className="cyber-card p-6 text-left mb-8">
-                                <div className="flex items-center space-x-2 mb-4">
-                                    <Terminal className="w-5 h-5 text-neon-green" />
-                                    <span className="text-neon-green font-mono text-sm">NEURAL_INTERFACE.initialize()</span>
-                                </div>
-
-                                <p className="text-base text-gray-300 leading-relaxed mb-4">
-                                    <span className="text-neon-blue font-mono">&gt;</span> Merhaba! Ben <span className="text-neon-green font-semibold">Oğuz Berkay BAL</span>, teknolojiyi tutkuyla benimseyen bir <span className="text-neon-pink">Bilgisayar Mühendisiyim</span>.
-                                </p>
-
-                                <p className="text-base text-gray-300 leading-relaxed mb-4">
-                                    <span className="text-neon-blue font-mono">&gt;</span> Süleyman Demirel Üniversitesi Bilgisayar Mühendisliği bölümünden mezunum.
-                                </p>
-
-                                <p className="text-base text-gray-300 leading-relaxed mb-4">
-                                    <span className="text-neon-blue font-mono">&gt;</span> TypeScript, NestJS, React/Next.js, React Native (Expo) ve PostgreSQL ile uçtan uca web ve mobil ürünler geliştiriyorum. 3D Secure ödemeli çok dilli bir rezervasyon platformu, çok şirketli bir ERP sistemi, bir e-ticaret altyapısı ve App Store'da yayında olan LLM destekli bir ilan takip uygulamasını tasarımdan canlıya kadar yürüttüm.
-                                </p>
-
-                                <p className="text-base text-gray-300 leading-relaxed">
-                                    <span className="text-neon-blue font-mono">&gt;</span> Docker ile dağıtım, migration tabanlı veritabanı yönetimi, otomatik testler ve web uygulamalarına yapay zekâ (LLM, RAG) entegrasyonu üzerine çalışıyorum. Bu dijital portfolyomda, geliştirdiğim projeleri keşfedebilir, yeteneklerimi inceleyebilir ve benimle iletişime geçebilirsiniz.
-                                </p>
-
-                                <div className="mt-6 flex items-center space-x-3 text-sm text-neon-green font-mono">
-                                    <div className="w-2 h-2 bg-neon-green rounded-full animate-pulse" />
-                                    <span>STATUS: ONLINE & READY TO COLLABORATE</span>
-                                </div>
-                            </div>
-
-                            {/* CTA Buttons */}
-                            <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
-                                <div className="flex flex-row gap-4 justify-center sm:justify-start items-stretch">
-                                    <Link to="/projects" onClick={handleNavClick} className="flex">
-                                        <motion.button
-                                            className="cyber-button px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg h-full"
-                                            whileHover={{ scale: 1.05 }}
-                                            whileTap={{ scale: 0.95 }}
-                                        >
-                                            <Rocket className="w-5 h-5 mr-2" />
-                                            EXPLORE PROJECTS
-                                        </motion.button>
-                                    </Link>
-
-                                    <motion.a
-                                        href="/BerkayCV.pdf"
-                                        download="BerkayCV.pdf"
-                                        className="flex"
-                                        whileHover={{ scale: 1.05 }}
-                                        whileTap={{ scale: 0.95 }}
+                            {/* CTA */}
+                            <motion.div variants={itemVariants} className="flex flex-wrap gap-3 justify-center md:justify-start font-mono">
+                                <Link to="/projects" onClick={handleNavClick}>
+                                    <motion.span
+                                        className="inline-flex items-center gap-2 px-6 py-3 bg-pill-red text-black font-bold uppercase tracking-wider rounded-sm hover:shadow-[0_0_28px_rgba(255,42,61,0.45)] transition-shadow"
+                                        whileHover={{ y: -2 }}
+                                        whileTap={{ scale: 0.97 }}
                                     >
-                                        <button className="px-6 sm:px-8 py-3 sm:py-4 bg-black border-2 border-neon-green text-neon-green hover:text-neon-blue hover:border-neon-blue transition-all duration-300 font-mono uppercase tracking-wider flex items-center h-full">
-                                            <Download className="w-5 h-5 mr-2" />
-                                            DOWNLOAD CV
-                                        </button>
-                                    </motion.a>
-                                </div>
-
-                                <Link to="/contact" onClick={handleNavClick}>
-                                    <motion.button
-                                        className="px-8 py-4 border-2 border-neon-pink text-neon-pink hover:bg-neon-pink hover:text-black transition-all duration-300 font-mono uppercase tracking-wider"
-                                        whileHover={{ scale: 1.05 }}
-                                        whileTap={{ scale: 0.95 }}
-                                    >
-                                        <Zap className="w-5 h-5 mr-2" />
-                                        CONTACT
-                                    </motion.button>
+                                        <Rocket className="w-4 h-4" />
+                                        Explore projects
+                                    </motion.span>
                                 </Link>
-                            </div>
+
+                                <motion.a
+                                    href="/BerkayCV.pdf"
+                                    download="BerkayCV.pdf"
+                                    className="inline-flex items-center gap-2 px-6 py-3 border border-matrix-400 text-matrix-400 uppercase tracking-wider rounded-sm hover:bg-matrix-400 hover:text-black transition-colors"
+                                    whileHover={{ y: -2 }}
+                                    whileTap={{ scale: 0.97 }}
+                                >
+                                    <Download className="w-4 h-4" />
+                                    Download CV
+                                </motion.a>
+
+                                <Link
+                                    to="/contact"
+                                    onClick={handleNavClick}
+                                    className="inline-flex items-center gap-2 px-4 py-3 text-matrix-100 uppercase tracking-wider hover:text-matrix-400 transition-colors"
+                                >
+                                    <Zap className="w-4 h-4" />
+                                    Contact
+                                </Link>
+                            </motion.div>
                         </motion.div>
 
-                        {/* Right Side - Profile Photo (Desktop-only) */}
-                        <motion.div
-                            variants={itemVariants}
-                            className="hidden md:flex flex-shrink-0 justify-center items-start pt-10 md:pt-20"
-                        >
-                            <div
-                                className="w-[240px] h-[240px] md:w-[300px] md:h-[300px] rounded-full border-4 border-neon-blue bg-gradient-to-br from-dark-card to-dark-bg flex items-center justify-center relative overflow-hidden group shadow-2xl shadow-neon-blue/40"
-                            >
-                                {!imageError ? (
-                                    <>
-                                        {/* Profile Photo */}
-                                        <img
-                                            src="/profile.jpg"
-                                            alt="Oğuz Berkay Bal"
-                                            className="w-full h-full object-cover rounded-full relative z-10 group-hover:scale-110 transition-transform duration-300"
-                                            onError={() => setImageError(true)}
-                                        />
-                                        {/* Glow effect overlay */}
-                                        <div className="absolute inset-0 bg-gradient-to-br from-neon-blue/10 to-neon-pink/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-full" />
-                                    </>
-                                ) : (
-                                    <>
-                                        {/* Fallback placeholder */}
-                                        <div className="absolute inset-0 bg-gradient-to-br from-neon-blue/20 to-neon-pink/20 opacity-50 group-hover:opacity-70 transition-opacity duration-300 rounded-full" />
-                                        <span className="text-neon-blue font-cyber text-5xl relative z-10">👤</span>
-                                    </>
-                                )}
-                                {/* Cyberpunk scanning ring */}
-                                <div className="absolute inset-0 border-2 border-neon-green/60 opacity-0 group-hover:opacity-100 animate-ping rounded-full" />
-                                {/* Secondary glow ring */}
-                                <div className="absolute -inset-2 border border-neon-blue/30 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-full" />
-                                {/* Pulse ring */}
-                                <div className="absolute -inset-4 border border-neon-pink/20 opacity-0 group-hover:opacity-100 animate-pulse transition-opacity duration-700 rounded-full" />
-                            </div>
+                        {/* Sağ taraf: portre (masaüstü) */}
+                        <motion.div variants={itemVariants} className="hidden md:flex flex-col items-center flex-shrink-0">
+                            <Portrait imageError={imageError} onError={() => setImageError(true)} size="w-[280px] h-[340px] lg:w-[320px] lg:h-[384px]" />
+                            <p className="mt-5 font-mono text-xs text-dark-muted">
+                                subject: <span className="text-matrix-400">oguz_berkay_bal</span> · status: <span className="text-matrix-400">verified</span>
+                            </p>
                         </motion.div>
                     </div>
-
-
                 </motion.div>
             </section>
 

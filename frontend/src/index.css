@@ -11,16 +11,16 @@
 
 /* CSS Variables */
 :root {
-    --neon-blue: #00ffff;
-    --neon-green: #00ff00;
-    --neon-pink: #ff00ff;
-    --neon-purple: #8a2be2;
-    --neon-orange: #ff4500;
-    --dark-bg: #0a0a0a;
-    --dark-card: #111111;
-    --dark-border: #222222;
-    --dark-text: #ffffff;
-    --dark-muted: #888888;
+    --neon-blue: #00ff41;
+    --neon-green: #00ff41;
+    --neon-pink: #b8ffc8;
+    --neon-purple: #00b82f;
+    --neon-orange: #5cff85;
+    --dark-bg: #030703;
+    --dark-card: #07110a;
+    --dark-border: #123d1e;
+    --dark-text: #d9f5df;
+    --dark-muted: #6b9a76;
 }
 
 /* Base Styles */
@@ -29,7 +29,7 @@ html {
 }
 
 body {
-    font-family: 'Fira Code', 'Monaco', 'Consolas', monospace;
+    font-family: "JetBrains Mono", ui-monospace, Consolas, monospace;
     background: var(--dark-bg);
     color: var(--dark-text);
     line-height: 1.6;
@@ -64,13 +64,13 @@ a:visited {
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: #00cccc;
+    background: #00b82f;
 }
 
 /* Custom Components */
 
 .cyber-button {
-    font-family: 'Orbitron', sans-serif;
+    font-family: "JetBrains Mono", ui-monospace, monospace;
     position: relative;
     padding: 10px 20px;
     border: 2px solid var(--neon-blue);
@@ -100,7 +100,7 @@ a:visited {
 
 .cyber-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 0 15px rgba(0, 255, 255, 0.2);
+    box-shadow: 0 0 15px rgba(0, 255, 65, 0.2);
 }
 
 .glitch {
@@ -188,7 +188,7 @@ a:visited {
 }
 
 .cyber-input:focus {
-    box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+    box-shadow: 0 0 10px rgba(0, 255, 65, 0.5);
 }
 
 .cyber-input.pl-10 {
@@ -217,14 +217,14 @@ a:visited {
 
 .cyber-select {
     @apply w-full p-3 bg-dark-card border border-dark-border rounded-lg text-white appearance-none focus:outline-none focus:ring-2 focus:ring-neon-blue transition-all duration-300;
-    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%2300ffff' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%2300ff41' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
     background-position: right 0.5rem center;
     background-repeat: no-repeat;
     background-size: 1.5em 1.5em;
 }
 
 .cyber-select:focus {
-    box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+    box-shadow: 0 0 10px rgba(0, 255, 65, 0.5);
 }
 
 .cyber-select option {
@@ -236,7 +236,7 @@ a:visited {
 }
 
 .cyber-loading-spinner {
-    border: 4px solid rgba(0, 255, 255, 0.2);
+    border: 4px solid rgba(0, 255, 65, 0.2);
     border-left-color: var(--neon-blue);
     border-radius: 50%;
     width: 40px;
@@ -338,4 +338,180 @@ a:visited {
 .cyber-nav-link:hover::after,
 .cyber-nav-link.active::after {
     @apply scale-x-100;
+}
+/* ---------- Matrix redesign (aşama 1) ---------- */
+
+::selection {
+    background: #00ff41;
+    color: #030703;
+}
+
+/* Daha az parlama: glow artık sadece hover'da */
+.cyber-button {
+    border-width: 1px;
+    border-radius: 2px;
+    letter-spacing: 0.08em;
+    box-shadow: none;
+}
+
+.cyber-button:hover {
+    box-shadow: 0 0 24px rgba(0, 255, 65, 0.35);
+}
+
+.cyber-card {
+    border-radius: 4px;
+    background-color: rgba(7, 17, 10, 0.82);
+    backdrop-filter: blur(2px);
+}
+
+/* Tüm sayfaya çok hafif CRT tarama çizgisi */
+.crt-overlay {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 40;
+    background: repeating-linear-gradient(to bottom,
+            rgba(0, 0, 0, 0) 0px,
+            rgba(0, 0, 0, 0) 2px,
+            rgba(0, 0, 0, 0.16) 3px);
+    mix-blend-mode: multiply;
+}
+
+.crt-vignette {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    background: radial-gradient(ellipse at center, transparent 55%, rgba(0, 0, 0, 0.75) 100%);
+}
+
+.phosphor-text {
+    color: #00ff41;
+    text-shadow: 0 0 18px rgba(0, 255, 65, 0.35);
+}
+
+.terminal-window {
+    border: 1px solid #123d1e;
+    background: rgba(5, 13, 7, 0.88);
+    border-radius: 4px;
+    backdrop-filter: blur(3px);
+}
+
+.terminal-window__bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 14px;
+    border-bottom: 1px solid #123d1e;
+    font-size: 12px;
+    color: #6b9a76;
+}
+
+.cursor-block::after {
+    content: '';
+    display: inline-block;
+    width: 0.6em;
+    height: 1.05em;
+    margin-left: 4px;
+    vertical-align: text-bottom;
+    background: #00ff41;
+    animation: cursor-blink 1s steps(1) infinite;
+}
+
+@keyframes cursor-blink {
+    50% {
+        opacity: 0;
+    }
+}
+
+/* Portre: yeşil fosfor duotone, hover'da gerçek renge döner */
+.portrait {
+    position: relative;
+    overflow: hidden;
+}
+
+.portrait img {
+    filter: grayscale(1) contrast(1.2) brightness(0.78);
+    transition: filter 0.5s ease;
+}
+
+.portrait::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    background: #00c838;
+    mix-blend-mode: multiply;
+    transition: opacity 0.5s ease;
+    pointer-events: none;
+}
+
+.portrait::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    pointer-events: none;
+    background: repeating-linear-gradient(to bottom, transparent 0 2px, rgba(0, 0, 0, 0.35) 3px);
+    transition: opacity 0.5s ease;
+}
+
+.portrait:hover img {
+    filter: none;
+}
+
+.portrait:hover::before,
+.portrait:hover::after {
+    opacity: 0;
+}
+
+.corner-brackets {
+    position: relative;
+}
+
+.corner-brackets>.cb {
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    border-color: #00ff41;
+    z-index: 4;
+}
+
+.cb.tl {
+    top: -6px;
+    left: -6px;
+    border-top: 2px solid;
+    border-left: 2px solid;
+}
+
+.cb.tr {
+    top: -6px;
+    right: -6px;
+    border-top: 2px solid;
+    border-right: 2px solid;
+}
+
+.cb.bl {
+    bottom: -6px;
+    left: -6px;
+    border-bottom: 2px solid;
+    border-left: 2px solid;
+}
+
+.cb.br {
+    bottom: -6px;
+    right: -6px;
+    border-bottom: 2px solid;
+    border-right: 2px solid;
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
 }

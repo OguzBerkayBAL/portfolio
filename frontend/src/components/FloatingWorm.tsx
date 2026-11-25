@@ -135,17 +135,17 @@ const FloatingWorm: React.FC = () => {
                 animate={{ rotate: [-6, 6, -6] }}
                 transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
             >
-                <svg width={WORM_SIZE} height={WORM_SIZE} viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ filter: 'drop-shadow(0 0 10px rgba(0,255,255,0.65))', mixBlendMode: 'screen' }}>
+                <svg width={WORM_SIZE} height={WORM_SIZE} viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ filter: 'drop-shadow(0 0 10px rgba(0,255,65,0.45))', mixBlendMode: 'screen' }}>
                     <defs>
                         {/* Dış hat için neon-blue → neon-pink geçişi */}
                         <linearGradient id={gradientId} x1="0" y1="0" x2="120" y2="0" gradientUnits="userSpaceOnUse">
-                            <stop offset="0%" stopColor="#00ffff" />
-                            <stop offset="100%" stopColor="#ff00ff" />
+                            <stop offset="0%" stopColor="#00ff41" />
+                            <stop offset="100%" stopColor="#008f11" />
                         </linearGradient>
                         {/* İris için neon-blue merkezden neon-purple kenara yumuşak fade */}
                         <radialGradient id={irisGradId} cx="50%" cy="50%" r="50%">
-                            <stop offset="0%" stopColor="#00ffff" />
-                            <stop offset="60%" stopColor="#8a2be2" />
+                            <stop offset="0%" stopColor="#00ff41" />
+                            <stop offset="60%" stopColor="#00b82f" />
                             <stop offset="100%" stopColor="rgba(138,43,226,0)" />
                         </radialGradient>
                     </defs>
@@ -159,7 +159,7 @@ const FloatingWorm: React.FC = () => {
                         {/* Göz bebeği (mouse yönüne bakan) */}
                         <Pupil centerRef={centerRef} mouseRef={mouseRef} />
                         {/* Üst kapak highlight */}
-                        <path d="M15 60 C 38 28, 82 28, 105 60" stroke="#8a2be2" strokeOpacity="0.28" strokeWidth="2" fill="none" />
+                        <path d="M15 60 C 38 28, 82 28, 105 60" stroke="#00b82f" strokeOpacity="0.28" strokeWidth="2" fill="none" />
                     </motion.g>
                 </svg>
             </motion.div>
@@ -199,7 +199,7 @@ const Pupil: React.FC<{ centerRef: React.MutableRefObject<{ x: number; y: number
     return (
         <>
             {/* Pupil core */}
-            <motion.circle r={7} fill="#00ffff" cx={sx} cy={sy} />
+            <motion.circle r={7} fill="#c8ffd4" cx={sx} cy={sy} />
             {/* Pupil highlight */}
             <motion.circle r={3} fill="#ffffff" fillOpacity={0.7} cx={useSpring(sx, { stiffness: 900, damping: 40 })} cy={useSpring(sy, { stiffness: 900, damping: 40 })} />
         </>
