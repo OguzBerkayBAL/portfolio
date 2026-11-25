@@ -9,18 +9,77 @@
     box-sizing: border-box;
 }
 
-/* CSS Variables */
+/* Tema değişkenleri: RGB kanalları (Tailwind alpha desteği için).
+   Kırmızı hap = Matrix (varsayılan), mavi hap = sade açık tema. */
 :root {
-    --neon-blue: #00ff41;
-    --neon-green: #00ff41;
-    --neon-pink: #b8ffc8;
-    --neon-purple: #00b82f;
-    --neon-orange: #5cff85;
-    --dark-bg: #030703;
-    --dark-card: #07110a;
-    --dark-border: #123d1e;
-    --dark-text: #d9f5df;
-    --dark-muted: #6b9a76;
+    --m-50: 230 255 236;
+    --m-100: 184 255 200;
+    --m-300: 92 255 133;
+    --m-400: 0 255 65;
+    --m-600: 0 184 47;
+    --m-700: 0 143 17;
+    --m-800: 10 61 23;
+    --m-900: 6 32 13;
+    --pill: 255 42 61;
+    --bg: 3 7 3;
+    --card: 7 17 10;
+    --border: 18 61 30;
+    --muted: 107 154 118;
+    --ink: 185 217 192;
+    --ink-soft: 169 201 177;
+    --body: 217 245 223;
+    --white: 255 255 255;
+    --black: 0 0 0;
+    --g-300: 209 213 219;
+    --g-400: 156 163 175;
+    --g-500: 107 114 128;
+    --g-600: 75 85 99;
+    --g-700: 55 65 81;
+    --g-800: 31 41 55;
+    --font-mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
+    --font-display: "JetBrains Mono", ui-monospace, Consolas, monospace;
+
+    --neon-blue: rgb(var(--m-400));
+    --neon-green: rgb(var(--m-400));
+    --neon-pink: rgb(var(--m-100));
+    --neon-purple: rgb(var(--m-600));
+    --neon-orange: rgb(var(--m-300));
+    --dark-bg: rgb(var(--bg));
+    --dark-card: rgb(var(--card));
+    --dark-border: rgb(var(--border));
+    --dark-text: rgb(var(--body));
+    --dark-muted: rgb(var(--muted));
+    color-scheme: dark;
+}
+
+:root[data-pill="blue"] {
+    --m-50: 15 23 42;
+    --m-100: 30 41 59;
+    --m-300: 59 130 246;
+    --m-400: 29 78 216;
+    --m-600: 71 85 105;
+    --m-700: 148 163 184;
+    --m-800: 226 232 240;
+    --m-900: 241 245 249;
+    --pill: 37 99 235;
+    --bg: 247 249 252;
+    --card: 255 255 255;
+    --border: 223 229 238;
+    --muted: 100 116 139;
+    --ink: 51 65 85;
+    --ink-soft: 71 85 105;
+    --body: 30 41 59;
+    --white: 15 23 42;
+    --black: 255 255 255;
+    --g-300: 51 65 85;
+    --g-400: 71 85 105;
+    --g-500: 100 116 139;
+    --g-600: 148 163 184;
+    --g-700: 203 213 225;
+    --g-800: 226 232 240;
+    --font-mono: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --font-display: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+    color-scheme: light;
 }
 
 /* Base Styles */
@@ -29,7 +88,7 @@ html {
 }
 
 body {
-    font-family: "JetBrains Mono", ui-monospace, Consolas, monospace;
+    font-family: var(--font-mono);
     background: var(--dark-bg);
     color: var(--dark-text);
     line-height: 1.6;
@@ -64,13 +123,13 @@ a:visited {
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: #00b82f;
+    background: var(--neon-purple);
 }
 
 /* Custom Components */
 
 .cyber-button {
-    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-family: var(--font-display);
     position: relative;
     padding: 10px 20px;
     border: 2px solid var(--neon-blue);
@@ -100,7 +159,7 @@ a:visited {
 
 .cyber-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 0 15px rgba(0, 255, 65, 0.2);
+    box-shadow: 0 0 15px rgb(var(--m-400) / 0.2);
 }
 
 .glitch {
@@ -188,7 +247,7 @@ a:visited {
 }
 
 .cyber-input:focus {
-    box-shadow: 0 0 10px rgba(0, 255, 65, 0.5);
+    box-shadow: 0 0 10px rgb(var(--m-400) / 0.5);
 }
 
 .cyber-input.pl-10 {
@@ -224,7 +283,7 @@ a:visited {
 }
 
 .cyber-select:focus {
-    box-shadow: 0 0 10px rgba(0, 255, 65, 0.5);
+    box-shadow: 0 0 10px rgb(var(--m-400) / 0.5);
 }
 
 .cyber-select option {
@@ -236,7 +295,7 @@ a:visited {
 }
 
 .cyber-loading-spinner {
-    border: 4px solid rgba(0, 255, 65, 0.2);
+    border: 4px solid rgb(var(--m-400) / 0.2);
     border-left-color: var(--neon-blue);
     border-radius: 50%;
     width: 40px;
@@ -342,8 +401,8 @@ a:visited {
 /* ---------- Matrix redesign (aşama 1) ---------- */
 
 ::selection {
-    background: #00ff41;
-    color: #030703;
+    background: rgb(var(--m-400));
+    color: rgb(var(--bg));
 }
 
 /* Daha az parlama: glow artık sadece hover'da */
@@ -355,12 +414,12 @@ a:visited {
 }
 
 .cyber-button:hover {
-    box-shadow: 0 0 24px rgba(0, 255, 65, 0.35);
+    box-shadow: 0 0 24px rgb(var(--m-400) / 0.35);
 }
 
 .cyber-card {
     border-radius: 4px;
-    background-color: rgba(7, 17, 10, 0.82);
+    background-color: rgb(var(--card) / 0.82);
     backdrop-filter: blur(2px);
 }
 
@@ -386,13 +445,13 @@ a:visited {
 }
 
 .phosphor-text {
-    color: #00ff41;
-    text-shadow: 0 0 18px rgba(0, 255, 65, 0.35);
+    color: rgb(var(--m-400));
+    text-shadow: 0 0 18px rgb(var(--m-400) / 0.35);
 }
 
 .terminal-window {
-    border: 1px solid #123d1e;
-    background: rgba(5, 13, 7, 0.88);
+    border: 1px solid rgb(var(--border));
+    background: rgb(var(--card) / 0.88);
     border-radius: 4px;
     backdrop-filter: blur(3px);
 }
@@ -402,9 +461,9 @@ a:visited {
     align-items: center;
     justify-content: space-between;
     padding: 8px 14px;
-    border-bottom: 1px solid #123d1e;
+    border-bottom: 1px solid rgb(var(--border));
     font-size: 12px;
-    color: #6b9a76;
+    color: rgb(var(--muted));
 }
 
 .cursor-block::after {
@@ -414,7 +473,7 @@ a:visited {
     height: 1.05em;
     margin-left: 4px;
     vertical-align: text-bottom;
-    background: #00ff41;
+    background: rgb(var(--m-400));
     animation: cursor-blink 1s steps(1) infinite;
 }
 
@@ -440,7 +499,7 @@ a:visited {
     position: absolute;
     inset: 0;
     z-index: 2;
-    background: #00c838;
+    background: rgb(0 200 56);
     mix-blend-mode: multiply;
     transition: opacity 0.5s ease;
     pointer-events: none;
@@ -476,7 +535,7 @@ a:visited {
     position: absolute;
     width: 18px;
     height: 18px;
-    border-color: #00ff41;
+    border-color: rgb(var(--m-400));
     z-index: 4;
 }
 
@@ -527,4 +586,56 @@ a:visited {
     to {
         opacity: 1;
     }
+}
+
+/* ---------- Mavi hap: sade, açık, efektsiz CV modu ---------- */
+
+[data-pill="blue"] .crt-overlay,
+[data-pill="blue"] .crt-vignette,
+[data-pill="blue"] .matrix-only {
+    display: none;
+}
+
+[data-pill="blue"] .phosphor-text {
+    color: rgb(var(--m-50));
+    text-shadow: none;
+}
+
+[data-pill="blue"] .portrait img {
+    filter: none;
+}
+
+[data-pill="blue"] .portrait::before,
+[data-pill="blue"] .portrait::after {
+    display: none;
+}
+
+[data-pill="blue"] .terminal-window,
+[data-pill="blue"] .cyber-card {
+    background: rgb(var(--card));
+    backdrop-filter: none;
+    border-radius: 10px;
+    box-shadow: 0 1px 2px rgb(15 23 42 / 0.04), 0 4px 16px rgb(15 23 42 / 0.05);
+}
+
+[data-pill="blue"] .terminal-window__bar {
+    background: rgb(var(--m-900));
+    border-radius: 10px 10px 0 0;
+}
+
+[data-pill="blue"] .cursor-block::after {
+    display: none;
+}
+
+/* Tema geçişi yumuşak olsun */
+body,
+.terminal-window,
+.cyber-card {
+    transition: background-color 0.35s ease, color 0.35s ease, border-color 0.35s ease;
+}
+
+/* Komut paleti */
+.cmdk-item[aria-selected="true"] {
+    background: rgb(var(--m-400) / 0.12);
+    color: rgb(var(--m-400));
 }

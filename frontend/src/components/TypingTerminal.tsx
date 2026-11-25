@@ -61,7 +61,7 @@ const TypingTerminal: React.FC<TypingTerminalProps> = ({ title, steps, typeSpeed
                     online
                 </span>
             </div>
-            <div className="p-5 sm:p-6 font-mono text-[0.92rem] leading-relaxed text-[#b9d9c0] space-y-2">
+            <div className="p-5 sm:p-6 font-mono text-[0.92rem] leading-relaxed text-ink space-y-2">
                 {steps.map((s, i) => {
                     const typed = i < step ? s.command.length : i === step ? chars : 0;
                     const cmdVisible = i <= step && (started || i < step);

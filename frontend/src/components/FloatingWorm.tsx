@@ -5,10 +5,33 @@ import { motion, useAnimationFrame, useMotionValue, useSpring } from 'framer-mot
 // Framer Motion ile 4-7 saniyede bir rastgele pozisyona süzülür.
 // pointer-events kapalıdır; DOM tek elemandır ve yalnızca transform animasyonu çalışır.
 
-const WORM_SIZE = 120; // px
+const WORM_SIZE = 96; // px
+const CONTENT_WIDTH = 1180; // max-w-6xl içerik + yan boşluklar
+const TOP_SAFE = 90; // header'ın altında kal
 
 function clamp(value: number, min: number, max: number) {
     return Math.min(max, Math.max(min, value));
+}
+
+// Göz sadece içerik sütununun iki yanındaki boşlukta dolaşır, yazıların üstüne binmez.
+// Yer yoksa (dar ekran) null döner ve göz hiç gösterilmez.
+export function wormBands(w: number): [number, number][] | null {
+    const gutter = (w - CONTENT_WIDTH) / 2;
+    if (gutter < WORM_SIZE + 24) return null;
+    return [
+        [16, gutter - WORM_SIZE - 8],
+        [w - gutter + 8, w - WORM_SIZE - 16],
+    ];
+}
+
+function clampToBands(x: number, w: number) {
+    const bands = wormBands(w);
+    if (!bands) return x;
+    const [left, right] = bands;
+    // En yakın banda yapıştır
+    const inLeft = clamp(x, left[0], left[1]);
+    const inRight = clamp(x, right[0], right[1]);
+    return Math.abs(inLeft - x) <= Math.abs(inRight - x) ? inLeft : inRight;
 }
 
 const FloatingWorm: React.FC = () => {
@@ -28,8 +51,8 @@ const FloatingWorm: React.FC = () => {
 
     const pickNext = useCallback((from: { x: number; y: number }) => {
         const range = 220; // adım genişliği
-        const nx = clamp(from.x + (Math.random() * 2 - 1) * range, 16, viewport.w - WORM_SIZE - 16);
-        const ny = clamp(from.y + (Math.random() * 2 - 1) * range, 16, viewport.h - WORM_SIZE - 16);
+        const nx = clampToBands(from.x + (Math.random() * 2 - 1) * range, viewport.w);
+        const ny = clamp(from.y + (Math.random() * 2 - 1) * range, TOP_SAFE, viewport.h - WORM_SIZE - 16);
         return { x: nx, y: ny };
     }, [viewport.w, viewport.h]);
 
@@ -42,14 +65,15 @@ const FloatingWorm: React.FC = () => {
         const ux = dx / len;
         const uy = dy / len;
         const step = 300;
-        const nx = clamp(cx + ux * step, 16, viewport.w - WORM_SIZE - 16);
-        const ny = clamp(cy + uy * step, 16, viewport.h - WORM_SIZE - 16);
+        const nx = clampToBands(cx + ux * step, viewport.w);
+        const ny = clamp(cy + uy * step, TOP_SAFE, viewport.h - WORM_SIZE - 16);
         return { x: nx, y: ny };
     }, [viewport.w, viewport.h]);
 
     useEffect(() => {
         // başlangıç hedefi
-        setTarget(pickNext({ x: viewport.w / 2 - WORM_SIZE / 2, y: viewport.h / 2 - WORM_SIZE / 2 }));
+        // Sağ boşluktan başla
+        setTarget(pickNext({ x: viewport.w - WORM_SIZE - 40, y: viewport.h / 2 - WORM_SIZE / 2 }));
     }, [pickNext, viewport.w, viewport.h]);
 
     const gradientId = useMemo(() => `wormGradient_${Math.random().toString(36).slice(2)}`, []);
@@ -107,6 +131,9 @@ const FloatingWorm: React.FC = () => {
             alive = false;
         };
     }, []);
+
+    // Dar ekranlarda göz yazıların üstüne bineceği için hiç gösterilmez
+    if (!wormBands(viewport.w)) return null;
 
     return (
         <motion.div

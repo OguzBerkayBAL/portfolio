@@ -137,7 +137,7 @@ const Projects: React.FC = () => {
                     animate={{ opacity: 1, y: 0 }}
                     className="mb-10 font-mono"
                 >
-                    <p className="text-sm text-matrix-600 mb-3">
+                    <p className="matrix-only text-sm text-matrix-600 mb-3">
                         <span className="text-matrix-400">~/projects</span> $ ls -la
                     </p>
                     <h1 className="text-5xl sm:text-6xl font-extrabold tracking-tight mb-4">
@@ -244,7 +244,7 @@ const Projects: React.FC = () => {
                                                 className="w-full h-full object-cover group-hover:scale-[1.03] !transition-[filter,transform] duration-500"
                                             />
                                         ) : (
-                                            <div className="w-full h-full flex flex-col items-center justify-center gap-3 bg-[radial-gradient(circle_at_center,rgba(0,255,65,0.08),transparent_70%)]">
+                                            <div className="w-full h-full flex flex-col items-center justify-center gap-3 bg-[radial-gradient(circle_at_center,rgb(var(--m-400)/0.08),transparent_70%)]">
                                                 <Code className="w-10 h-10 text-matrix-400" />
                                                 <span className="text-xs text-matrix-600">no_preview.png</span>
                                             </div>
@@ -256,7 +256,7 @@ const Projects: React.FC = () => {
                                             {project.title}
                                             {project.featured && <Star className="w-3.5 h-3.5 text-matrix-400" fill="currentColor" aria-label="featured" />}
                                         </h3>
-                                        <p className="text-sm text-[#a9c9b1] leading-relaxed mb-4 flex-1">
+                                        <p className="text-sm text-ink-soft leading-relaxed mb-4 flex-1">
                                             {project.description}
                                         </p>
 
@@ -353,7 +353,7 @@ const Projects: React.FC = () => {
                                         # {selectedProject.title}
                                     </h2>
 
-                                    <p className="text-[#b9d9c0] leading-relaxed mb-8">
+                                    <p className="text-ink leading-relaxed mb-8">
                                         {selectedProject.longDescription || selectedProject.description}
                                     </p>
 
@@ -372,7 +372,7 @@ const Projects: React.FC = () => {
                                                 href={selectedProject.liveUrl}
                                                 target="_blank"
                                                 rel="noopener noreferrer"
-                                                className="inline-flex items-center gap-2 px-5 py-2.5 bg-pill-red text-black font-bold uppercase tracking-wider text-sm rounded-sm hover:shadow-[0_0_24px_rgba(255,42,61,0.45)] transition-shadow"
+                                                className="inline-flex items-center gap-2 px-5 py-2.5 bg-pill-red text-black font-bold uppercase tracking-wider text-sm rounded-sm hover:shadow-[0_0_24px_rgb(var(--pill)/0.45)] transition-shadow"
                                             >
                                                 <ExternalLink className="w-4 h-4" />
                                                 Canlı siteyi aç

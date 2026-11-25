@@ -103,7 +103,7 @@ const Home: React.FC = () => {
 
                         {/* Sol taraf: kimlik + terminal */}
                         <motion.div variants={itemVariants} className="w-full md:w-3/5 text-center md:text-left">
-                            <motion.p variants={itemVariants} className="font-mono text-sm text-matrix-600 mb-4">
+                            <motion.p variants={itemVariants} className="matrix-only font-mono text-sm text-matrix-600 mb-4">
                                 <span className="text-matrix-400">~/oguzberkay</span> $ whoami
                             </motion.p>
 
@@ -176,7 +176,7 @@ const Home: React.FC = () => {
                             <motion.div variants={itemVariants} className="flex flex-wrap gap-3 justify-center md:justify-start font-mono">
                                 <Link to="/projects" onClick={handleNavClick}>
                                     <motion.span
-                                        className="inline-flex items-center gap-2 px-6 py-3 bg-pill-red text-black font-bold uppercase tracking-wider rounded-sm hover:shadow-[0_0_28px_rgba(255,42,61,0.45)] transition-shadow"
+                                        className="inline-flex items-center gap-2 px-6 py-3 bg-pill-red text-black font-bold uppercase tracking-wider rounded-sm hover:shadow-[0_0_28px_rgb(var(--pill)/0.45)] transition-shadow"
                                         whileHover={{ y: -2 }}
                                         whileTap={{ scale: 0.97 }}
                                     >
@@ -210,7 +210,7 @@ const Home: React.FC = () => {
                         {/* Sağ taraf: portre (masaüstü) */}
                         <motion.div variants={itemVariants} className="hidden md:flex flex-col items-center flex-shrink-0">
                             <Portrait imageError={imageError} onError={() => setImageError(true)} size="w-[280px] h-[340px] lg:w-[320px] lg:h-[384px]" />
-                            <p className="mt-5 font-mono text-xs text-dark-muted">
+                            <p className="matrix-only mt-5 font-mono text-xs text-dark-muted">
                                 subject: <span className="text-matrix-400">oguz_berkay_bal</span> · status: <span className="text-matrix-400">verified</span>
                             </p>
                         </motion.div>

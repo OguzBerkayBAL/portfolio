@@ -1,13 +1,15 @@
-import React, { createContext, useContext, useEffect, useState, ReactNode } from 'react';
+import React, { createContext, useCallback, useContext, useEffect, useState, ReactNode } from 'react';
+
+// Kırmızı hap: Matrix modu. Mavi hap: sade, açık renkli CV modu.
+export type Pill = 'red' | 'blue';
 
 interface ThemeContextType {
-    isDarkMode: boolean;
-    cyberMode: boolean;
-    toggleDarkMode: () => void;
-    toggleCyberMode: () => void;
-    accentColor: string;
-    setAccentColor: (color: string) => void;
+    pill: Pill;
+    setPill: (pill: Pill) => void;
+    togglePill: () => void;
 }
+
+const STORAGE_KEY = 'pill';
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
@@ -19,87 +21,32 @@ export const useTheme = () => {
     return context;
 };
 
-interface ThemeProviderProps {
-    children: ReactNode;
-}
+// index.html'deki erken betik seçimi <html data-pill> olarak zaten yazıyor;
+// buradan okuyunca ilk render'da renk sıçraması olmuyor.
+const initialPill = (): Pill =>
+    typeof document !== 'undefined' && document.documentElement.dataset.pill === 'blue' ? 'blue' : 'red';
 
-export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
-    const [isDarkMode, setIsDarkMode] = useState(true); // Default to dark mode
-    const [cyberMode, setCyberMode] = useState(true); // Default to cyber mode
-    const [accentColor, setAccentColorState] = useState('#00ff41'); // Default matrix green
-
-    useEffect(() => {
-        // Load theme preferences from localStorage
-        const savedDarkMode = localStorage.getItem('darkMode');
-        const savedCyberMode = localStorage.getItem('cyberMode');
-        const savedAccentColor = localStorage.getItem('accentColor');
-
-        if (savedDarkMode !== null) {
-            setIsDarkMode(savedDarkMode === 'true');
-        }
-        if (savedCyberMode !== null) {
-            setCyberMode(savedCyberMode === 'true');
-        }
-        if (savedAccentColor) {
-            setAccentColorState(savedAccentColor);
-        }
-    }, []);
+export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+    const [pill, setPillState] = useState<Pill>(initialPill);
 
     useEffect(() => {
-        // Apply theme classes to html element
         const html = document.documentElement;
-
-        if (isDarkMode) {
-            html.classList.add('dark');
-        } else {
-            html.classList.remove('dark');
+        html.dataset.pill = pill;
+        const meta = document.querySelector('meta[name="theme-color"]');
+        if (meta) meta.setAttribute('content', pill === 'blue' ? '#f7f9fc' : '#030703');
+        try {
+            localStorage.setItem(STORAGE_KEY, pill);
+        } catch {
+            // Gizli pencere vb.: tercih sadece bu oturumda kalır
         }
+    }, [pill]);
 
-        if (cyberMode) {
-            html.classList.add('cyber-mode');
-        } else {
-            html.classList.remove('cyber-mode');
-        }
-
-        // Set CSS custom properties for accent color
-        html.style.setProperty('--accent-color', accentColor);
-
-        // Update meta theme color
-        const metaThemeColor = document.querySelector('meta[name="theme-color"]');
-        if (metaThemeColor) {
-            metaThemeColor.setAttribute('content', isDarkMode ? '#0a0a0a' : '#ffffff');
-        }
-    }, [isDarkMode, cyberMode, accentColor]);
-
-    const toggleDarkMode = () => {
-        const newValue = !isDarkMode;
-        setIsDarkMode(newValue);
-        localStorage.setItem('darkMode', newValue.toString());
-    };
-
-    const toggleCyberMode = () => {
-        const newValue = !cyberMode;
-        setCyberMode(newValue);
-        localStorage.setItem('cyberMode', newValue.toString());
-    };
-
-    const setAccentColor = (color: string) => {
-        setAccentColorState(color);
-        localStorage.setItem('accentColor', color);
-    };
-
-    const value: ThemeContextType = {
-        isDarkMode,
-        cyberMode,
-        toggleDarkMode,
-        toggleCyberMode,
-        accentColor,
-        setAccentColor,
-    };
+    const setPill = useCallback((next: Pill) => setPillState(next), []);
+    const togglePill = useCallback(() => setPillState((p) => (p === 'red' ? 'blue' : 'red')), []);
 
     return (
-        <ThemeContext.Provider value={value}>
+        <ThemeContext.Provider value={{ pill, setPill, togglePill }}>
             {children}
         </ThemeContext.Provider>
     );
-}; 
+};

@@ -10,8 +10,14 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700;800&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500;700;800&display=swap"
         rel="stylesheet">
+    <script>
+        // Hap seçimini React yüklenmeden uygula: açılışta renk sıçraması olmasın
+        try {
+            if (localStorage.getItem('pill') === 'blue') document.documentElement.setAttribute('data-pill', 'blue');
+        } catch (e) { }
+    </script>
     <title>Oğuz Berkay BAL — Full Stack Developer</title>
     <style>
         body {
@@ -56,6 +62,16 @@
                 opacity: 0;
                 visibility: hidden;
             }
+        }
+        html[data-pill="blue"] body,
+        html[data-pill="blue"] .loading-screen {
+            background: #f7f9fc;
+        }
+
+        html[data-pill="blue"] .loading-text {
+            color: #1d4ed8;
+            text-shadow: none;
+            animation: none;
         }
     </style>
 </head>

@@ -1,6 +1,9 @@
 /** @type {import('tailwindcss').Config} */
-// Tek renkli "fosfor" paleti: eski neon-* adları korunuyor ki sayfalar
-// değişmeden yeni temaya geçsin; hepsi yeşilin tonlarına eşlendi.
+// Renkler CSS değişkenlerinden geliyor (src/index.css): kırmızı hap = Matrix,
+// mavi hap = sade açık tema. Eski neon-* adları korunuyor ki tüm sayfalar
+// iki temaya da kendiliğinden uysun.
+const v = (name) => `rgb(var(--${name}) / <alpha-value>)`;
+
 module.exports = {
     content: [
         "./src/**/*.{js,jsx,ts,tsx}",
@@ -9,30 +12,43 @@ module.exports = {
         extend: {
             colors: {
                 matrix: {
-                    50: '#e6ffec',
-                    100: '#b8ffc8',
-                    300: '#5cff85',
-                    400: '#00ff41',
-                    600: '#00b82f',
-                    700: '#008f11',
-                    800: '#0a3d17',
-                    900: '#06200d',
+                    50: v('m-50'),
+                    100: v('m-100'),
+                    300: v('m-300'),
+                    400: v('m-400'),
+                    600: v('m-600'),
+                    700: v('m-700'),
+                    800: v('m-800'),
+                    900: v('m-900'),
                 },
-                'pill-red': '#ff2a3d',
-                'neon-blue': '#00ff41',
-                'neon-green': '#00ff41',
-                'neon-pink': '#b8ffc8',
-                'neon-purple': '#00b82f',
-                'neon-orange': '#5cff85',
-                'dark-bg': '#030703',
-                'dark-card': '#07110a',
-                'dark-border': '#123d1e',
-                'dark-muted': '#6b9a76',
+                'pill-red': v('pill'),
+                'neon-blue': v('m-400'),
+                'neon-green': v('m-400'),
+                'neon-pink': v('m-100'),
+                'neon-purple': v('m-600'),
+                'neon-orange': v('m-300'),
+                'dark-bg': v('bg'),
+                'dark-card': v('card'),
+                'dark-border': v('border'),
+                'dark-muted': v('muted'),
+                ink: v('ink'),
+                'ink-soft': v('ink-soft'),
+                body: v('body'),
+                white: v('white'),
+                black: v('black'),
+                gray: {
+                    300: v('g-300'),
+                    400: v('g-400'),
+                    500: v('g-500'),
+                    600: v('g-600'),
+                    700: v('g-700'),
+                    800: v('g-800'),
+                },
             }
         },
         fontFamily: {
-            'cyber': ['"JetBrains Mono"', 'ui-monospace', 'monospace'],
-            'mono': ['"JetBrains Mono"', 'ui-monospace', 'monospace']
+            'cyber': ['var(--font-display)'],
+            'mono': ['var(--font-mono)']
         }
     },
     plugins: [],
